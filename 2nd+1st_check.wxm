@@ -1,0 +1,424 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={dlsode Usage}}
+
+Based on Math Fortress
+\href{https://www.youtube.com/watch?v=VOOV6cHxcTw}
+{Systems of Differential Equations}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+file_search_maxima:cons(sconcat("C:/Maxima-sbcl-5.38.1/share/maxima/5.38.1/share/odepack/###.{lisp,mac,mc}"),file_search_maxima)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(dlsode)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('optvar,'version)=false then load(optvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(t,mainvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+This is a system of equations with a 2nd order equation for $x$ and a 1st
+order equation for $y$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(r,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+initial:[v_0=2.0,y_0=1.0,x_0=1.0]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+τ:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq1:diff(x,t,2)+diff(y,t)=-5*t;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq2:diff(x,t)+diff(y,t)=-x+4*y;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Analytical solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+atvalue(x(t),t=0,x_0)$
+atvalue(y(t),t=0,y_0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+atvalue(diff(x(t),t),t=0,v_0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+desol:desolve(convert([Eq1,Eq2],r,t),convert(r,r,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,desol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(convert(Eq1,r,t),desol,diff,eval,initial,eval,ratsimp,eval));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(convert(Eq2,r,t),desol,diff,eval,initial,eval,ratsimp,eval));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([x(t),y(t)],[t,0,τ],[style,[lines,2]],[legend,"x","y"],
+         [gnuplot_preamble,"set key top center"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,x(t),y(t),[t,0,τ]],
+          [discrete,[[x_0,y_0]]]],[axes,solid],
+         [title,"Trajectory"],[style,[lines,3],[points,3]],
+         [color,green,red],[point_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"y"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,x(t),diff(x(t),t),[t,0,τ]],
+          [discrete,[[x_0,v_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"dx/dt"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+Dy0:at(ev(diff(y(t),t),desol),[t=0]),ratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,y(t),diff(y(t),t),[t,0,τ]],
+          [discrete,[[y_0,Dy0]]]],[axes,solid],
+         [title,"Phase Space for y"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point_type,circle],[legend,false],
+         [xlabel,"y"],[ylabel,"dy/dt"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reduce Order}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(X,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradef(x,t,X)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq1:Eq1,diff,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq2:Eq2,diff,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve([Eq1,Eq2],[diff(x,t,2),diff(y,t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,linsol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq3:'diff(x,t)=X;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Analytical solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+atvalue(X(t),t=0,v_0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+desol:desolve(convert(append(linsol,[Eq3]),[X,y,x],t),convert([X,y,x],[X,y,x],t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,desol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(convert(Eq3,[X,y,x],t),desol,diff,eval,initial,eval,expand,eval));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([x(t),y(t)],[t,0,τ],[style,[lines,2]],[legend,"x","y"],
+         [gnuplot_preamble,"set key top center"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,x(t),y(t),[t,0,τ]],
+          [discrete,[[x_0,y_0]]]],[axes,solid],
+         [title,"Trajectory"],[style,[lines,3],[points,3]],
+         [color,green,red],[point_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"y"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,x(t),X(t),[t,0,τ]],
+          [discrete,[[x_0,v_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"dx/dt"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[parametric,y(t),diff(y(t),t),[t,0,τ]],
+          [discrete,[[y_0,Dy0]]]],[axes,solid],
+         [title,"Phase Space for y"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point_type,circle],[legend,false],
+         [xlabel,"y"],[ylabel,"dy/dt"]),desol,initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution with rfk45}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:[X,y,x]$ldisplay(funcs)$
+odes:map('rhs,append(linsol,[Eq3]))$ldisplay(odes)$
+interval:[t,0,τ]$ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,map('rhs,initial),interval,
+            absolute_tolerance=5d-8,report=true)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=['t,'X,'y,'x])$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"x","y"],[gnuplot_preamble,"set key top center"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,3])),rksol)],
+          [discrete,[[x_0,y_0]]]],[axes,solid],
+          [title,"Trajectory"],[point_type,circle],
+         [style,[lines,3],[points,3]],[color,green,red],
+         [xlabel,"x"],[ylabel,"y"],[legend,false]),initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,2])),rksol)],
+          [discrete,[[x_0,v_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"x"],[ylabel,"dx/dt"],[legend,false]),initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution with dlsode}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,X,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+state:dlsode_init(map('rhs,append(linsol,[Eq3])),['t,'X,'y,'x],21)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+t:0d0$
+init:map(rhs,initial)$
+rtol:1d-4$
+atol:[5d-8,5d-8,5d-8]$
+result:[]$
+dlsol:[cons(t,init)]$
+tout:δ:0.01d0$
+istate:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for k thru τ/δ do
+  block([],
+    result:dlsode_step(init,t,tout,rtol,atol,istate,state),
+    dlsol:append(dlsol,[cons(first(result),second(result))]),
+    istate:result[3],
+    tout:tout+δ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(dlsol,column_names=['t,'X,'y,'x])$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),dlsol)],
+          [discrete,map(lambda([u],part(u,[1,3])),dlsol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],[x,0,τ],
+         [legend,"x","y"],[gnuplot_preamble,"set key top center"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,3])),dlsol)],
+          [discrete,[[x_0,y_0]]]],[axes,solid],
+         [title,"Trajectory"],[point_type,circle],
+         [style,[lines,3],[points,3]],[color,green,red],
+         [xlabel,"x"],[ylabel,"y"],[legend,false]),initial$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,2])),dlsol)],
+          [discrete,[[x_0,v_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"x"],[ylabel,"dx/dt"],[legend,false]),initial$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

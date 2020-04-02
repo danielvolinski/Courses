@@ -1,0 +1,1062 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+\let\oldcdot\cdot
+\usepackage{breqn}
+\let\cdot\oldcdot
+
+\begin{document}
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={dlsode Usage}}
+
+Based on Math Fortress
+\href{https://www.youtube.com/watch?v=VOOV6cHxcTw}
+{Systems of Differential Equations}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+file\_search\_maxima:cons(sconcat("C:/Maxima-sbcl-5.38.1/share/maxima/5.38.1/share/odepack/\ensuremath{\neq}\ensuremath{\neq}\ensuremath{\neq}.{lisp,mac,mc}"),file\_search\_maxima)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(dlsode)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(t,mainvar)\$
+\end{minipage}
+\pagebreak
+
+
+This is a system of equations with a 2nd order equation for $x$ and a 1st
+order equation for $y$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+r:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(r,t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+initial:[v\_0=2.0,y\_0=1.0,x\_0=1.0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\tau}:1\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq1:diff(x,t,2)+diff(y,t)=-5*t;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq1}\label{Eq1}
+{\dot{y}}+{\ddot{x}}=-5t\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq2:diff(x,t)+diff(y,t)=-x+4*y;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq2}\label{Eq2}
+{\dot{y}}+{\dot{x}}=4y-x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Analytical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(x(t),t=0,x\_0)\$\\
+atvalue(y(t),t=0,y\_0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(diff(x(t),t),t=0,v\_0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+desol:desolve(convert([Eq1,Eq2],r,t),convert(r,r,t))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,desol)\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dgroup*}
+\begin{dmath*}
+%\[\displaystyle
+%\tag{\%{}t11}\label{t11} 
+\operatorname{x}(t)={{e}^{\frac{5t}{2}}}\left(\frac{\operatorname{sinh}\left( \frac{\sqrt{29}t}{2}\right) \,\left( 2\left( 20{{y}_{0}}-5{{x}_{0}}+21{{v}_{0}}-2830\right) +5\left( -4{{y}_{0}}+{{x}_{0}}-4{{v}_{0}}+545\right) \right) }{\sqrt{29}}+\cosh{\left( \frac{\sqrt{29}t}{2}\right) }\,\left( -4{{y}_{0}}+{{x}_{0}}-4{{v}_{0}}+545\right) \right)+4{{y}_{0}}+4{{v}_{0}}-10{{t}^{2}}+105t-545
+%\mbox{}\]
+\end{dmath*}
+\begin{dmath*}
+%\[\tag{\%{}t12}\label{t12} 
+\operatorname{y}(t)={{e}^{\frac{5t}{2}}}\,\left( \frac{\operatorname{sinh}\left( \frac{\sqrt{29}t}{2}\right) \,\left( 2\left( 4{{y}_{0}}-{{x}_{0}}+4{{v}_{0}}-545\right) +5\left( 105-{{v}_{0}}\right) \right) }{\sqrt{29}}+\cosh{\left( \frac{\sqrt{29}t}{2}\right) }\,\left( 105-{{v}_{0}}\right) \right) +{{y}_{0}}+{{v}_{0}}-\frac{5{{t}^{2}}}{2}+20t-105
+%\mbox{}\]
+\end{dmath*}
+\end{dgroup*}
+%%%%%%%%%%%%%%%
+
+\textbf{Verify}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(convert(Eq1,r,t),desol,diff,eval,initial,eval,ratsimp,eval));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(convert(Eq2,r,t),desol,diff,eval,initial,eval,ratsimp,eval));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o14}\label{o14} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([x(t),y(t)],[t,0,\ensuremath{\tau}],[style,[lines,2]],[legend,"x","y"],
+         [gnuplot\_preamble,"set key top center"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,x(t),y(t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[x\_0,y\_0]]]],[axes,solid],
+         [title,"Trajectory"],[style,[lines,3],[points,3]],
+         [color,green,red],[point\_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"y"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,x(t),diff(x(t),t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[x\_0,v\_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point\_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"dx/dt"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Dy0:at(ev(diff(y(t),t),desol),[t=0]),ratsimp;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Dy0}\label{Dy0}
+4{{y}_{0}}-{{x}_{0}}-{{v}_{0}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,y(t),diff(y(t),t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[y\_0,Dy0]]]],[axes,solid],
+         [title,"Phase Space for y"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point\_type,circle],[legend,false],
+         [xlabel,"y"],[ylabel,"dy/dt"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(X,t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(x,t,X)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq1:Eq1,diff,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq1}\label{Eq1}
+{\dot{y}}+{\dot{X}}=-5t\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq2:Eq2,diff,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq2}\label{Eq2}
+{\dot{y}}+X=4y-x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve([Eq1,Eq2],[diff(x,t,2),diff(y,t)])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+{\dot{X}}=-4y+x-5t+X\mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+{\dot{y}}=4y-x-X\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq3:'diff(x,t)=X;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq3}\label{Eq3}
+{\dot{x}}=X\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Analytical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(X(t),t=0,v\_0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+desol:desolve(convert(append(linsol,[Eq3]),[X,y,x],t),convert([X,y,x],[X,y,x],t))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,desol)\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dgroup*}
+\begin{dmath*}
+%\[\displaystyle
+%\tag{\%{}t11}\label{t11} 
+\operatorname{X}(t)={{e}^{\frac{5t}{2}}}\,\left( \frac{\operatorname{sinh}\left( \frac{\sqrt{29}t}{2}\right) \,\left( 2\left( -4{{y}_{0}}+{{x}_{0}}-4{{v}_{0}}+545\right) +5\left( {{v}_{0}}-105\right) \right) }{\sqrt{29}}+\cosh{\left( \frac{\sqrt{29}t}{2}\right) }\,\left( {{v}_{0}}-105\right) \right) -20t+105
+%\mbox{}\]
+\end{dmath*}
+\begin{dmath*}
+%\[\tag{\%{}t12}\label{t12} 
+\operatorname{y}(t)={{e}^{\frac{5t}{2}}}\,\left( \frac{\operatorname{sinh}\left( \frac{\sqrt{29}t}{2}\right) \,\left( 2\left( 4{{y}_{0}}-{{x}_{0}}+4{{v}_{0}}-545\right) +5\left( 105-{{v}_{0}}\right) \right) }{\sqrt{29}}+\cosh{\left( \frac{\sqrt{29}t}{2}\right) }\,\left( 105-{{v}_{0}}\right) \right) +{{y}_{0}}+{{v}_{0}}-\frac{5{{t}^{2}}}{2}+20t-105
+%\mbox{}\]
+\end{dmath*}
+\begin{dmath*}
+%\[\tag{\%{}t13}\label{t13} 
+\operatorname{x}(t)={{e}^{\frac{5t}{2}}}\left(\frac{\operatorname{sinh}\left( \frac{\sqrt{29}t}{2}\right) \,\left( 2\left( 20{{y}_{0}}-5{{x}_{0}}+21{{v}_{0}}-2830\right) +5\left( -4{{y}_{0}}+{{x}_{0}}-4{{v}_{0}}+545\right) \right) }{\sqrt{29}}+\cosh{\left( \frac{\sqrt{29}t}{2}\right) }\,\left( -4{{y}_{0}}+{{x}_{0}}-4{{v}_{0}}+545\right) \right)+4{{y}_{0}}+4{{v}_{0}}-10{{t}^{2}}+105t-545
+%\mbox{}\]
+\end{dmath*}
+\end{dgroup*}
+%%%%%%%%%%%%%%%
+
+\textbf{Verify}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(convert(Eq3,[X,y,x],t),desol,diff,eval,initial,eval,expand,eval));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o14}\label{o14} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([x(t),y(t)],[t,0,\ensuremath{\tau}],[style,[lines,2]],[legend,"x","y"],
+         [gnuplot\_preamble,"set key top center"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,x(t),y(t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[x\_0,y\_0]]]],[axes,solid],
+         [title,"Trajectory"],[style,[lines,3],[points,3]],
+         [color,green,red],[point\_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"y"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,x(t),X(t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[x\_0,v\_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point\_type,circle],[legend,false],
+         [xlabel,"x"],[ylabel,"dx/dt"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[parametric,y(t),diff(y(t),t),[t,0,\ensuremath{\tau}]],
+          [discrete,[[y\_0,Dy0]]]],[axes,solid],
+         [title,"Phase Space for y"],[style,[lines,2],[points,3]],
+         [color,magenta,red],[point\_type,circle],[legend,false],
+         [xlabel,"y"],[ylabel,"dy/dt"]),desol,initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution with rfk45}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[X,y,x]\$ldisplay(funcs)\$\\
+odes:map('rhs,append(linsol,[Eq3]))\$ldisplay(odes)\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[X,y,x]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{odes}=[-4y+x-5t+X,4y-x-X,X]\mbox{}\]
+\[\tag{\%{}t6}\label{t6} 
+\mathit{interval}=[t,0,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,map('rhs,initial),interval,
+            absolute\_tolerance=5d-8,report=true)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:151
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:150
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:0
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$4.9908{{10}^{-9}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$2.6834{{10}^{-8}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.0024759$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.013573$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"x","y"],[gnuplot\_preamble,"set key top center"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,3])),rksol)],
+          [discrete,[[x\_0,y\_0]]]],[axes,solid],
+          [title,"Trajectory"],[point\_type,circle],
+         [style,[lines,3],[points,3]],[color,green,red],
+         [xlabel,"x"],[ylabel,"y"],[legend,false]),initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_10}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,2])),rksol)],
+          [discrete,[[x\_0,v\_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"x"],[ylabel,"dx/dt"],[legend,false]),initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution with dlsode}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,X,y,x)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+state:dlsode\_init(map('rhs,append(linsol,[Eq3])),['t,'X,'y,'x],21)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+t:0d0\$\\
+init:map(rhs,initial)\$\\
+rtol:1d-4\$\\
+atol:[5d-8,5d-8,5d-8]\$\\
+result:[]\$\\
+dlsol:[cons(t,init)]\$\\
+tout:\ensuremath{\delta}:0.01d0\$\\
+istate:1\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for k thru \ensuremath{\tau}/\ensuremath{\delta} do\\
+  block([],\\
+    result:dlsode\_step(init,t,tout,rtol,atol,istate,state),\\
+    dlsol:append(dlsol,[cons(first(result),second(result))]),\\
+    istate:result[3],\\
+    tout:tout+\ensuremath{\delta})\$
+\end{minipage}
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),dlsol)],
+          [discrete,map(lambda([u],part(u,[1,3])),dlsol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],[x,0,\ensuremath{\tau}],
+         [legend,"x","y"],[gnuplot\_preamble,"set key top center"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_12}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,3])),dlsol)],
+          [discrete,[[x\_0,y\_0]]]],[axes,solid],
+         [title,"Trajectory"],[point\_type,circle],
+         [style,[lines,3],[points,3]],[color,green,red],
+         [xlabel,"x"],[ylabel,"y"],[legend,false]),initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_13}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,2])),dlsol)],
+          [discrete,[[x\_0,v\_0]]]],[axes,solid],
+         [title,"Phase Space for x"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"x"],[ylabel,"dx/dt"],[legend,false]),initial\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_14}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
