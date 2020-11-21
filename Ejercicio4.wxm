@@ -1,0 +1,629 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Ecuación del movimiento de un sistema compuesto
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Ecuación del movimiento de un sistema compuesto},
+            pdfsubject={MECÁNICA LAGRANGIANA},
+            pdfkeywords={Física Hasta Que Te Aburras}}
+
+Based on Física Hasta Que Te Aburras
+\href{https://www.youtube.com/watch?v=BgAqzs_CGic}
+{MECÁNICA LAGRANGIANA (EJERCICIO #4) [Ecuación del movimiento de un sistema compuesto]}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('optvar,'version)=false then load(optvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(t,mainvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Settings
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+orderless(m,g,K,l,ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([m,g,K,l,l_0,ω],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(m>0,g>0,K>0,l>0,l_0,ω>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[m=1.0,g=9.8,K=1.0,l=2.0,l_0=1.0,ω=0.1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+τ:60$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(θ,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Geometry}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r_1:[l*sin(θ)*cos(ω*t),l*sin(θ)*sin(ω*t),l*cos(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v_1:diff(r_1,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+r_2:[l*sin(θ)*cos(ω*t+π),l*sin(θ)*sin(ω*t+π),l*cos(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v_2:diff(r_2,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Lagrangian Formalism
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kinetic Energy}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T:trigsimp(½*m*v_1.v_1+½*m*v_2.v_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Potential Energy}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(V:2*m*g*l*cos(θ)+½*K*(2*l*cos(θ)-l_0)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(L:expand(T-V))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:ev(diff(L,'diff(θ,t))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve(p=P,diff(θ,t)),expand;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:diff(L,θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,θ,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:subst([k[0]=-E],-bb[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2]:lhs(bb[2])-rhs(bb[2])=0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1],expand,trigreduce;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],expand,trigreduce;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(bb[2],diff(θ,t,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lhs(bb[1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+subst(linsol,diff(lhs(bb[1]),t)),fullratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equilibrium points}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],[diff(θ,t)=0,diff(θ,t,2)=0];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:solve(%,cos(θ));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Small angles approximation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(θ_0,constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(ε,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Cθ:ratdisrep(taylor(cos(θ_0+ε),ε,0,1)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Sθ:ratdisrep(taylor(sin(θ_0+ε),ε,0,1)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],[θ=θ_0+ε],diff,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+%,[cos(θ_0+ε)=Cθ,sin(θ_0+ε)=Sθ],expand;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+%,[ε²=0],trigsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Hamiltonian Formalism
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Legendre Transformation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Legendre:linsolve([p=P],['diff(θ,t)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Hamiltonian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(H:ev(p*'diff(θ,t)-L,Legendre))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Hq:makelist(Hq[i],i,1,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Hq[1]:'diff(θ,t)=diff(H,p)$
+Hq[2]:'diff(p,t)=-diff(H,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,Hq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Reduce Order
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+depends(Θ,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradef(θ,t,Θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,θ,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:subst([k[0]=-E],-bb[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2]:lhs(bb[2])-rhs(bb[2])=0$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1],expand;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],expand;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(bb[2],diff(θ,t,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution (Lagrangian)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:[θ,Θ]$ldisplay(funcs)$
+initial:[1,0]$ldisplay(initial)$
+odes:[Θ,rhs(linsol[1])]$ldisplay(odes)$
+interval:[t,0,τ]$ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute_tolerance=1E-8,report=true),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([t],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,map(lambda([u],part(u,[1,2])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"θ"],[gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,map(lambda([u],part(u,[1,3])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"dθ/dt"],[gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[axes,solid],
+         [title,"Phase Space for θ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"θ"],[ylabel,"dθ/dt"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+W:bb[1],map("=",funcs,initial),params,numer,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist([first(rkline),
+          ev(lhs(bb[1]),map("=",funcs,rest(rkline)),params)],rkline,rksol)],
+         [xlabel,"t"],[y,lhs(W)-0.001,lhs(W)+0.001],[ylabel,"Energy"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Graphics
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxanimate_framerate:60$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxanimate_autoplay:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rk(odes,funcs,initial,[t,0,τ/2,0.1]),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([t],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(proportional_axes = xy, delay = 1,
+                  xtics = 1, ytics = 1,
+                  xrange = [-1,1], yrange = [-1,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Create animated GIF file}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+draw(terminal   = 'animated_gif,
+     file_name  = "Sistema compuesto",
+     makelist(gr2d(
+       color         = red,
+       point_type    = filled_circle,
+       point_size    = 2,
+       points_joined = true,
+       line_width    = 2,
+       key           = sconcat("t=",float(t)/10," s"),
+       points([[0.0,0.0],
+               [sin(rksol[t][2]),cos(rksol[t][2])]])),
+         t,1,length(rksol))),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+time(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxanimate_framerate:30$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print("Click the figure to start animation")$
+with_slider_draw(
+    t,makelist(i,i,1,length(rksol)),
+    color         = red,
+    point_type    = filled_circle,
+    point_size    = 2,
+    points_joined = true,
+    line_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [sin(rksol[t][2]),cos(rksol[t][2])]])),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+time(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+print("Click the figure to start animation")$
+wxanimate_draw(
+    t,length(rksol),
+    color         = red,
+    point_type    = filled_circle,
+    point_size    = 2,
+    points_joined = true,
+    line_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [sin(rksol[t][2]),cos(rksol[t][2])]])),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+time(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

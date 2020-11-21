@@ -1,0 +1,1926 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Ecuación del movimiento\\\\de una partícula\\\\en una circunferencia}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Ecuación del movimiento de una partícula en una circunferencia},
+            pdfsubject={MECÁNICA LAGRANGIANA},
+            pdfkeywords={Física Hasta Que Te Aburras}}
+
+Based on Física Hasta Que Te Aburras
+\href{https://www.youtube.com/watch?v=v9GHq8S0efE}
+{MECÁNICA LAGRANGIANA (EJERCICIO \#4) [Ecuación del movimiento de una partícula en una circunferencia]}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(t,mainvar)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Settings}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+orderless(m,g,R)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([m,g,R],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(m\ensuremath{>}0,g\ensuremath{>}0,R\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[m=1.0,g=9.8,R=5.0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\tau}:60\$
+\end{minipage}
+
+\textbf{Generalized coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\phi},t)\$
+\end{minipage}
+
+\textbf{Geometry}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+r:R*[cos(\ensuremath{\phi}),sin(\ensuremath{\phi})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:diff(r,t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{v}\label{v}
+[-R\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) ,R\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Lagrangian Formalism}
+
+
+\textbf{Kinetic Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:trigsimp(\ensuremath{\frac{1}{2}}*m*v.v))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+T=\frac{m\,{{R}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) }^{2}}}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Potential Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(V:m*g*R*sin(\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+V=mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:expand(T-V))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+L=\frac{m\,{{R}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) }^{2}}}{2}-mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:ev(diff(L,'diff(\ensuremath{\phi},t))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+P=m\,{{R}^{2}}\,\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p=P,diff(\ensuremath{\phi},t));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+\left[{{\mathit{\ensuremath{\phi}}}_{t}}=\frac{p}{m\,{{R}^{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:diff(L,\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+F=-mgR\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\phi},t)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+\frac{m\,{{R}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) }^{2}}}{2}+mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o30}\label{o30} 
+m\,{{R}^{2}}\,\left( {{\mathit{\ensuremath{\phi}}}_{tt}}\right) +mgR\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(bb[2],diff(\ensuremath{\phi},t,2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+\left[{{\mathit{\ensuremath{\phi}}}_{tt}}=-\frac{g\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }}{R}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lhs(bb[1]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\frac{m\,{{R}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{t}}\right) }^{2}}}{2}+mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(linsol,diff(lhs(bb[1]),t)),fullratsimp;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equilibrium points}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2],[diff(\ensuremath{\phi},t)=0,diff(\ensuremath{\phi},t,2)=0];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+mgR\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:solve(\%,cos(\ensuremath{\phi}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+[\cos{\left( \mathit{\ensuremath{\phi}}\right) }=0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Small angles approximation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\epsilon},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\phi}:ratdisrep(taylor(cos(\ensuremath{\epsilon}-\ensuremath{\pi}/2),\ensuremath{\epsilon},0,1)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+\mathit{C\ensuremath{\phi}}=\mathit{\ensuremath{\epsilon}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\ensuremath{\phi}:ratdisrep(taylor(sin(\ensuremath{\epsilon}-\ensuremath{\pi}/2),\ensuremath{\epsilon},0,1)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\mathit{S\ensuremath{\phi}}=-1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2],[\ensuremath{\phi}=\ensuremath{\epsilon}-\ensuremath{\pi}/2],diff,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+m\,{{R}^{2}}\,\left( {{\mathit{\ensuremath{\epsilon}}}_{tt}}\right) +mgR\,\sin{\left( \mathit{\ensuremath{\epsilon}}\right) }=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\%,[cos(\ensuremath{\epsilon}-\ensuremath{\pi}/2)=C\ensuremath{\phi},sin(\ensuremath{\epsilon}-\ensuremath{\pi}/2)=S\ensuremath{\phi}],expand;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o40}\label{o40} 
+m\,{{R}^{2}}\,\left( {{\mathit{\ensuremath{\epsilon}}}_{tt}}\right) +mgR\mathit{\ensuremath{\epsilon}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(\%,diff(\ensuremath{\epsilon},t,2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+\left[{{\mathit{\ensuremath{\epsilon}}}_{tt}}=-\frac{g\mathit{\ensuremath{\epsilon}}}{R}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Hamiltonian Formalism}
+
+
+\textbf{Legendre Transformation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Legendre:linsolve([p=P],['diff(\ensuremath{\phi},t)]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Legendre}\label{Legendre}
+\left[{{\mathit{\ensuremath{\phi}}}_{t}}=\frac{p}{m\,{{R}^{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hamiltonian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(H:ev(p*'diff(\ensuremath{\phi},t)-L,Legendre))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+H=mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\frac{{{p}^{2}}}{2m\,{{R}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq:makelist(Hq[i],i,1,2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq[1]:'diff(\ensuremath{\phi},t)=diff(H,p)\$\\
+Hq[2]:'diff(p,t)=-diff(H,\ensuremath{\phi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,Hq)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+{{\mathit{\ensuremath{\phi}}}_{t}}=\frac{p}{m\,{{R}^{2}}}\mbox{}\]
+\[\tag{\%{}t48}\label{t48} 
+{{p}_{t}}=-mgR\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\Phi},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(\ensuremath{\phi},t,\ensuremath{\Phi})\$
+\end{minipage}
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\phi},t)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o56}\label{o56} 
+mgR\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\frac{m\,{{R}^{2}}\,{{\mathit{\ensuremath{\Phi}}}^{2}}}{2}=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o57}\label{o57} 
+mgR\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }+m\,{{R}^{2}}\,\left( {{\mathit{\ensuremath{\Phi}}}_{t}}\right) =0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(bb[2],diff(\ensuremath{\phi},t,2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+\left[{{\mathit{\ensuremath{\Phi}}}_{t}}=-\frac{g\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }}{R}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Lagrangian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[\ensuremath{\phi},\ensuremath{\Phi}]\$ldisplay(funcs)\$\\
+initial:[\ensuremath{\pi}/5,0]\$ldisplay(initial)\$\\
+odes:[\ensuremath{\Phi},rhs(linsol[1])]\$ldisplay(odes)\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[\mathit{\ensuremath{\phi}},\mathit{\ensuremath{\Phi}}]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{initial}=\left[\frac{\ensuremath{\pi} }{5},0\right]\mbox{}\]
+\[\tag{\%{}t6}\label{t6} 
+\mathit{odes}=\left[\mathit{\ensuremath{\Phi}},-\frac{g\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }}{R}\right]\mbox{}\]
+\[\tag{\%{}t8}\label{t8} 
+\mathit{interval}=[t,0,60]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-8,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:1833
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:1834
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:2
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$2.4658{{10}^{-9}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$9.308{{10}^{-9}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.024146$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.044882$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,map(lambda([u],part(u,[1,2])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"\ensuremath{\phi}"],[gnuplot\_preamble,"set key bottom left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,map(lambda([u],part(u,[1,3])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"d\ensuremath{\phi}/dt"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\phi}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\phi}"],[ylabel,"d\ensuremath{\phi}/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+W:bb[1],map("=",funcs,initial),params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{W}\label{W}
+28.801=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(lhs(bb[1]),map("=",funcs,rest(rkline)),params)],rkline,rksol)],
+         [xlabel,"t"],[y,lhs(W)-0.001,lhs(W)+0.001],[ylabel,"Energy"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:60\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_autoplay:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rk(odes,funcs,initial,[t,0,\ensuremath{\tau}/2,0.1]),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(proportional\_axes = xy, delay = 1,
+                  xtics = 1, ytics = 1,
+                  xrange = [-1,1], yrange = [-1,1])\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Create animated GIF file}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw(terminal   = 'animated\_gif,
+     file\_name  = "Particula en una circunferencia",
+     makelist(gr2d(
+       color         = red,
+       point\_type    = filled\_circle,
+       point\_size    = 2,
+       points\_joined = true,
+       line\_width    = 2,
+       key           = sconcat("t=",float(t)/10," s"),
+       points([[0.0,0.0],
+               [cos(rksol[t][2]),sin(rksol[t][2])]])),
+         t,1,length(rksol))),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+[0.016]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:30\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+with\_slider\_draw(
+    t,makelist(i,i,1,length(rksol)),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [cos(rksol[t][2]),sin(rksol[t][2])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t9}\label{t9} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_170}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_171}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_172}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_173}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_174}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_175}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_176}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_177}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_178}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_179}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_180}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_181}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_182}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_183}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_184}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_185}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_186}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_187}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_188}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_189}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_190}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_191}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_192}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_193}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_194}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_195}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_196}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_197}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_198}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_199}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_200}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_201}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_202}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_203}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_204}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_205}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_206}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_207}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_208}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_209}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_210}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_211}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_212}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_213}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_214}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_215}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_216}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_217}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_218}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_219}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_220}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_221}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_222}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_223}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_224}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_225}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_226}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_227}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_228}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_229}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_230}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_231}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_232}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_233}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_234}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_235}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_236}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_237}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_238}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_239}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_240}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_241}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_242}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_243}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_244}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_245}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_246}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_247}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_248}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_249}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_250}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_251}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_252}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_253}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_254}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_255}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_256}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_257}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_258}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_259}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_260}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_261}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_262}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_263}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_264}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_265}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_266}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_267}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_268}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_269}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_270}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_271}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_272}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_273}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_274}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_275}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_276}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_277}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_278}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_279}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_280}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_281}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_282}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_283}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_284}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_285}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_286}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_287}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_288}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_289}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_290}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_291}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_292}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_293}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_294}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_295}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_296}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_297}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_298}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_299}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_5_300}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+[0.797]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+wxanimate\_draw(
+    t,length(rksol),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [cos(rksol[t][2]),sin(rksol[t][2])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t12}\label{t12} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_170}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_171}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_172}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_173}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_174}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_175}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_176}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_177}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_178}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_179}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_180}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_181}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_182}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_183}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_184}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_185}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_186}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_187}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_188}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_189}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_190}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_191}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_192}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_193}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_194}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_195}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_196}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_197}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_198}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_199}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_200}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_201}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_202}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_203}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_204}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_205}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_206}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_207}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_208}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_209}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_210}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_211}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_212}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_213}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_214}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_215}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_216}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_217}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_218}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_219}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_220}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_221}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_222}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_223}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_224}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_225}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_226}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_227}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_228}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_229}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_230}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_231}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_232}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_233}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_234}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_235}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_236}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_237}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_238}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_239}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_240}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_241}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_242}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_243}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_244}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_245}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_246}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_247}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_248}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_249}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_250}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_251}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_252}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_253}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_254}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_255}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_256}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_257}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_258}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_259}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_260}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_261}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_262}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_263}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_264}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_265}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_266}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_267}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_268}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_269}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_270}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_271}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_272}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_273}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_274}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_275}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_276}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_277}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_278}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_279}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_280}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_281}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_282}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_283}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_284}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_285}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_286}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_287}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_288}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_289}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_290}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_291}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_292}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_293}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_294}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_295}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_296}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_297}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_298}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_299}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Ejercicio2_img/Ejercicio2_6_300}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+[0.985]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
