@@ -1,0 +1,870 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Pendulum}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(t,mainvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+orderless(g,A,\ensuremath{\omega})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([g,A,\ensuremath{\omega}],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(g\ensuremath{>}0,A\ensuremath{>}0,\ensuremath{\omega}\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[g=9.8,A=0.1,\ensuremath{\omega}=0.1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\tau}:10\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+DE:'diff(\ensuremath{\theta},t,2)=A*cos(\ensuremath{\theta})*\ensuremath{\omega}\ensuremath{^2}*cos(t*\ensuremath{\omega})-g*sin(\ensuremath{\theta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{DE}\label{DE}
+{{\mathit{\ensuremath{\theta}}}_{tt}}=A\,{{\mathit{\ensuremath{\omega}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\cos{\left( \mathit{\ensuremath{\omega}}t\right) }-g\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Small angles approximation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+C\ensuremath{\theta}:ratdisrep(taylor(cos(\ensuremath{\theta}),\ensuremath{\theta},0,1))\$\\
+S\ensuremath{\theta}:ratdisrep(taylor(sin(\ensuremath{\theta}),\ensuremath{\theta},0,1))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst([cos(\ensuremath{\theta})=C\ensuremath{\theta},sin(\ensuremath{\theta})=S\ensuremath{\theta}],DE);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o17}\label{o17} 
+{{\mathit{\ensuremath{\theta}}}_{tt}}=A\,{{\mathit{\ensuremath{\omega}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\omega}}t\right) }-g\mathit{\ensuremath{\theta}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ode2(\%,\ensuremath{\theta},t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o18}\label{o18} 
+\mathit{\ensuremath{\theta}}=-\frac{A\,{{\mathit{\ensuremath{\omega}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\omega}}t\right) }}{{{\mathit{\ensuremath{\omega}}}^{2}}-g}+\mathit{\%{}k1}\,\sin{\left( \sqrt{g}t\right) }+\mathit{\%{}k2}\,\cos{\left( \sqrt{g}t\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Reduce order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\Theta},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(\ensuremath{\theta},t,\ensuremath{\Theta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+DE:ev(DE,diff,eval);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{DE}\label{DE}
+{{\mathit{\ensuremath{\Theta}}}_{t}}=A\,{{\mathit{\ensuremath{\omega}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\cos{\left( \mathit{\ensuremath{\omega}}t\right) }-g\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[\ensuremath{\theta},\ensuremath{\Theta}]\$ldisplay(funcs)\$\\
+initial:[\ensuremath{\pi}/7,1]\$ldisplay(initial)\$\\
+odes:[\ensuremath{\Theta},rhs(DE)]\$ldisplay(odes)\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+\mathit{funcs}=[\mathit{\ensuremath{\theta}},\mathit{\ensuremath{\Theta}}]\mbox{}\]
+\[\tag{\%{}t25}\label{t25} 
+\mathit{initial}=[\frac{\ensuremath{\pi} }{7},1]\mbox{}\]
+\[\tag{\%{}t27}\label{t27} 
+\mathit{odes}=[\mathit{\ensuremath{\Theta}},A\,{{\mathit{\ensuremath{\omega}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\cos{\left( \mathit{\ensuremath{\omega}}t\right) }-g\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+\mathit{interval}=[t,0,10]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-8,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:893
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:893
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:1
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$3.905{{10}^{-9}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.4736{{10}^{-9}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.010169$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.01287$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,map(lambda([u],part(u,[1,2])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"\ensuremath{\theta}"],[gnuplot\_preamble,"set key top right"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,map(lambda([u],part(u,[1,3])),rksol)],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"d\ensuremath{\theta}/dt"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}"],[ylabel,"d\ensuremath{\theta}/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:60\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_autoplay:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rk(odes,funcs,initial,[t,0,\ensuremath{\tau},0.1]),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(proportional\_axes = xy, delay = 1,
+                  xtics = 1, ytics = 1,
+                  xrange = [-1,1], yrange = [-1,0])\$
+\end{minipage}
+
+\textbf{Create animated GIF file}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw(terminal   = 'animated\_gif,
+     file\_name  = "Pendulum",
+     makelist(gr2d(
+       color         = red,
+       point\_type    = filled\_circle,
+       point\_size    = 2,
+       points\_joined = true,
+       line\_width    = 2,
+       key           = sconcat("t=",float(t)/10," s"),
+       points([[0.0,0.0],
+               [sin(rksol[t][2]),-cos(rksol[t][2])]])),
+         t,1,length(rksol))),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+[0.0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:30\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+with\_slider\_draw(
+    t,makelist(i,i,1,length(rksol)),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [sin(rksol[t][2]),-cos(rksol[t][2])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t9}\label{t9} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_4_100}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+[0.265]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+wxanimate\_draw(
+    t,length(rksol),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [sin(rksol[t][2]),-cos(rksol[t][2])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t12}\label{t12} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Pendulum_img/Pendulum_5_100}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+[0.203]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
