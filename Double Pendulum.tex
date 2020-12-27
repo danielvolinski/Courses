@@ -1,0 +1,1952 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+\let\oldcdot\cdot
+\usepackage{breqn}
+\let\cdot\oldcdot
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Double Pendulum}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Equations of Motion for the Double Pendulum},
+            pdfsubject={Dynamics of Physical System},
+            pdfkeywords={Freeball}}
+
+Based on Freeball
+\href{https://www.youtube.com/watch?v=tc2ah-KnDXw}
+{Equations of Motion for the Double Pendulum}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(t,mainvar)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Settings}
+
+
+\textbf{Assume}:
+\begin{itemize}
+\item Point masses
+\item Massless, rigid rods
+\item Gravity is present
+\end{itemize}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([m\_1,m\_2,l\_1,l\_2,g],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(m\_1\ensuremath{>}0,m\_2\ensuremath{>}0,l\_1\ensuremath{>}0,l\_2\ensuremath{>}0,g\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[m\_1=1,m\_2=2,l\_1=2,l\_2=3,g=9.8]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\tau}:17\$
+\end{minipage}
+
+\textbf{Generalized coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[\ensuremath{\theta}\_1,\ensuremath{\theta}\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\zeta},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Kinematic Constraints}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+x\_1:l\_1*sin(\ensuremath{\theta}\_1)\$\\
+y\_1:-l\_1*cos(\ensuremath{\theta}\_1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+x\_2:l\_1*sin(\ensuremath{\theta}\_1)+l\_2*sin(\ensuremath{\theta}\_2)\$\\
+y\_2:-l\_1*cos(\ensuremath{\theta}\_1)-l\_2*cos(\ensuremath{\theta}\_2)\$
+\end{minipage}
+
+\textbf{Velocities}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(v\_1:[diff(x\_1,t),diff(y\_1,t)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+{{v}_{1}}=[{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) ,{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(v\_2:[diff(x\_2,t),diff(y\_2,t)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{{v}_{2}}=[{{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) ,{{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Lagrangian Formalism}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+\textbf{Kinetic Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:\ensuremath{\frac{1}{2}}*m\_1*(v\_1.v\_1)+\ensuremath{\frac{1}{2}}*m\_2*(v\_2.v\_2))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+T=\frac{{{m}_{2}}\left( {{\left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) }^{2}}+{{\left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) }^{2}}\right) }{2}+\frac{{{m}_{1}}\left( {{{{l}_{1}}}^{2}}{{\sin{\left( {{{{\theta}}}_{1}}\right) }}^{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}+{{{{l}_{1}}}^{2}}{{\cos{\left( {{{{\theta}}}_{1}}\right) }}^{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}\right) }{2}
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+\textbf{Potential Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(V:m\_1*g*y\_1+m\_2*g*y\_2),expand\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+V=-g\,{{l}_{2}}{{m}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }-g\,{{l}_{1}}{{m}_{2}}\cos{\left( {{{{\theta}}}_{1}}\right) }-g\,{{l}_{1}}{{m}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:T-V)\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+L=\frac{{{m}_{2}}\left( {{\left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) }^{2}}+{{\left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) }^{2}}\right) }{2}+g\,{{l}_{2}}{{m}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }+\frac{{{m}_{1}}\left( {{{{l}_{1}}}^{2}}{{\sin{\left( {{{{\theta}}}_{1}}\right) }}^{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}+{{{{l}_{1}}}^{2}}{{\cos{\left( {{{{\theta}}}_{1}}\right) }}^{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}\right) }{2}+g\,{{l}_{1}}{{m}_{2}}\cos{\left( {{{{\theta}}}_{1}}\right) }+g\,{{l}_{1}}{{m}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_1:diff(L,'diff(\ensuremath{\theta}\_1,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+{{P}_{1}}=({{m}_{2}}(2{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) +2{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) ))/2+\frac{{{m}_{1}}\left( 2{{{{l}_{1}}}^{2}}{{\sin{\left( {{{{\theta}}}_{1}}\right) }}^{2}}\left( \dot{\theta}_{1}\right) +2{{{{l}_{1}}}^{2}}{{\cos{\left( {{{{\theta}}}_{1}}\right) }}^{2}}\left( \dot{\theta}_{1}\right) \right) }{2}
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_2:diff(L,'diff(\ensuremath{\theta}\_2,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+{{P}_{2}}=({{m}_{2}}(2{{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) +2{{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) ))/2
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_1:diff(L,\ensuremath{\theta}\_1))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+{{F}_{1}}=({{m}_{2}}(2{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) -2{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) ))/2-g\,{{l}_{1}}{{m}_{2}}\sin{\left( {{{{\theta}}}_{1}}\right) }-g\,{{l}_{1}}{{m}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_2:diff(L,\ensuremath{\theta}\_2))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dmath*}
+{{F}_{2}}=({{m}_{2}}(2{{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) \left( {{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) -2{{l}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) \left( {{l}_{2}}\cos{\left( {{{{\theta}}}_{2}}\right) }\left( \dot{\theta}_{2}\right) +{{l}_{1}}\cos{\left( {{{{\theta}}}_{1}}\right) }\left( \dot{\theta}_{1}\right) \right) ))/2-g\,{{l}_{2}}{{m}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }
+\end{dmath*}
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\zeta},t)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},t,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol:factor(trigreduce(linsol)))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dgroup*}
+\begin{dmath*}
+{{{{\ddot{\theta}}_{1}}}}=-(g\,{{m}_{2}}\sin{\left( 2{{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+{{l}_{1}}{{m}_{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}\sin{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }+2{{l}_{2}}{{m}_{2}}{{\left( \dot{\theta}_{2}\right) }^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }-g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{1}}\right) }-2g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) })/({{l}_{1}}\left( {{m}_{2}}\cos{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }-{{m}_{2}}-2{{m}_{1}}\right) )
+\end{dmath*}
+\begin{dmath*}
+{{{{\ddot{\theta}}_{2}}}}=({{l}_{2}}{{m}_{2}}{{\left( \dot{\theta}_{2}\right) }^{2}}\sin{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }+2{{l}_{1}}{{m}_{2}}{{\left( \dot{\theta}_{1}\right) }^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+2{{l}_{1}}{{m}_{1}}{{\left( \dot{\theta}_{1}\right) }^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{2}}-2{{{{\theta}}}_{1}}\right) }+g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{2}}-2{{{{\theta}}}_{1}}\right) }+g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }+g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{2}}\right) })/({{l}_{2}}\left( {{m}_{2}}\cos{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }-{{m}_{2}}-2{{m}_{1}}\right) )
+\end{dmath*}
+\end{dgroup*}
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Hamiltonian Formalism}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+\textbf{Legendre Transformation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Legendre:linsolve([p\_1=P\_1,p\_2=P\_2],['diff(\ensuremath{\theta}\_1,t),'diff(\ensuremath{\theta}\_2,t)])\$
+\end{minipage}
+
+\textbf{Hamiltonian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+H:ev(p\_1*'diff(\ensuremath{\theta}\_1,t)+p\_2*'diff(\ensuremath{\theta}\_2,t)-L,Legendre)\$
+\end{minipage}
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq:makelist(Hq[i],i,1,2*dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq[1]:'diff(\ensuremath{\theta}\_1,t)=diff(H,p\_1)\$\\
+Hq[2]:'diff(\ensuremath{\theta}\_2,t)=diff(H,p\_2)\$\\
+Hq[3]:'diff(p\_1,t)=-diff(H,\ensuremath{\theta}\_1)\$\\
+Hq[4]:'diff(p\_2,t)=-diff(H,\ensuremath{\theta}\_2)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[\ensuremath{\Theta}\_1,\ensuremath{\Theta}\_2]\$\\
+depends(\ensuremath{\xi},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(\ensuremath{\theta}\_1,t,\ensuremath{\Theta}\_1)\$\\
+gradef(\ensuremath{\theta}\_2,t,\ensuremath{\Theta}\_2)\$
+\end{minipage}
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\zeta},t)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},t,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol:factor(trigreduce(linsol)))\$
+\end{minipage}
+%%% OUTPUT:
+\begin{dgroup*}
+\begin{dmath*}
+\dot{\Theta}_{1}=-(g\,{{m}_{2}}\sin{\left( 2{{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+{{l}_{1}}{{m}_{2}}{{{{{{\Theta}}}_{1}}}^{2}}\sin{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }+2{{l}_{2}}{{m}_{2}}{{{{{{\Theta}}}_{2}}}^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }-g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{1}}\right) }-2g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{1}}\right) })/({{l}_{1}}\left( {{m}_{2}}\cos{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }-{{m}_{2}}-2{{m}_{1}}\right) )
+\end{dmath*}
+\begin{dmath*}
+\dot{\Theta}_{2}=({{l}_{2}}{{m}_{2}}{{{{{{\Theta}}}_{2}}}^{2}}\sin{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }+2{{l}_{1}}{{m}_{2}}{{{{{{\Theta}}}_{1}}}^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+2{{l}_{1}}{{m}_{1}}{{{{{{\Theta}}}_{1}}}^{2}}\sin{\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) }+g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{2}}-2{{{{\theta}}}_{1}}\right) }+g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{2}}-2{{{{\theta}}}_{1}}\right) }+g\,{{m}_{2}}\sin{\left( {{{{\theta}}}_{2}}\right) }+g\,{{m}_{1}}\sin{\left( {{{{\theta}}}_{2}}\right) })/({{l}_{2}}\left( {{m}_{2}}\cos{\left( 2\left( {{{{\theta}}}_{2}}-{{{{\theta}}}_{1}}\right) \right) }-{{m}_{2}}-2{{m}_{1}}\right) )
+\end{dmath*}
+\end{dgroup*}
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Lagrangian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[\ensuremath{\theta}\_1,\ensuremath{\theta}\_2,\ensuremath{\Theta}\_1,\ensuremath{\Theta}\_2]\$ldisplay(funcs)\$\\
+initial:[\ensuremath{\pi}/7,\ensuremath{\pi}/9,0,0]\$ldisplay(initial)\$\\
+odes:append(\ensuremath{\xi},map('rhs,linsol))\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[{{{{\theta}}}_{1}},{{{{\theta}}}_{2}},{{{{\Theta}}}_{1}},{{{{\Theta}}}_{2}}]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{initial}=\left[\frac{\ensuremath{\pi} }{7},\frac{\ensuremath{\pi} }{9},0,0\right]\mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+\mathit{interval}=[t,0,17]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-10,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:6019
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:6020
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:2
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$4.1407{{10}^{-14}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.6824{{10}^{-11}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$4.9929{{10}^{-4}}$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.0040347$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"\ensuremath{\theta}\_1","\ensuremath{\theta}\_2"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"d\ensuremath{\theta}\_1/dt","d\ensuremath{\theta}\_2/dt"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}\_1"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_1"],[ylabel,"d\ensuremath{\theta}\_1/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}\_2"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_2"],[ylabel,"d\ensuremath{\theta}\_2/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_1"],[ylabel,"\ensuremath{\theta}\_2"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,5])),rksol)],
+          [discrete,[part(initial,[3,4])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"d\ensuremath{\theta}\_1/dt"],[ylabel,"d\ensuremath{\theta}\_2/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+W:bb[1],map("=",funcs,initial),params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{W}\label{W}
+-108.23=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(lhs(bb[1]),map("=",funcs,rest(rkline)),params)],rkline,rksol)],
+         [xlabel,"t"],[ylabel,"Energy"],[y,lhs(W)-0.001,lhs(W)+0.001])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Hamiltonian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[\ensuremath{\theta}\_1,\ensuremath{\theta}\_2,p\_1,p\_2]\$ldisplay(funcs)\$\\
+initial:[\ensuremath{\pi}/7,\ensuremath{\pi}/9,0,0]\$ldisplay(initial)\$\\
+odes:map(rhs,Hq)\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[{{{{\theta}}}_{1}},{{{{\theta}}}_{2}},{{p}_{1}},{{p}_{2}}]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{initial}=\left[\frac{\ensuremath{\pi} }{7},\frac{\ensuremath{\pi} }{9},0,0\right]\mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+\mathit{interval}=[t,0,17]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-10,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:8049
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:8056
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:8
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$2.3003{{10}^{-11}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$9.4399{{10}^{-11}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.0018079$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.0044723$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"\ensuremath{\theta}\_1","\ensuremath{\theta}\_2"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"p\_1","p\_2"],[gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}\_1"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_1"],[ylabel,"p\_1"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_10}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}\_2"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_2"],[ylabel,"p\_2"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}\_1"],[ylabel,"\ensuremath{\theta}\_2"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_12}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,5])),rksol)],
+          [discrete,[part(initial,[3,4])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"p\_1"],[ylabel,"p\_2"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_13}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+W:H,map("=",funcs,initial),params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{W}\label{W}
+-108.23\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(H,map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"t"],[ylabel,"Energy"],[y,W-0.001,W+0.001]),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_14}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Symplectic Integrator}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+file\_search\_maxima:cons(sconcat("D:/USERS/wxMaxima/Barton/symplectic\_ode/\ensuremath{\neq}\ensuremath{\neq}\ensuremath{\neq}.{lisp,mac,mc}"),file\_search\_maxima)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load("symplectic\_ode.fasl")\$
+\end{minipage}
+
+\textbf{Numerical solution (Symplectic)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\delta}:0.002\$N:8000\$\ensuremath{\delta}*N;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o5}\label{o5} 
+16.0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+[pp,qq]:symplectic\_ode(ev(H,params),[p\_1,p\_2],[\ensuremath{\theta}\_1,\ensuremath{\theta}\_2],
+        part(initial,[3,4]),part(initial,[1,2]),
+        \ensuremath{\delta},N,'symplectic\_euler,'float)\$
+\end{minipage}
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d(cons('discrete,[qq]),
+         [style,[lines,2]],[color,magenta],
+         [xlabel,"\ensuremath{\theta}\_1"],[ylabel,"\ensuremath{\theta}\_2"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_15}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d(cons('discrete,[pp]),
+         [style,[lines,2]],[color,magenta],
+         [xlabel,"p\_1"],[ylabel,"p\_2"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_16}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+synsol:makelist([\ensuremath{\delta}*(i-1),qq[i][1],qq[i][2],pp[i][1],pp[i][2]],i,1,length(pp))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(synline),
+          ev(H,map("=",funcs,rest(synline)),params)],synline,synsol)],
+         [xlabel,"t"],[ylabel,"Energy"],[y,W-0.1,W+0.1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_17}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:60\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_autoplay:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rk(odes,funcs,initial,[t,0,\ensuremath{\tau},0.1]),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(proportional\_axes = xy, delay = 1,
+                  xtics = 1, ytics = 1,
+                  xrange=[-2,2],yrange=[-5,0])\$
+\end{minipage}
+
+\textbf{Create animated GIF file}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw(terminal   = 'animated\_gif,
+     file\_name  = "Double Pendulum",
+     makelist(gr2d(
+       color         = red,
+       point\_type    = filled\_circle,
+       point\_size    = 2,
+       points\_joined = true,
+       line\_width    = 2,
+       key           = sconcat("t=",float(t)/10," s"),
+       points([[0.0,0.0],
+               [l\_1*sin(rksol[t][2]),-l\_1*cos(rksol[t][2])],
+               [l\_1*sin(rksol[t][2]) +l\_2*sin(rksol[t][3]),
+               -l\_1*cos(rksol[t][2]) -l\_2*cos(rksol[t][3])]])),
+         t,1,length(rksol))),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+[0.015]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:30\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+with\_slider\_draw(
+    t,makelist(i,i,1,length(rksol)),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [l\_1*sin(rksol[t][2]),-l\_1*cos(rksol[t][2])],
+            [l\_1*sin(rksol[t][2]) +l\_2*sin(rksol[t][3]),
+            -l\_1*cos(rksol[t][2]) -l\_2*cos(rksol[t][3])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t9}\label{t9} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_18_170}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+[0.485]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+wxanimate\_draw(
+    t,length(rksol),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    key           = sconcat("t=",float(t)/10," s"),
+    points([[0.0,0.0],
+            [l\_1*sin(rksol[t][2]),-l\_1*cos(rksol[t][2])],
+            [l\_1*sin(rksol[t][2]) +l\_2*sin(rksol[t][3]),
+            -l\_1*cos(rksol[t][2]) -l\_2*cos(rksol[t][3])]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t12}\label{t12} 
+\begin{animateinline}{30}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_19_170}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+[0.656]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
