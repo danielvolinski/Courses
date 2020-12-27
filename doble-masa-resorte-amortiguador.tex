@@ -1,0 +1,2365 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Doble masa-resorte-amortiguador}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Doble masa-resorte-amortiguador},
+            pdfsubject={Classical mechanics},
+            pdfkeywords={Señales y Sistemas}}
+
+Based on Señales y Sistemas
+\href{https://www.youtube.com/watch?v=IOd1IRwG5zM}
+{Doble masa-resorte-amortiguador}
+
+Based on Señales y Sistemas
+\href{https://www.youtube.com/watch?v=jBU1B4ivUv8}
+{Masa-resorte-amortiguador doble}
+
+Based on Señales y Sistemas
+\href{https://www.youtube.com/watch?v=uwmJhwW3VWI}
+{Función de transferencia}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+file\_search\_maxima:cons(sconcat("D:/USERS/wxMaxima/pw/pw/\ensuremath{\neq}\ensuremath{\neq}\ensuremath{\neq}.{lisp,mac,mc}"),file\_search\_maxima)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(pw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(t,mainvar)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Settings}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([m\_1,m\_2,b,K\_1,K\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(m\_1\ensuremath{>}0,m\_2\ensuremath{>}0,b\ensuremath{>}0,K\_1\ensuremath{>}0,K\_2\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[m\_1=1,m\_2=2,b=0.5,K\_1=3,K\_2=1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\tau}:25\$
+\end{minipage}
+
+\textbf{Generalized coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[q\_1,q\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\zeta},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+\pagebreak
+
+
+\section{Newtonian Formalism}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(u,t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N\_1:m\_1*diff(q\_1,t,2)+b*diff(q\_1,t)+K\_1*q\_1+K\_2*(q\_1-q\_2)=u)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) +{{m}_{1}}\left( {{{\ddot{q}_{1}}}}\right) +b\,\left( {{{\dot{q}_{1}}}}\right) +{{K}_{1}}{{q}_{1}}=u\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N\_2:m\_2*diff(q\_2,t,2)+K\_2*(q\_2-q\_1))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{N}_{2}}={{m}_{2}}\left( {{{\ddot{q}_{2}}}}\right) +{{K}_{2}}\left( {{q}_{2}}-{{q}_{1}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Newton:[N\_1,N\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[z\_1,z\_2,z\_3,z\_4]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\xi},t)\$
+\end{minipage}
+
+\textbf{Three substitutions}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M\_1:[q\_1=z\_1,'diff(q\_1,t)=z\_2,q\_2=z\_3,'diff(q\_2,t)=z\_4])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+{{M}_{1}}=[{{q}_{1}}={{z}_{1}},{{{\dot{q}_{1}}}}={{z}_{2}},{{q}_{2}}={{z}_{3}},{{{\dot{q}_{2}}}}={{z}_{4}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M\_2:['diff(z\_1,t,2)='diff(z\_2,t),'diff(z\_3,t,2)='diff(z\_4,t)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+{{M}_{2}}=[{{{\ddot{z}_{1}}}}={{{\dot{z}_{2}}}},{{{\ddot{z}_{3}}}}={{{\dot{z}_{4}}}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M\_3:['diff(z\_1,t)=z\_2,'diff(z\_3,t)=z\_4])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+{{M}_{3}}=[{{{\dot{z}_{1}}}}={{z}_{2}},{{{\dot{z}_{3}}}}={{z}_{4}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(M\_3,subst(M\_2,subst(M\_1,Newton)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o27}\label{o27} 
+[{{K}_{2}}\left( {{z}_{1}}-{{z}_{3}}\right) +{{m}_{1}}\left( {{{\dot{z}_{2}}}}\right) +b\,{{z}_{2}}+{{K}_{1}}{{z}_{1}}=u,{{m}_{2}}\left( {{{\dot{z}_{4}}}}\right) +{{K}_{2}}\left( {{z}_{3}}-{{z}_{1}}\right) ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{New equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_1:linsolve(\%,['diff(z\_2,t),'diff(z\_4,t)]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+{{S}_{1}}=\left[{{{\dot{z}_{2}}}}=\frac{{{K}_{2}}{{z}_{3}}-b\,{{z}_{2}}+\left( -{{K}_{2}}-{{K}_{1}}\right) {{z}_{1}}+u}{{{m}_{1}}},{{{\dot{z}_{4}}}}=-\frac{{{K}_{2}}{{z}_{3}}-{{K}_{2}}{{z}_{1}}}{{{m}_{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_2:[diff(z\_1,t)=z\_2,diff(z\_3,t)=z\_4])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+{{S}_{2}}=[{{{\dot{z}_{1}}}}={{z}_{2}},{{{\dot{z}_{3}}}}={{z}_{4}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{New system}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,join(S\_2,S\_1))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+{{{\dot{z}_{1}}}}={{z}_{2}}\mbox{}\]
+\[\tag{\%{}t31}\label{t31} 
+{{{\dot{z}_{2}}}}=\frac{{{K}_{2}}{{z}_{3}}-b\,{{z}_{2}}+\left( -{{K}_{2}}-{{K}_{1}}\right) {{z}_{1}}+u}{{{m}_{1}}}\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+{{{\dot{z}_{3}}}}={{z}_{4}}\mbox{}\]
+\[\tag{\%{}t33}\label{t33} 
+{{{\dot{z}_{4}}}}=-\frac{{{K}_{2}}{{z}_{3}}-{{K}_{2}}{{z}_{1}}}{{{m}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+augcoefmatrix(join(S\_2,S\_1),\ensuremath{\xi});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+\begin{pmatrix}0 & -1 & 0 & 0 & 0\\
+\frac{{{K}_{2}}+{{K}_{1}}}{{{m}_{1}}} & \frac{b}{{{m}_{1}}} & -\frac{{{K}_{2}}}{{{m}_{1}}} & 0 & -\frac{u}{{{m}_{1}}}\\
+0 & 0 & 0 & -1 & 0\\
+-\frac{{{K}_{2}}}{{{m}_{2}}} & 0 & \frac{{{K}_{2}}}{{{m}_{2}}} & 0 & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(Newton,diff(\ensuremath{\zeta},t,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+{{{\ddot{q}_{1}}}}=\frac{u+{{K}_{2}}{{q}_{2}}-b\,\left( {{{\dot{q}_{1}}}}\right) +\left( -{{K}_{2}}-{{K}_{1}}\right) {{q}_{1}}}{{{m}_{1}}}\mbox{}\]
+\[\tag{\%{}t37}\label{t37} 
+{{{\ddot{q}_{2}}}}=-\frac{{{K}_{2}}{{q}_{2}}-{{K}_{2}}{{q}_{1}}}{{{m}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Transfer function}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(q\_1(t),[t=0],0)\$\\
+atvalue(q\_2(t),[t=0],0)\$\\
+atvalue(diff(q\_1(t),t),[t=0],0)\$\\
+atvalue(diff(q\_2(t),t),[t=0],0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+N\_1:laplace(convert(N\_1,append(\ensuremath{\zeta},[u]),t),t,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+N\_2:laplace(convert(N\_2,append(\ensuremath{\zeta},[u]),t),t,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+LQ:[laplace(q\_1(t),t,s)=Q\_1(s),laplace(q\_2(t),t,s)=Q\_2(s),laplace(u(t),t,s)=U(s)]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Newton:subst(LQ,[N\_1,N\_2])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,Newton)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+{{K}_{2}}\left( {{Q}_{1}}(s)-{{Q}_{2}}(s)\right) +{{m}_{1}}{{s}^{2}}\,{{Q}_{1}}(s)+bs\,{{Q}_{1}}(s)+{{K}_{1}}{{Q}_{1}}(s)=\operatorname{U}(s)\mbox{}\]
+\[\tag{\%{}t47}\label{t47} 
+{{K}_{2}}\left( {{Q}_{2}}(s)-{{Q}_{1}}(s)\right) +{{m}_{2}}{{s}^{2}}\,{{Q}_{2}}(s)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(Newton,[Q\_1(s),Q\_2(s)])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol/U(s))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+\frac{{{Q}_{1}}(s)}{\operatorname{U}(s)}=\frac{{{m}_{2}}{{s}^{2}}+{{K}_{2}}}{{{m}_{1}}{{m}_{2}}{{s}^{4}}+b\,{{m}_{2}}{{s}^{3}}+\left( {{K}_{2}}{{m}_{2}}+{{K}_{1}}{{m}_{2}}+{{K}_{2}}{{m}_{1}}\right) {{s}^{2}}+{{K}_{2}}bs+{{K}_{1}}{{K}_{2}}}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t50}\label{t50} 
+\frac{{{Q}_{2}}(s)}{\operatorname{U}(s)}=\frac{{{K}_{2}}}{{{m}_{1}}{{m}_{2}}{{s}^{4}}+b\,{{m}_{2}}{{s}^{3}}+\left( {{K}_{2}}{{m}_{2}}+{{K}_{1}}{{m}_{2}}+{{K}_{2}}{{m}_{1}}\right) {{s}^{2}}+{{K}_{2}}bs+{{K}_{1}}{{K}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Lagrangian Formalism}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+\textbf{Kinetic Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+T\_1:\ensuremath{\frac{1}{2}}*m\_1*diff(q\_1,t)\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+T\_2:\ensuremath{\frac{1}{2}}*m\_2*diff(q\_2,t)\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:T\_1+T\_2)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+T=\frac{{{m}_{2}}{{\left( {{{\dot{q}_{2}}}}\right) }^{2}}}{2}+\frac{{{m}_{1}}{{\left( {{{\dot{q}_{1}}}}\right) }^{2}}}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,makelist(diff(T,s),s,\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+0\mbox{}\]
+\[\tag{\%{}t5}\label{t5} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,makelist(diff(T,diff(s,t)),s,\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+{{m}_{1}}\left( {{{\dot{q}_{1}}}}\right) \mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+{{m}_{2}}\left( {{{\dot{q}_{2}}}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Potential Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+U\_1:\ensuremath{\frac{1}{2}}*K\_1*q\_1\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+U\_2:\ensuremath{\frac{1}{2}}*K\_2*(q\_1-q\_2)\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(U:U\_1+U\_2)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+U=\frac{{{K}_{2}}{{\left( {{q}_{1}}-{{q}_{2}}\right) }^{2}}}{2}+\frac{{{K}_{1}}{{{{q}_{1}}}^{2}}}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,makelist(diff(U,s),s,\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) +{{K}_{1}}{{q}_{1}}\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+-{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,makelist(diff(U,diff(s,t)),s,\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+0\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:T-U)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+L=\frac{{{m}_{2}}{{\left( {{{\dot{q}_{2}}}}\right) }^{2}}}{2}-\frac{{{K}_{2}}{{\left( {{q}_{1}}-{{q}_{2}}\right) }^{2}}}{2}+\frac{{{m}_{1}}{{\left( {{{\dot{q}_{1}}}}\right) }^{2}}}{2}-\frac{{{K}_{1}}{{{{q}_{1}}}^{2}}}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_1:ev(diff(L,'diff(q\_1,t))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+{{P}_{1}}={{m}_{1}}\left( {{{\dot{q}_{1}}}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_1=P\_1,diff(q\_1,t));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o17}\label{o17} 
+\left[{{{\dot{q}_{1}}}}=\frac{{{p}_{1}}}{{{m}_{1}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_2:ev(diff(L,'diff(q\_2,t))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+{{P}_{2}}={{m}_{2}}\left( {{{\dot{q}_{2}}}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_2=P\_2,diff(q\_2,t));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o19}\label{o19} 
+\left[{{{\dot{q}_{2}}}}=\frac{{{p}_{2}}}{{{m}_{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\zeta},t)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2]:lhs(bb[2])-rhs(bb[2])=u-b*diff(q\_1,t)\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{External Force}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+u:piecewise([-\ensuremath{\infty},0,0,t,1,1,2,3-t,3,0,\ensuremath{\infty}],t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d(u,[t,-1,4],[y,-1,2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Splice input}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+R(t):=\ensuremath{\lambda}\_3*t\ensuremath{^3}+\ensuremath{\lambda}\_2*t\ensuremath{^2}+\ensuremath{\lambda}\_1*t+\ensuremath{\lambda}\_0\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq\_1:at(R(t),[t=0])=0\$\\
+Eq\_2:at(R(t),[t=1])=1\$\\
+Eq\_3:at(diff(R(t),t),[t=0])=0\$\\
+Eq\_4:at(diff(R(t),t),[t=1])=0\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f1:linsolve([Eq\_1,Eq\_2,Eq\_3,Eq\_4],[\ensuremath{\lambda}\_3,\ensuremath{\lambda}\_2,\ensuremath{\lambda}\_1,\ensuremath{\lambda}\_0]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{f1}\label{f1}
+[{{\mathit{\ensuremath{\lambda}}}_{3}}=-2,{{\mathit{\ensuremath{\lambda}}}_{2}}=3,{{\mathit{\ensuremath{\lambda}}}_{1}}=0,{{\mathit{\ensuremath{\lambda}}}_{0}}=0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq\_1:at(R(t),[t=2])=1\$\\
+Eq\_2:at(R(t),[t=3])=0\$\\
+Eq\_3:at(diff(R(t),t),[t=2])=0\$\\
+Eq\_4:at(diff(R(t),t),[t=3])=0\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f2:linsolve([Eq\_1,Eq\_2,Eq\_3,Eq\_4],[\ensuremath{\lambda}\_3,\ensuremath{\lambda}\_2,\ensuremath{\lambda}\_1,\ensuremath{\lambda}\_0]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{f2}\label{f2}
+[{{\mathit{\ensuremath{\lambda}}}_{3}}=2,{{\mathit{\ensuremath{\lambda}}}_{2}}=-15,{{\mathit{\ensuremath{\lambda}}}_{1}}=36,{{\mathit{\ensuremath{\lambda}}}_{0}}=-27]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+u:piecewise([-\ensuremath{\infty},0,0,ev(R(t),f1),1,1,2,ev(R(t),f2),3,0,\ensuremath{\infty}],t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d(u,[t,-1,4],[y,-1,2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o42}\label{o42} 
+\frac{{{m}_{2}}{{\left( {{{\dot{q}_{2}}}}\right) }^{2}}}{2}+\frac{{{K}_{2}}{{\left( {{q}_{1}}-{{q}_{2}}\right) }^{2}}}{2}+\frac{{{m}_{1}}{{\left( {{{\dot{q}_{1}}}}\right) }^{2}}}{2}+\frac{{{K}_{1}}{{{{q}_{1}}}^{2}}}{2}=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[2,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) +{{m}_{1}}\left( {{{\ddot{q}_{1}}}}\right) +{{K}_{1}}{{q}_{1}}=u-b\,\left( {{{\dot{q}_{1}}}}\right) \mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+{{m}_{2}}\left( {{{\ddot{q}_{2}}}}\right) -{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) =0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},t,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+{{{\ddot{q}_{1}}}}=\frac{u+{{K}_{2}}{{q}_{2}}-b\,\left( {{{\dot{q}_{1}}}}\right) +\left( -{{K}_{2}}-{{K}_{1}}\right) {{q}_{1}}}{{{m}_{1}}}\mbox{}\]
+\[\tag{\%{}t47}\label{t47} 
+{{{\ddot{q}_{2}}}}=-\frac{{{K}_{2}}{{q}_{2}}-{{K}_{2}}{{q}_{1}}}{{{m}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(linsol,diff(lhs(bb[1]),t)),fullratsimp;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o48}\label{o48} 
+-(\left( 2\left( {{{\dot{q}_{1}}}}\right) {{t}^{3}}-3\left( {{{\dot{q}_{1}}}}\right) {{t}^{2}}\right) \operatorname{signum}(t)+\left( -2\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-1\right) -2\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-2\right) +2\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-3\right) \right) {{t}^{3}}+\left( 3\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-1\right) +15\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-2\right) -15\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-3\right) \right) {{t}^{2}}+\left( 36\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-3\right) -36\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-2\right) \right) t-\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-1\right) +28\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-2\right) -27\left( {{{\dot{q}_{1}}}}\right) \operatorname{signum}\left( t-3\right) +2b\,{{\left( {{{\dot{q}_{1}}}}\right) }^{2}})/2\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Hamiltonian Formalism}
+
+
+\textbf{Legendre Transformation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Legendre:linsolve([p\_1=P\_1,p\_2=P\_2],diff(\ensuremath{\zeta},t));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Legendre}\label{Legendre}
+\left[{{{\dot{q}_{1}}}}=\frac{{{p}_{1}}}{{{m}_{1}}},{{{\dot{q}_{2}}}}=\frac{{{p}_{2}}}{{{m}_{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hamiltonian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+H:subst(Legendre,p\_1*'diff(q\_1,t)+p\_2*'diff(q\_2,t)-L);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{H}\label{H}
+\frac{{{K}_{2}}{{\left( {{q}_{1}}-{{q}_{2}}\right) }^{2}}}{2}+\frac{{{K}_{1}}{{{{q}_{1}}}^{2}}}{2}+\frac{{{{{p}_{2}}}^{2}}}{2{{m}_{2}}}+\frac{{{{{p}_{1}}}^{2}}}{2{{m}_{1}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq:makelist(Hq[i],i,1,2*dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq[1]:'diff(q\_1,t)=trigsimp(diff(H,p\_1))\$\\
+Hq[2]:'diff(q\_2,t)=trigsimp(diff(H,p\_2))\$\\
+Hq[3]:'diff(p\_1,t)=-trigsimp(diff(H,q\_1))\$\\
+Hq[4]:'diff(p\_2,t)=-trigsimp(diff(H,q\_2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,Hq)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t56}\label{t56} 
+{{{\dot{q}_{1}}}}=\frac{{{p}_{1}}}{{{m}_{1}}}\mbox{}\]
+\[\tag{\%{}t57}\label{t57} 
+{{{\dot{q}_{2}}}}=\frac{{{p}_{2}}}{{{m}_{2}}}\mbox{}\]
+\[\tag{\%{}t58}\label{t58} 
+{{{\dot{p}_{1}}}}={{K}_{2}}{{q}_{2}}-\left( {{K}_{2}}+{{K}_{1}}\right) {{q}_{1}}\mbox{}\]
+\[\tag{\%{}t59}\label{t59} 
+{{{\dot{p}_{2}}}}={{K}_{2}}{{q}_{1}}-{{K}_{2}}{{q}_{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(Q\_1,Q\_2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[Q\_1,Q\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\xi},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(q\_1,t,Q\_1)\$\\
+gradef(q\_2,t,Q\_2)\$
+\end{minipage}
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2]:lhs(bb[2])-rhs(bb[2])=u-b*diff(q\_1,t)\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i69) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1];
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o69}\label{o69} 
+\frac{{{K}_{2}}{{\left( {{q}_{1}}-{{q}_{2}}\right) }^{2}}}{2}+\frac{{{K}_{1}}{{{{q}_{1}}}^{2}}}{2}+\frac{{{m}_{2}}{{{{Q}_{2}}}^{2}}}{2}+\frac{{{m}_{1}}{{{{Q}_{1}}}^{2}}}{2}=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i70) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[2,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t70}\label{t70} 
+{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) +{{K}_{1}}{{q}_{1}}+{{m}_{1}}\left( {{{\dot{Q}_{1}}}}\right) =\frac{\left( 3{{t}^{2}}-2{{t}^{3}}\right) \,\left( \operatorname{signum}(t)-\operatorname{signum}\left( t-1\right) \right) }{2}+\frac{\left( \operatorname{signum}\left( t-2\right) -\operatorname{signum}\left( t-3\right) \right) \,\left( 2{{t}^{3}}-15{{t}^{2}}+36t-27\right) }{2}+\frac{\operatorname{signum}\left( t-1\right) -\operatorname{signum}\left( t-2\right) }{2}-b\,{{Q}_{1}}\mbox{}\]
+\[\tag{\%{}t71}\label{t71} 
+{{m}_{2}}\left( {{{\dot{Q}_{2}}}}\right) -{{K}_{2}}\left( {{q}_{1}}-{{q}_{2}}\right) =0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i72) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},t,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i73) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t73}\label{t73} 
+{{{\dot{Q}_{1}}}}=-(\left( 2{{t}^{3}}-3{{t}^{2}}\right) \,\operatorname{signum}(t)+\left( -2\operatorname{signum}\left( t-1\right) -2\operatorname{signum}\left( t-2\right) +2\operatorname{signum}\left( t-3\right) \right) \,{{t}^{3}}+\left( 3\operatorname{signum}\left( t-1\right) +15\operatorname{signum}\left( t-2\right) -15\operatorname{signum}\left( t-3\right) \right) \,{{t}^{2}}+\left( 36\operatorname{signum}\left( t-3\right) -36\operatorname{signum}\left( t-2\right) \right) t-\operatorname{signum}\left( t-1\right) +28\operatorname{signum}\left( t-2\right) -27\operatorname{signum}\left( t-3\right) -2{{K}_{2}}{{q}_{2}}+\left( 2{{K}_{2}}+2{{K}_{1}}\right) {{q}_{1}}+2b\,{{Q}_{1}})/(2{{m}_{1}})\mbox{}\]
+\[\tag{\%{}t74}\label{t74} 
+{{{\dot{Q}_{2}}}}=-\frac{{{K}_{2}}{{q}_{2}}-{{K}_{2}}{{q}_{1}}}{{{m}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Lagrangian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i75) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[q\_1,q\_2,Q\_1,Q\_2]\$ldisplay(funcs)\$\\
+initial:[0,0,0,0]\$ldisplay(initial)\$\\
+odes:append(\ensuremath{\xi},map(rhs,linsol))\$\\
+interval:[t,0,\ensuremath{\tau}]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[{{q}_{1}},{{q}_{2}},{{Q}_{1}},{{Q}_{2}}]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{initial}=[0,0,0,0]\mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+\mathit{interval}=[t,0,25]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-10,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:2037
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:2054
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:18
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$1.4992{{10}^{-16}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$6.1553{{10}^{-11}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$3.4465{{10}^{-4}}$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.030479$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"q\_1","q\_2"],[gnuplot\_preamble,"set key bottom left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,2]],[xlabel,"t"],[ylabel,"value"],
+         [legend,"dq\_1/dt","dq\_2/dt"],[gnuplot\_preamble,"set key bottom left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for q\_1"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"q\_1"],[ylabel,"dq\_1/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for q\_2"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"q\_2"],[ylabel,"dq\_2/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,3])),rksol)],
+          [discrete,[part(initial,[1,2])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"q\_1"],[ylabel,"q\_2"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,5])),rksol)],
+          [discrete,[part(initial,[3,4])]]],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"dq\_1/dt"],[ylabel,"dq\_2/dt"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Y:bb[1],map("=",funcs,initial),params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Y}\label{Y}
+0=E\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(lhs(bb[1]),map("=",funcs,rest(rkline)),params)],rkline,rksol)],
+         [xlabel,"t"],[ylabel,"Energy"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_framerate:60\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxanimate\_autoplay:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-6,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:207
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:212
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:6
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$2.6034{{10}^{-8}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$9.5528{{10}^{-7}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.030096$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.26477$
+\mbox{}\\------------------------------------------------------
+ 
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(proportional\_axes = xy, delay = 1,
+                  xtics = 1, ytics = 1,
+                  xrange = [0,3], yrange = [-1,1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw(terminal   = 'animated\_gif,
+     file\_name  = "Masa-resorte-amortiguador doble",
+     makelist(gr2d(
+       color         = red,
+       point\_type    = filled\_circle,
+       point\_size    = 2,
+       points\_joined = true,
+       line\_width    = 2,
+       points([[1+rksol[t][2],0.0],
+               [2+rksol[t][3],0.0]])),
+         t,1,length(rksol))),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+[0.031]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+with\_slider\_draw(
+    t,makelist(i,i,1,length(rksol)),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    points([[1+rksol[t][2],0.0],
+            [2+rksol[t][3],0.0]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t24}\label{t24} 
+\begin{animateinline}{60}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_170}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_171}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_172}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_173}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_174}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_175}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_176}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_177}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_178}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_179}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_180}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_181}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_182}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_183}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_184}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_185}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_186}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_187}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_188}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_189}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_190}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_191}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_192}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_193}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_194}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_195}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_196}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_197}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_198}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_199}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_200}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_201}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_202}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_203}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_204}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_205}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_10_206}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o25}\label{o25} 
+[0.516]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Click the figure to start animation")\$
+wxanimate\_draw(
+    t,length(rksol),
+    color         = red,
+    point\_type    = filled\_circle,
+    point\_size    = 2,
+    points\_joined = true,
+    line\_width    = 2,
+    points([[1+rksol[t][2],0.0],
+            [2+rksol[t][3],0.0]])),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Click\,the\,figure\,to\,start\,animation
+ 
+\[\displaystyle
+\]
+\[\tag{\%{}t27}\label{t27} 
+\begin{animateinline}{60}
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_0}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_1}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_2}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_3}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_4}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_5}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_6}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_7}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_8}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_9}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_10}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_11}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_12}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_13}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_14}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_15}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_16}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_17}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_18}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_19}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_20}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_21}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_22}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_23}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_24}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_25}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_26}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_27}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_28}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_29}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_30}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_31}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_32}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_33}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_34}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_35}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_36}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_37}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_38}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_39}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_40}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_41}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_42}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_43}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_44}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_45}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_46}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_47}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_48}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_49}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_50}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_51}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_52}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_53}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_54}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_55}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_56}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_57}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_58}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_59}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_60}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_61}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_62}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_63}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_64}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_65}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_66}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_67}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_68}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_69}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_70}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_71}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_72}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_73}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_74}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_75}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_76}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_77}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_78}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_79}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_80}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_81}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_82}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_83}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_84}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_85}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_86}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_87}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_88}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_89}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_90}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_91}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_92}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_93}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_94}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_95}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_96}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_97}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_98}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_99}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_100}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_101}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_102}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_103}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_104}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_105}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_106}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_107}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_108}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_109}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_110}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_111}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_112}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_113}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_114}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_115}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_116}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_117}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_118}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_119}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_120}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_121}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_122}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_123}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_124}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_125}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_126}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_127}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_128}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_129}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_130}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_131}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_132}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_133}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_134}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_135}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_136}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_137}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_138}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_139}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_140}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_141}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_142}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_143}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_144}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_145}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_146}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_147}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_148}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_149}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_150}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_151}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_152}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_153}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_154}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_155}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_156}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_157}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_158}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_159}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_160}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_161}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_162}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_163}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_164}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_165}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_166}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_167}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_168}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_169}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_170}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_171}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_172}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_173}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_174}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_175}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_176}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_177}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_178}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_179}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_180}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_181}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_182}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_183}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_184}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_185}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_186}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_187}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_188}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_189}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_190}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_191}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_192}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_193}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_194}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_195}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_196}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_197}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_198}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_199}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_200}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_201}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_202}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_203}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_204}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_205}
+\newframe\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{doble-masa-resorte-amortiguador_img/doble-masa-resorte-amortiguador_11_206}
+\end{animateinline}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+time(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o28}\label{o28} 
+[0.469]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
