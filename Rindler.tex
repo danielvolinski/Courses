@@ -1,0 +1,1830 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Rindler metric}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Rindler metric},
+            pdfsubject={General Relativity}}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(s,mainvar)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Settings}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ct\_coords:[\ensuremath{\xi},\ensuremath{\tau}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(ct\_coords)\$
+\end{minipage}
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:\ensuremath{\xi}\ensuremath{^2}*del(\ensuremath{\tau})\ensuremath{^2}-del(\ensuremath{\xi})\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{\mathit{ds}}^{2}}={{\mathit{\ensuremath{\xi}}}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\tau}}\right) }^{2}}-{{\operatorname{del}\left( \mathit{\ensuremath{\xi}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Covariant Metric Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+for i thru dim do\\
+  lg[i,i]:coeff(expand(line\_element),del(ct\_coords[i])\ensuremath{^2})\$\\
+for j thru dim do\\
+  for k thru dim do\\
+    if j\ensuremath{\neq}k then lg[j,k]:\ensuremath{\frac{1}{2}}*coeff(coeff(line\_element,del(ct\_coords[j])),del(ct\_coords[k]))\$\\
+ldisplay(lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\mathit{lg}=\begin{pmatrix}-1 & 0\\
+0 & {{\mathit{\ensuremath{\xi}}}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Using optvar}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(ct\_coords,s)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[m=1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:\ensuremath{\frac{1}{2}}*m*diff(ct\_coords,s).lg.transpose(diff(ct\_coords,s)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+L=\frac{m\,\left( {{\mathit{\ensuremath{\xi}}}^{2}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}-{{\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) }^{2}}\right) }{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_\ensuremath{\xi}:ev(diff(L,'diff(\ensuremath{\xi},s))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{P}_{\mathit{\ensuremath{\xi}}}}=-m\,\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_\ensuremath{\xi}=P\_\ensuremath{\xi},diff(\ensuremath{\xi},s)),factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o21}\label{o21} 
+\left[{{\mathit{\ensuremath{\xi}}}_{s}}=-\frac{{{p}_{\mathit{\ensuremath{\xi}}}}}{m}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_\ensuremath{\tau}:ev(diff(L,'diff(\ensuremath{\tau},s))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{{P}_{\mathit{\ensuremath{\tau}}}}=m\,{{\mathit{\ensuremath{\xi}}}^{2}}\,\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_\ensuremath{\tau}=P\_\ensuremath{\tau},diff(\ensuremath{\tau},s)),factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+\left[{{\mathit{\ensuremath{\tau}}}_{s}}=\frac{{{p}_{\mathit{\ensuremath{\tau}}}}}{m\,{{\mathit{\ensuremath{\xi}}}^{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_\ensuremath{\xi}:diff(L,\ensuremath{\xi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+{{F}_{\mathit{\ensuremath{\xi}}}}=m\mathit{\ensuremath{\xi}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_\ensuremath{\tau}:diff(L,\ensuremath{\tau}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+{{F}_{\mathit{\ensuremath{\tau}}}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,ct\_coords,s)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$\\
+bb[4]:subst([k[2]=\ensuremath{\Lambda}],bb[4])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:rhs(bb[1])=lhs(bb[1])\$\\
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$\\
+bb[4]:rhs(bb[4])=lhs(bb[4])\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[1,4]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+E=-\frac{m\,\left( {{\mathit{\ensuremath{\xi}}}^{2}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}-{{\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) }^{2}}\right) }{2}+m\,{{\mathit{\ensuremath{\xi}}}^{2}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}-m\,{{\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t38}\label{t38} 
+\mathit{\ensuremath{\Lambda}}=m\,{{\mathit{\ensuremath{\xi}}}^{2}}\,\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Express the Energy in terms of the Angular Momentum}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(eliminate(part(bb,[1,4]),[diff(\ensuremath{\tau},s)]),E),expand;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+\left[E=\frac{{{\mathit{\ensuremath{\Lambda}}}^{2}}}{2m\,{{\mathit{\ensuremath{\xi}}}^{2}}}-\frac{m\,{{\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) }^{2}}}{2}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[2,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+-m\mathit{\ensuremath{\xi}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}-m\,\left( {{\mathit{\ensuremath{\xi}}}_{ss}}\right) =0\mbox{}\]
+\[\tag{\%{}t41}\label{t41} 
+m\,{{\mathit{\ensuremath{\xi}}}^{2}}\,\left( {{\mathit{\ensuremath{\tau}}}_{ss}}\right) +2m\mathit{\ensuremath{\xi}}\,\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) \,\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) =0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+{{\mathit{\ensuremath{\xi}}}_{ss}}=-\mathit{\ensuremath{\xi}}\,{{\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+{{\mathit{\ensuremath{\tau}}}_{ss}}=-\frac{2\left( {{\mathit{\ensuremath{\xi}}}_{s}}\right) \,\left( {{\mathit{\ensuremath{\tau}}}_{s}}\right) }{\mathit{\ensuremath{\xi}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(linsol,diff(rhs(bb[1]),s));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o45}\label{o45} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Angular momentum}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(linsol,diff(rhs(bb[4]),s));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o46}\label{o46} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Legendre Transformation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Legendre:linsolve([p\_\ensuremath{\xi}=P\_\ensuremath{\xi},p\_\ensuremath{\tau}=P\_\ensuremath{\tau}],['diff(\ensuremath{\xi},s),'diff(\ensuremath{\tau},s)])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,Legendre)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t48}\label{t48} 
+{{\mathit{\ensuremath{\xi}}}_{s}}=-\frac{{{p}_{\mathit{\ensuremath{\xi}}}}}{m}\mbox{}\]
+\[\tag{\%{}t49}\label{t49} 
+{{\mathit{\ensuremath{\tau}}}_{s}}=\frac{{{p}_{\mathit{\ensuremath{\tau}}}}}{m\,{{\mathit{\ensuremath{\xi}}}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hamiltonian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(H:radcan(subst(Legendre,p\_\ensuremath{\xi}*'diff(\ensuremath{\xi},s)+p\_\ensuremath{\tau}*'diff(\ensuremath{\tau},s)-L)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+H=-\frac{{{{{p}_{\mathit{\ensuremath{\xi}}}}}^{2}}{{\mathit{\ensuremath{\xi}}}^{2}}-{{{{p}_{\mathit{\ensuremath{\tau}}}}}^{2}}}{2m\,{{\mathit{\ensuremath{\xi}}}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(H:ev(p\_\ensuremath{\xi}*'diff(\ensuremath{\xi},s)+p\_\ensuremath{\tau}*'diff(\ensuremath{\tau},s)-L,Legendre,radcan))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+H=-\frac{{{{{p}_{\mathit{\ensuremath{\xi}}}}}^{2}}{{\mathit{\ensuremath{\xi}}}^{2}}-{{{{p}_{\mathit{\ensuremath{\tau}}}}}^{2}}}{2m\,{{\mathit{\ensuremath{\xi}}}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq:makelist(Hq[i],i,1,2*dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Hq[1]:'diff(\ensuremath{\xi},s)=diff(H,p\_\ensuremath{\xi})\$\\
+Hq[2]:'diff(\ensuremath{\tau},s)=diff(H,p\_\ensuremath{\tau})\$\\
+Hq[3]:'diff(p\_\ensuremath{\xi},s)=-diff(H,\ensuremath{\xi})\$\\
+Hq[4]:'diff(p\_\ensuremath{\tau},s)=-diff(H,\ensuremath{\tau})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,radcan(Hq))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t57}\label{t57} 
+{{\mathit{\ensuremath{\xi}}}_{s}}=-\frac{{{p}_{\mathit{\ensuremath{\xi}}}}}{m}\mbox{}\]
+\[\tag{\%{}t58}\label{t58} 
+{{\mathit{\ensuremath{\tau}}}_{s}}=\frac{{{p}_{\mathit{\ensuremath{\tau}}}}}{m\,{{\mathit{\ensuremath{\xi}}}^{2}}}\mbox{}\]
+\[\tag{\%{}t59}\label{t59} 
+{{{{p}_{\mathit{\ensuremath{\xi}}}}}_{s}}=\frac{{{{{p}_{\mathit{\ensuremath{\tau}}}}}^{2}}}{m\,{{\mathit{\ensuremath{\xi}}}^{3}}}\mbox{}\]
+\[\tag{\%{}t60}\label{t60} 
+{{{{p}_{\mathit{\ensuremath{\tau}}}}}_{s}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends([p\_\ensuremath{\xi},p\_\ensuremath{\tau}],s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(Hq,diff(H,s)),fullratsimp;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o62}\label{o62} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cv\_coords:[\ensuremath{\Xi},\ensuremath{T}]\$\\
+depends(cv\_coords,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(\ensuremath{\xi},s,\ensuremath{\Xi})\$\\
+gradef(\ensuremath{\tau},s,\ensuremath{T})\$
+\end{minipage}
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i67) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,ct\_coords,s)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i71) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i73) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$\\
+bb[4]:subst([k[2]=\ensuremath{\Lambda}],bb[4])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i77) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:rhs(bb[1])=lhs(bb[1])\$\\
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$\\
+bb[4]:rhs(bb[4])=lhs(bb[4])\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i78) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[1,4]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t78}\label{t78} 
+E=-\frac{m\,\left( {{\mathit{\ensuremath{T}}}^{2}}\,{{\mathit{\ensuremath{\xi}}}^{2}}-{{\mathit{\ensuremath{\Xi}}}^{2}}\right) }{2}+m\,{{\mathit{\ensuremath{T}}}^{2}}\,{{\mathit{\ensuremath{\xi}}}^{2}}-m\,{{\mathit{\ensuremath{\Xi}}}^{2}}\mbox{}\]
+\[\tag{\%{}t79}\label{t79} 
+\mathit{\ensuremath{\Lambda}}=m\mathit{\ensuremath{T}}\,{{\mathit{\ensuremath{\xi}}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i80) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[2,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t80}\label{t80} 
+-m\,{{\mathit{\ensuremath{T}}}^{2}}\mathit{\ensuremath{\xi}}-m\,\left( {{\mathit{\ensuremath{\Xi}}}_{s}}\right) =0\mbox{}\]
+\[\tag{\%{}t81}\label{t81} 
+m\,\left( {{\mathit{\ensuremath{T}}}_{s}}\right) \,{{\mathit{\ensuremath{\xi}}}^{2}}+2m\mathit{\ensuremath{\Xi}}\mathit{\ensuremath{T}}\mathit{\ensuremath{\xi}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i82) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(part(bb,[2,3]),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i83) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t83}\label{t83} 
+{{\mathit{\ensuremath{\Xi}}}_{s}}=-{{\mathit{\ensuremath{T}}}^{2}}\mathit{\ensuremath{\xi}}\mbox{}\]
+\[\tag{\%{}t84}\label{t84} 
+{{\mathit{\ensuremath{T}}}_{s}}=-\frac{2\mathit{\ensuremath{\Xi}}\mathit{\ensuremath{T}}}{\mathit{\ensuremath{\xi}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Lagrangian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i85) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:append(ct\_coords,cv\_coords)\$ldisplay(funcs)\$\\
+initial:[8,10,0.01,-0.02]\$ldisplay(initial)\$\\
+odes:append(cv\_coords,map('rhs,linsol))\$ldisplay(odes)\$\\
+interval:[s,0,50]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\mathit{funcs}=[\mathit{\ensuremath{\xi}},\mathit{\ensuremath{\tau}},\mathit{\ensuremath{\Xi}},\mathit{\ensuremath{T}}]\mbox{}\]
+\[\tag{\%{}t4}\label{t4} 
+\mathit{initial}=[8,10,0.01,-0.02]\mbox{}\]
+\[\tag{\%{}t6}\label{t6} 
+\mathit{odes}=\left[\mathit{\ensuremath{\Xi}},\mathit{\ensuremath{T}},-{{\mathit{\ensuremath{T}}}^{2}}\mathit{\ensuremath{\xi}},-\frac{2\mathit{\ensuremath{\Xi}}\mathit{\ensuremath{T}}}{\mathit{\ensuremath{\xi}}}\right]\mbox{}\]
+\[\tag{\%{}t8}\label{t8} 
+\mathit{interval}=[s,0,50]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:map("=",funcs,initial);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{P}\label{P}
+[\mathit{\ensuremath{\xi}}=8,\mathit{\ensuremath{\tau}}=10,\mathit{\ensuremath{\Xi}}=0.01,\mathit{\ensuremath{T}}=-0.02]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lgP:lg,P,params;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{lgP}\label{lgP}
+\begin{pmatrix}-1 & 0\\
+0 & 64\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gVV:diff(ct\_coords).lgP.transpose(diff(ct\_coords));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{gVV}\label{gVV}
+64{{\mathit{\ensuremath{T}}}^{2}}\,{{\operatorname{del}(s)}^{2}}-{{\mathit{\ensuremath{\Xi}}}^{2}}\,{{\operatorname{del}(s)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gVVP:gVV,P,params;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{gVVP}\label{gVVP}
+0.0255{{\operatorname{del}(s)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-12,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:563
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:563
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:1
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$5.0472{{10}^{-14}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.8842{{10}^{-13}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.0077667$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.36342$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"\ensuremath{\xi}","\ensuremath{\tau}"],
+         [gnuplot\_preamble,"set key top right"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"\ensuremath{\partial}\ensuremath{\xi}/\ensuremath{\partial}s","\ensuremath{\partial}\ensuremath{\tau}/\ensuremath{\partial}s"],
+         [gnuplot\_preamble,"set key top right"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\xi}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\xi}"],[ylabel,"\ensuremath{\partial}\ensuremath{\xi}/\ensuremath{\partial}s"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\tau}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\tau}"],[ylabel,"\ensuremath{\partial}\ensuremath{\tau}/\ensuremath{\partial}s"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+W:rhs(bb[1]),P,params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{W}\label{W}
+0.01275\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(rhs(bb[1]),map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Energy"],[y,W-0.001,W+0.001]),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Angular momentum using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+W:rhs(bb[4]),P,params,numer,eval;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{W}\label{W}
+-1.28\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(rhs(bb[4]),map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Angular momentum"],[y,W-0.001,W+0.001]),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution (Hamiltonian)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+\textbf{Calculate the initial values}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+initialH:initial;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{initialH}\label{initialH}
+[8,10,0.01,-0.02]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+initialH[3]:P\_\ensuremath{\xi},['diff(\ensuremath{\xi},s)=diff(\ensuremath{\xi},s)],P,params,numer\$\\
+initialH[4]:P\_\ensuremath{\tau},['diff(\ensuremath{\tau},s)=diff(\ensuremath{\tau},s)],P,params,numer\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:[\ensuremath{\xi},\ensuremath{\tau},p\_\ensuremath{\xi},p\_\ensuremath{\tau}]\$ldisplay(funcs)\$\\
+ldisplay(initialH)\$\\
+odes:map('rhs,radcan(Hq))\$ldisplay(odes)\$\\
+ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\mathit{funcs}=[\mathit{\ensuremath{\xi}},\mathit{\ensuremath{\tau}},{{p}_{\mathit{\ensuremath{\xi}}}},{{p}_{\mathit{\ensuremath{\tau}}}}]\mbox{}\]
+\[\tag{\%{}t6}\label{t6} 
+\mathit{initialH}=[8,10,-0.01,-1.28]\mbox{}\]
+\[\tag{\%{}t8}\label{t8} 
+\mathit{odes}=\left[-\frac{{{p}_{\mathit{\ensuremath{\xi}}}}}{m},\frac{{{p}_{\mathit{\ensuremath{\tau}}}}}{m\,{{\mathit{\ensuremath{\xi}}}^{2}}},\frac{{{{{p}_{\mathit{\ensuremath{\tau}}}}}^{2}}}{m\,{{\mathit{\ensuremath{\xi}}}^{3}}},0\right]\mbox{}\]
+\[\tag{\%{}t9}\label{t9} 
+\mathit{interval}=[s,0,50]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initialH,interval,
+            absolute\_tolerance=1E-12,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:443
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:443
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:1
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$3.7287{{10}^{-18}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.6115{{10}^{-13}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$5.6791{{10}^{-5}}$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.38395$
+\mbox{}\\------------------------------------------------------
+ 
+
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"\ensuremath{\xi}","\ensuremath{\tau}"],
+         [gnuplot\_preamble,"set key top right"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"\ensuremath{\partial}P\ensuremath{\xi}/\ensuremath{\partial}s","\ensuremath{\partial}P\ensuremath{\tau}/\ensuremath{\partial}s"],
+         [gnuplot\_preamble,"set key top right"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\xi}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\xi}"],[ylabel,"\ensuremath{\partial}P\ensuremath{\xi}/\ensuremath{\partial}s"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\tau}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\tau}"],[ylabel,"\ensuremath{\partial}P\ensuremath{\tau}/\ensuremath{\partial}s"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_10}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:map("=",funcs,initialH)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Y:H,P,params,numer;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Y}\label{Y}
+0.01275\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([discrete,makelist([first(rkline),
+          ev(H,map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Energy/mass"],[y,Y-0.001,Y+0.001]),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{kuku_img/kuku_11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Using ctensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('itensor,'version)=false then load(itensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('ctensor,'version)=false then load(ctensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(ct\_coords)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ctrgsimp:true\$\\
+ratchristof:true\$\\
+ratriemann:true\$\\
+rateinstein:true\$\\
+ratweyl:true\$\\
+ratfac:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Covariant Metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}],[])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{\mathrm{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-1 & 0\\
+0 & {{\mathit{\ensuremath{\xi}}}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant Metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{\mathrm{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-1 & 0\\
+0 & \frac{1}{{{\mathit{\ensuremath{\xi}}}^{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Christoffel Symbol of the first kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$\\
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if lcs[i,j,k]\ensuremath{\neq}0 then\\
+    ishow(\ensuremath{\Gamma}([ct\_coords[i],ct\_coords[j],ct\_coords[k]],[])=lcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\xi} \ensuremath{\tau} \ensuremath{\tau}}}}=\mathit{\ensuremath{\xi}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\tau} \ensuremath{\tau} \ensuremath{\xi}}}}=-\mathit{\ensuremath{\xi}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Christoffel Symbol of the second kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$\\
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then\\
+    ishow(\ensuremath{\Gamma}([ct\_coords[i],ct\_coords[j]],[ct\_coords[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\xi} \ensuremath{\tau}}}^{\mathit{\ensuremath{\tau}}}}=\frac{1}{\mathit{\ensuremath{\xi}}}\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\tau} \ensuremath{\tau}}}^{\mathit{\ensuremath{\xi}}}}=\mathit{\ensuremath{\xi}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Riemann Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(true)\$\\
+lriemann(false)\$\\
+uriemann(false)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\This\,spacetime\,is\,flat
+ 
+
+
+\textbf{Ricci Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ricci(true)\$\\
+uricci(false)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\THIS\,SPACETIME\,IS\,EMPTY\,AND/OR\,FLAT
+ 
+
+
+\textbf{Scalar curvature}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scurvature();
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Kretschmann invariant}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rinvariant();
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o24}\label{o24} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Einstein Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+einstein(true)\$\\
+leinstein(false)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\THIS\,SPACETIME\,IS\,EMPTY\,AND/OR\,FLAT
+ 
+
+
+\textbf{Weyl Conformal tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+weyl(true)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\ALL\,2\,DIMENSIONAL\,SPACETIMES\,ARE\,CONFORMALLY\,FLAT
+ 
+
+
+\textbf{Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(true)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+{{\mathit{geod}}_{1}}={{\mathit{\ensuremath{T}}}^{2}}\mathit{\ensuremath{\xi}}+{{\mathit{\ensuremath{\Xi}}}_{s}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{{\mathit{geod}}_{2}}=\frac{\left( {{\mathit{\ensuremath{T}}}_{s}}\right) \mathit{\ensuremath{\xi}}+2\mathit{\ensuremath{\Xi}}\mathit{\ensuremath{T}}}{\mathit{\ensuremath{\xi}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+{{\mathit{\ensuremath{\Xi}}}_{s}}=-{{\mathit{\ensuremath{T}}}^{2}}\mathit{\ensuremath{\xi}}\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+{{\mathit{\ensuremath{T}}}_{s}}=-\frac{2\mathit{\ensuremath{\Xi}}\mathit{\ensuremath{T}}}{\mathit{\ensuremath{\xi}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}

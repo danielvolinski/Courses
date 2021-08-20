@@ -1,0 +1,836 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Rindler metric
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Rindler metric},
+            pdfsubject={General Relativity}}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('optvar,'version)=false then load(optvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(s,mainvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Settings
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+ct_coords:[ξ,τ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:ξ²*del(τ)²-del(ξ)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:zeromatrix(dim,dim)$
+for i thru dim do
+  lg[i,i]:coeff(expand(line_element),del(ct_coords[i])²)$
+for j thru dim do
+  for k thru dim do
+    if j≠k then lg[j,k]:½*coeff(coeff(line_element,del(ct_coords[j])),del(ct_coords[k]))$
+ldisplay(lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using optvar
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(ct_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[m=1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(L:½*m*diff(ct_coords,s).lg.transpose(diff(ct_coords,s)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_ξ:ev(diff(L,'diff(ξ,s))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve(p_ξ=P_ξ,diff(ξ,s)),factor;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_τ:ev(diff(L,'diff(τ,s))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve(p_τ=P_τ,diff(τ,s)),factor;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_ξ:diff(L,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_τ:diff(L,τ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,ct_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:subst([k[0]=-E],-bb[1])$
+bb[4]:subst([k[2]=Λ],bb[4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:rhs(bb[1])=lhs(bb[1])$
+bb[2]:lhs(bb[2])-rhs(bb[2])=0$
+bb[3]:lhs(bb[3])-rhs(bb[3])=0$
+bb[4]:rhs(bb[4])=lhs(bb[4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,part(bb,[1,4]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Express the Energy in terms of the Angular Momentum}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsolve(eliminate(part(bb,[1,4]),[diff(τ,s)]),E),expand;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,part(bb,[2,3]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(part(bb,[2,3]),diff(ct_coords,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,linsol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+subst(linsol,diff(rhs(bb[1]),s));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Angular momentum}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+subst(linsol,diff(rhs(bb[4]),s));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Legendre Transformation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Legendre:linsolve([p_ξ=P_ξ,p_τ=P_τ],['diff(ξ,s),'diff(τ,s)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,Legendre)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Hamiltonian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(H:radcan(subst(Legendre,p_ξ*'diff(ξ,s)+p_τ*'diff(τ,s)-L)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(H:ev(p_ξ*'diff(ξ,s)+p_τ*'diff(τ,s)-L,Legendre,radcan))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Hq:makelist(Hq[i],i,1,2*dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Hq[1]:'diff(ξ,s)=diff(H,p_ξ)$
+Hq[2]:'diff(τ,s)=diff(H,p_τ)$
+Hq[3]:'diff(p_ξ,s)=-diff(H,ξ)$
+Hq[4]:'diff(p_τ,s)=-diff(H,τ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,radcan(Hq))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([p_ξ,p_τ],s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+subst(Hq,diff(H,s)),fullratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reduce Order}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cv_coords:[Ξ,Τ]$
+depends(cv_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradef(ξ,s,Ξ)$
+gradef(τ,s,Τ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,ct_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:subst([k[0]=-E],-bb[1])$
+bb[4]:subst([k[2]=Λ],bb[4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:rhs(bb[1])=lhs(bb[1])$
+bb[2]:lhs(bb[2])-rhs(bb[2])=0$
+bb[3]:lhs(bb[3])-rhs(bb[3])=0$
+bb[4]:rhs(bb[4])=lhs(bb[4])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,part(bb,[1,4]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,part(bb,[2,3]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(part(bb,[2,3]),diff(ct_coords,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,linsol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution (Lagrangian)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:append(ct_coords,cv_coords)$ldisplay(funcs)$
+initial:[8,10,0.01,-0.02]$ldisplay(initial)$
+odes:append(cv_coords,map('rhs,linsol))$ldisplay(odes)$
+interval:[s,0,50]$ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+P:map("=",funcs,initial);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lgP:lg,P,params;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gVV:diff(ct_coords).lgP.transpose(diff(ct_coords));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gVVP:gVV,P,params;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute_tolerance=1E-12,report=true),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([s],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"ξ","τ"],
+         [gnuplot_preamble,"set key top right"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"∂ξ/∂s","∂τ/∂s"],
+         [gnuplot_preamble,"set key top right"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for ξ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"ξ"],[ylabel,"∂ξ/∂s"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for τ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"τ"],[ylabel,"∂τ/∂s"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+W:rhs(bb[1]),P,params,numer,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist([first(rkline),
+          ev(rhs(bb[1]),map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Energy"],[y,W-0.001,W+0.001]),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Angular momentum using the Numerical Data}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+W:rhs(bb[4]),P,params,numer,eval;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist([first(rkline),
+          ev(rhs(bb[4]),map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Angular momentum"],[y,W-0.001,W+0.001]),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution (Hamiltonian)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate the initial values}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+initialH:initial;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+initialH[3]:P_ξ,['diff(ξ,s)=diff(ξ,s)],P,params,numer$
+initialH[4]:P_τ,['diff(τ,s)=diff(τ,s)],P,params,numer$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:[ξ,τ,p_ξ,p_τ]$ldisplay(funcs)$
+ldisplay(initialH)$
+odes:map('rhs,radcan(Hq))$ldisplay(odes)$
+ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,initialH,interval,
+            absolute_tolerance=1E-12,report=true),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([s],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"ξ","τ"],
+         [gnuplot_preamble,"set key top right"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"∂Pξ/∂s","∂Pτ/∂s"],
+         [gnuplot_preamble,"set key top right"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for ξ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"ξ"],[ylabel,"∂Pξ/∂s"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for τ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"τ"],[ylabel,"∂Pτ/∂s"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check Conservation of Energy using the Numerical Data}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+P:map("=",funcs,initialH)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Y:H,P,params,numer;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([discrete,makelist([first(rkline),
+          ev(H,map("=",funcs,rest(rkline)))],rkline,rksol)],
+         [xlabel,"s"],[ylabel,"Energy/mass"],[y,Y-0.001,Y+0.001]),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using ctensor
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ctrgsimp:true$
+ratchristof:true$
+ratriemann:true$
+rateinstein:true$
+ratweyl:true$
+ratfac:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([μ,ν],[])=lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([],[μ,ν])=ug)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the first kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if lcs[i,j,k]≠0 then
+    ishow(Γ([ct_coords[i],ct_coords[j],ct_coords[k]],[])=lcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the second kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if mcs[i,j,k]≠0 then
+    ishow(Γ([ct_coords[i],ct_coords[j]],[ct_coords[k]])=mcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(true)$
+lriemann(false)$
+uriemann(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ricci(true)$
+uricci(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar curvature}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kretschmann invariant}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+rinvariant();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+einstein(true)$
+leinstein(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Weyl Conformal tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+weyl(true)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Geodesics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(true)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(listarray(geod),diff(ct_coords,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,linsol)$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
