@@ -1,0 +1,1221 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Shaikot Differential Forms
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Differential Forms},
+            pdfsubject={Differential Forms},
+            pdfkeywords={Shaikot Jahan Shuvo}}
+
+Based on Shaikot Jahan Shuvo Playlist:
+\href{https://www.youtube.com/playlist?list=PL8juJ4w7aAofNg7V8La28jvbv3CyTHGyK}
+{Differential Forms}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(trigsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+v | f,f~g,ext_diff(f),lie_diff[f](v,f),lie_diff[v](v,w),edit(f),
+basub(f,g,h),lie_diff(v,x)]
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Introduction to Differential forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[2,3]$
+B:[1,-1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A.B;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector} $\vec{u}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(a,b,c)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+u:[a,b,c]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar field} $f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gradf:ev(express(grad(f)),diff);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$u\cdot\nabla f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+u.gradf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector} $\vec{u}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+u:['cos(π/6),'sin(π/6)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar field} $f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:y²-3*x*y+x³)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gradf:ev(express(grad(f)),diff);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Potential}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+potential(gradf);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$u\cdot\nabla f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+u.gradf,ratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\href{https://en.wikipedia.org/wiki/Lie_derivative}{Lie derivative}
+
+$\mathcal{L}_u f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lie_diff(u,f),ratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%th(1)=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f(u)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+u|ext_diff(f),ratsimp;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Check}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%th(1)=%th(3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Standard basis}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e_1:[1,0]$
+e_2:[0,1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f(e_1)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e_1|ext_diff(f);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f(e_2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e_2|ext_diff(f);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Differential 1-forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,α,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha\in\mathcal{A}^1(\mathbb{R}^3),\quad
+\alpha=2\,\mathrm{d}x-3\,\mathrm{d}y+5\,\mathrm{d}z$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:2*dx-3*dy+5*dz)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector} $\vec{v}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v:[-1,3,-4]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$v[\alpha]=\alpha(v)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v|α;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Wedge product
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x_1,x_2,x_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x_1,x_2,x_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vectors} $\vec{v},\vec{w}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v:[1,2,3]$
+w:[4,5,6]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha\in\mathcal{A}^2(\mathbb{R}^3),\quad
+\alpha=\mathrm{d}x_1\wedge\mathrm{d}x_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:dx_1~dx_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha(v,w)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w|(v|α);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha(w,v)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+v|(w|α);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Exterior derivative
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,f,g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar fields} $f,g$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([f,g],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f\wedge\mathrm{d}g$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ext_diff(f)~ext_diff(g));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+determinant(jacobian([f,g],r));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar field} $f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x³*y²*z^4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha\in\mathcal{A}^1(\mathbb{R}^3),\quad
+\alpha=\mathrm{d}f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:edit(ext_diff(f)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}(\mathrm{d}f)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ext_diff(α));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y,z,α,β,γ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([α,β],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\gamma\in\mathcal{A}^1(\mathbb{R}^3),\quad
+\gamma=\mathrm{d}(\alpha\wedge\beta)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(γ:edit(ext_diff(α~β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\gamma\in\mathcal{A}^1(\mathbb{R}^3),\quad
+\gamma=\mathrm{d}\alpha\wedge\beta+\alpha\wedge\mathrm{d}\beta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(γ:edit(ext_diff(α)~β+α~ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+r:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\gamma\in\mathcal{A}^1(\mathbb{R}^2),\quad
+\gamma=\mathrm{d}(\alpha\wedge\beta)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(γ:edit(ext_diff(α~β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\gamma\in\mathcal{A}^1(\mathbb{R}^2),\quad
+\gamma=\mathrm{d}\alpha\wedge\beta+\alpha\wedge\mathrm{d}\beta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(γ:edit(ext_diff(α)~β+α~ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Push forward of vectors
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,u,v,a,b,f,φ,ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change of coordinates} $\varphi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:[x+y,x-y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Inverse change of coordinates} $i\varphi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(iφ:map('rhs,linsolve(map("=",ξ,φ),ζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector} $\vec{w}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w:[a,b]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{f}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f:[f_1,f_2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ext_diff(f);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f(\vec{w})$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+w|ext_diff(f);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+J:jacobian(f,ζ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$J\cdot\vec{w}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(J.w);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector} $\vec{v}_1=(1,3)^T$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(v_1:[1,3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian of} $\varphi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+J:jacobian(φ,ζ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(w_1:list_matrix_entries(J.v_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\omega=\mathrm{d}x\wedge\mathrm{d}y$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:dx~dy)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} ${i\varphi}^{\ast}\omega\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Pb:diff(iφ,v)|(diff(iφ,u)|ev(ω,map("=",ζ,iφ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the new space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\psi\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\psi={i\varphi}^{\ast}\omega\,\mathrm{d}u\wedge\mathrm{d}v$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ψ:Pb*(du~dv))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\omega=\mathrm{d}u\wedge\mathrm{d}v$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:du~dv)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\varphi^{\ast}\omega\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Pb:diff(φ,y)|(diff(φ,x)|ev(ω,map("=",ξ,φ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the old space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\psi\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\psi=\varphi^{\ast}\omega\,\mathrm{d}x\wedge\mathrm{d}y$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ψ:Pb*(dx~dy))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\omega=\mathrm{d}x\wedge\mathrm{d}y$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:dx~dy)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Standard basis}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e_1:[1,0]$
+e_2:[0,1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$(\mathrm{d}x\wedge\mathrm{d}y)(\vec{e}_1,\vec{e}_2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e_2|(e_1|ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$P=J\cdot\vec{e}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+P:list_matrix_entries(J.e_1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$Q=J\cdot\vec{e}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Q:list_matrix_entries(J.e_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the new space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\psi\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\psi=\mathrm{d}u\wedge\mathrm{d}v$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ψ:du~dv)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Q|(P|ψ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Pullback of Differential forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Integration of forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,u,v,f)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar field} $f(x,y)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x,y):=x$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(f(x,y),x,y+2,0),y,-2,0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=ev(I,integrate))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change of coordinates} $\varphi:\mathbb{R}^2\rightarrow\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:[x+y,x-y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Inverse change of coordinates} $i\varphi:\mathbb{R}^2\rightarrow\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(iφ:map('rhs,linsolve(map("=",ξ,φ),ζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\omega=f(x,y)\,\mathrm{d}x\wedge\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:f(x,y)*(dx~dy))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} ${i\varphi}^{\ast}\omega\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Pb:diff(iφ,v)|(diff(iφ,u)|ev(ω,map("=",ζ,iφ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(Pb,u,-v,v),v,0,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=ev(I,integrate))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^2),\quad
+\omega=y^2\,\mathrm{d}x+x\,\mathrm{d}y$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:y²*dx+x*dy)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parametrization} $i\varphi:\mathbb{R}^2\rightarrow\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(iφ:[5*t-5,5*t-3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$T^{\ast}\varphi^{-1}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(iφ\':diff(iφ,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} ${i\varphi}^{\ast}\omega\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Pb:iφ\'|ev(ω,map("=",ζ,iφ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate(Pb,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=ev(I,integrate))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega\in\mathcal{A}^2(\mathbb{R}^3),\quad
+\omega=z^2\,\mathrm{d}x\wedge\mathrm{d}y$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:z²*(dx~dy))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parametrization} $i\varphi:\mathbb{R}^3\rightarrow\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(r,θ,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(iφ:[r*cos(θ),r*sin(θ),√(1-r²)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$T^{\ast}\varphi^{-1}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+J:jacobian(iφ,ξ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} ${i\varphi}^{\ast}\omega\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Pb:trigsimp(diff(iφ,θ)|(diff(iφ,r)|ev(ω,map("=",ζ,iφ)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(Pb,r,0,1),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=ev(I,integrate))$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
