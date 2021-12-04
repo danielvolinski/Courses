@@ -1,0 +1,3521 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Stoke's Theorem}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Stoke's Theorem},
+            pdfsubject={Multivariable Calculus},
+            pdfkeywords={Michael Penn}}
+
+Reference Wikipedia article
+\href{https://en.wikipedia.org/wiki/Stokes%27_theorem}
+{Stokes' theorem}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('drawdf,'version)=false then load(drawdf)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,\\
+                  xaxis=true,xaxis\_type=solid,xaxis\_width=3,\\
+                  yaxis=true,yaxis\_type=solid,yaxis\_width=3,\\
+                  zaxis=true,zaxis\_type=solid,zaxis\_width=3)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(u.u))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Stoke's Theorem}
+
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=agky5TZVc4U}
+{Stoke's Theorem}
+
+
+Let $\vec{S}$ be a piecewise smooth oriented surface with boundary $\vec{C}$
+(a simple closed curve with positive orientation). If $\vec{F}$
+is a vector field with continuous first partial derivatives on an
+open region containing $\vec{S}$ then:
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\iint_S\left({\nabla\times\vec{F}}\right)\cdot\mathrm{d}\vec{S}$$
+Positive orientation: If you walk around $\vec{C}$ with your head pointing in the
+direction of $\hat{n}$ then the surface $\vec{S}$ is on your left.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,x,y,z,f,P,Q,R)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends([P,Q,R],\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[P,Q,R])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\vec{F}=[P,Q,R]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\mathit{curlF}=[{{R}_{y}}-{{Q}_{z}},{{P}_{z}}-{{R}_{x}},{{Q}_{x}}-{{P}_{y}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\mathit{\ensuremath{\alpha}}=R\,\mathit{dz}+Q\,\mathit{dy}+P\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:edit(ext\_diff(\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{d\ensuremath{\alpha}}=\left( {{R}_{y}}-{{Q}_{z}}\right) \,\mathit{dy}\,\mathit{dz}+\left( {{R}_{x}}-{{P}_{z}}\right) \,\mathit{dx}\,\mathit{dz}+\left( {{Q}_{x}}-{{P}_{y}}\right) \,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{divF}={{R}_{z}}+{{Q}_{y}}+{{P}_{x}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{\ensuremath{\beta}}=P\,\mathit{dy}\,\mathit{dz}-Q\,\mathit{dx}\,\mathit{dz}+R\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\mathit{d\ensuremath{\beta}}=\left( {{R}_{z}}+{{Q}_{y}}+{{P}_{x}}\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+d\ensuremath{\beta}/apply("*",cartan\_basis);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+{{R}_{z}}+{{Q}_{y}}+{{P}_{x}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(f,[x,y])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[x,y,f])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\vec{S}=[x,y,f]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:ratsimp(mycross(diff(S,x),diff(S,y))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\vec{N}=[-{{f}_{x}},-{{f}_{y}},1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(ratsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\hat{n}=\left[-\frac{{{f}_{x}}}{\sqrt{{{\left( {{f}_{y}}\right) }^{2}}+{{\left( {{f}_{x}}\right) }^{2}}+1}},-\frac{{{f}_{y}}}{\sqrt{{{\left( {{f}_{y}}\right) }^{2}}+{{\left( {{f}_{x}}\right) }^{2}}+1}},\frac{1}{\sqrt{{{\left( {{f}_{y}}\right) }^{2}}+{{\left( {{f}_{x}}\right) }^{2}}+1}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{\lVert\vec{N}\rVert}\left\langle{-f_x,-f_y,1}\right\rangle$
+
+
+\textbf{Surface integral}
+$$\iint_S\left({\nabla\times\vec{F}}\right)\cdot\mathrm{d}\vec{S}=
+\iint_D\left\langle{R_y-Q_z,P_z-R_x,Q_y-P_x}\right\rangle\cdot
+\left\langle{-f_x,-f_y,1}\right\rangle\,\mathrm{d}A$$
+
+
+$\vec{F}\cdot\vec{N}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:ratsimp(F.N))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+T=-Q\,\left( {{f}_{y}}\right) -P\,\left( {{f}_{x}}\right) +R\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{S}^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Pb:ratsimp(diff(S,y)|(diff(S,x)|ev(\ensuremath{\beta},map("=",\ensuremath{\zeta},S)))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{Pb}=-Q\,\left( {{f}_{y}}\right) -P\,\left( {{f}_{x}}\right) +R\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{r}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends([x,y],t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([a,b],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(r:[x,y,f])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+\vec{r}=[x,y,f]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Derivative of the curve} $\vec{r}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(r\ensuremath{\backslash}':diff(r,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\mathit{r'}=[{\dot{x}},{\dot{y}},\left( {{f}_{y}}\right) \,\left( {\dot{y}}\right) +\left( {{f}_{x}}\right) \,\left( {\dot{x}}\right) ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral}
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\int_a^b\vec{F}\left({\vec{r}(t)}\right)\cdot\vec{r}^{\prime}\,\mathrm{d}t$$
+
+
+$\vec{F}\cdot\vec{r}^{\prime}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:collectterms(expand(F.r\ensuremath{\backslash}'),diff(x,t),diff(y,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+T=\left( R\,\left( {{f}_{y}}\right) +Q\right) \,\left( {\dot{y}}\right) +\left( R\,\left( {{f}_{x}}\right) +P\right) \,\left( {\dot{x}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{r}^\ast\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Pb:collectterms(r\ensuremath{\backslash}'|subst(map("=",\ensuremath{\zeta},r),\ensuremath{\alpha}),diff(x,t),diff(y,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\mathit{Pb}=\left( R\,\left( {{f}_{y}}\right) +Q\right) \,\left( {\dot{y}}\right) +\left( R\,\left( {{f}_{x}}\right) +P\right) \,\left( {\dot{x}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Use Green's theorem}
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\oint_{\partial D}\overbrace{(P+R f_x)}^{\hat{P}}\,\mathrm{d}x+
+\overbrace{(Q+R f_y)}^{\hat{Q}}\,\mathrm{d}y=
+\iint_D\left({\dfrac{\partial\hat{Q}}{\partial x}-
+\dfrac{\partial\hat{P}}{\partial y}}\right)\,\mathrm{d}A$$
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\iint_D\left({\dfrac{\partial}{\partial x}(Q+R f_y)-
+\dfrac{\partial}{\partial y}(P+R f_x)}\right)\,\mathrm{d}A$$
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\iint_S\left({\nabla\times\vec{F}}\right)\cdot\mathrm{d}\vec{S}$$
+
+\pagebreak
+
+
+\section{Verifying Stoke's theorem, example 1}
+
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=dZGzTuzv2hw}
+{Verifying Stoke's theorem, example 1}
+
+
+Verify Stoke's with $\vec{F}=\langle{z,x,y}\rangle$ and
+$\vec{S}$ is the top half of $x^2+y^2+z^2=a^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,a,t,x,y,z,\ensuremath{\rho},\ensuremath{\phi},\ensuremath{\theta})\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(a\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(a,constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[a=1]\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[z,x,y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\vec{F}=[z,x,y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\mathit{curlF}=[1,1,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\mathit{\ensuremath{\alpha}}=y\,\mathit{dz}+x\,\mathit{dy}+z\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\mathit{d\ensuremath{\alpha}}=\mathit{dy}\,\mathit{dz}-\mathit{dx}\,\mathit{dz}+\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\mathit{divF}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\mathit{\ensuremath{\beta}}=z\,\mathit{dy}\,\mathit{dz}-x\,\mathit{dx}\,\mathit{dz}+y\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{d\ensuremath{\beta}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Spherical coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}\ensuremath{\rho})\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}\ensuremath{\frac{1}{2}}*\ensuremath{\pi})\$\\
+assume(sin(\ensuremath{\phi})\ensuremath{\geq}0)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[\ensuremath{\rho},\ensuremath{\phi},\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:[\ensuremath{\rho}*cos(\ensuremath{\theta})*sin(\ensuremath{\phi}),\ensuremath{\rho}*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),\ensuremath{\rho}*cos(\ensuremath{\phi})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\vec{L}=[\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },\mathit{\ensuremath{\rho}}\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J:jacobian(L,\ensuremath{\xi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+J=\begin{pmatrix}\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) } & \cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\cos{\left( \mathit{\ensuremath{\phi}}\right) } & -\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\\
+\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) } & \sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\cos{\left( \mathit{\ensuremath{\phi}}\right) } & \cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\\
+\cos{\left( \mathit{\ensuremath{\phi}}\right) } & -\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) } & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(lg:trigsimp(transpose(J).J))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\mathit{lg}=\begin{pmatrix}1 & 0 & 0\\
+0 & {{\mathit{\ensuremath{\rho}}}^{2}} & 0\\
+0 & 0 & {{\mathit{\ensuremath{\rho}}}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\phi}}\right) }}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Jdet:trigsimp(determinant(J)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\mathit{Jdet}={{\mathit{\ensuremath{\rho}}}^{2}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[a*cos(\ensuremath{\theta})*sin(\ensuremath{\phi}),a*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),a*cos(\ensuremath{\phi})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\vec{S}=[a\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },a\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },a\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         apply(parametric\_surface,append(S,[\ensuremath{\phi},0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi},\ensuremath{\theta},0,2*\ensuremath{\pi}]))),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,\ensuremath{\phi}),diff(S,\ensuremath{\theta}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+\vec{N}=[{{a}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\sin{\left( \mathit{\ensuremath{\phi}}\right) }}^{2}},{{a}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\sin{\left( \mathit{\ensuremath{\phi}}\right) }}^{2}},{{a}^{2}}\,\cos{\left( \mathit{\ensuremath{\phi}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(trigsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+\hat{n}=[\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },\cos{\left( \mathit{\ensuremath{\phi}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{a}\left\langle{x,y,z}\right\rangle$
+
+
+$\left({\nabla\times\vec{F}}\right)\cdot\vec{N}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:factor(trigsimp(curlF.N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+T={{a}^{2}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{S}^\ast\,\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:factor(trigsimp(diff(S,\ensuremath{\theta})|(diff(S,\ensuremath{\phi})|subst(map("=",\ensuremath{\zeta},S),d\ensuremath{\alpha})))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+P={{a}^{2}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux through} $\vec{S}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(T,\ensuremath{\phi},0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+{{a}^{2}}\,\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{\frac{\ensuremath{\pi} }{2}}{\left. \sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }+\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) d\mathit{\ensuremath{\phi}}\right.}d\mathit{\ensuremath{\theta}}\right.}=\left( \ensuremath{\pi} {{a}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{C}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:[a*cos(t),a*sin(t),0])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+\vec{C}=[a\,\cos{(t)},a\,\sin{(t)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Derivative of the curve} $\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\backslash}':diff(C,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+\mathit{C'}=[-a\,\sin{(t)},a\,\cos{(t)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\circ\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoC:subst(map("=",\ensuremath{\zeta},C),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\mathit{FoC}=[0,a\,\cos{(t)},a\,\sin{(t)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\cdot\vec{C}^{\prime}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:FoC.C\ensuremath{\backslash}')\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t39}\label{t39} 
+T={{a}^{2}}\,{{\cos{(t)}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{C}^\ast\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:C\ensuremath{\backslash}'|subst(map("=",\ensuremath{\zeta},C),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+P={{a}^{2}}\,{{\cos{(t)}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral} $I$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(T,t,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+{{a}^{2}}\,\int_{0}^{2\ensuremath{\pi} }{\left. {{\cos{(t)}}^{2}}dt\right.}=\left( \ensuremath{\pi} {{a}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(a\ensuremath{>}0)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\rho})\$\\
+forget(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}\ensuremath{\frac{1}{2}}*\ensuremath{\pi})\$\\
+forget(sin(\ensuremath{\phi})\ensuremath{\geq}0)\$\\
+forget(\ensuremath{\theta}\ensuremath{\geq}0,\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+\pagebreak
+
+
+\section{Verifying Stoke's theorem, example 2}
+
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=wQVWgeWw6Uk}
+{Verifying Stoke's theorem, example 2}
+
+
+Verify Stoke's with $\vec{F}=\langle{z,x*z,x*y}\rangle$ and
+$\vec{S}$ is $z=x^2+y^2$ (paraboloid) below $z=4$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,a,t,x,y,z,r,\ensuremath{\theta},\ensuremath{\phi},\ensuremath{\rho})\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(a\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(a,constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[a=2]\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[z,x*z,x*y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\vec{F}=[z,xz,xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\mathit{curlF}=[0,1-y,z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\mathit{\ensuremath{\alpha}}=xy\,\mathit{dz}+xz\,\mathit{dy}+z\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\mathit{d\ensuremath{\alpha}}=y\,\mathit{dx}\,\mathit{dz}-\mathit{dx}\,\mathit{dz}+z\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\mathit{divF}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\mathit{\ensuremath{\beta}}=z\,\mathit{dy}\,\mathit{dz}-xz\,\mathit{dx}\,\mathit{dz}+xy\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{d\ensuremath{\beta}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Cylindrical coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[r,\ensuremath{\theta},z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\vec{L}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J:jacobian(L,\ensuremath{\xi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+J=\begin{pmatrix}\cos{\left( \mathit{\ensuremath{\theta}}\right) } & -r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) } & 0\\
+\sin{\left( \mathit{\ensuremath{\theta}}\right) } & r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) } & 0\\
+0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(lg:trigsimp(transpose(J).J))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\mathit{lg}=\begin{pmatrix}1 & 0 & 0\\
+0 & {{r}^{2}} & 0\\
+0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Jdet:trigsimp(determinant(J)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{Jdet}=r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),r\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\vec{S}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },{{r}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         apply(parametric\_surface,append(S,[r,0,a,\ensuremath{\theta},0,2*\ensuremath{\pi}]))),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,r),diff(S,\ensuremath{\theta}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\vec{N}=[-2{{r}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },r]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(trigsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+\hat{n}=\left[-\frac{2r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sqrt{4{{r}^{2}}+1}},-\frac{2r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{\sqrt{4{{r}^{2}}+1}},\frac{1}{\sqrt{4{{r}^{2}}+1}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{\lVert\vec{N}\rVert}\left\langle{-2 x,-2 y,1}\right\rangle$
+
+
+$\left({\nabla\times\vec{F}}\right)\circ\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlFoS:trigsimp(subst(map("=",\ensuremath{\zeta},S),curlF)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+\mathit{curlFoS}=[0,1-r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },{{r}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\left({\nabla\times\vec{F}}\right)\cdot\vec{N}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:expand(trigsimp(curlFoS.N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+T=2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{S}^\ast\,\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:expand(trigsimp(diff(S,\ensuremath{\theta})|(diff(S,r)|subst(map("=",\ensuremath{\zeta},S),d\ensuremath{\alpha})))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+P=2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux through} $\vec{S}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(T,r,0,a),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t34}\label{t34} 
+\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{a}{\left. 2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}dr\right.}d\mathit{\ensuremath{\theta}}\right.}=\left( \ensuremath{\pi} {{a}^{4}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{a}{\left. 2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}dr\right.}d\mathit{\ensuremath{\theta}}\right.}=\left( 16\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[x,y,x\ensuremath{^2}+y\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+\vec{S}=[x,y,{{y}^{2}}+{{x}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,zrange=[0,a\ensuremath{^2}],\\
+         apply(parametric\_surface,append(S,[x,-a,a,y,-a,a]))),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:ratsimp(mycross(diff(S,x),diff(S,y))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\vec{N}=[-2x,-2y,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(ratsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t39}\label{t39} 
+\hat{n}=\left[-\frac{2x}{\sqrt{4{{y}^{2}}+4{{x}^{2}}+1}},-\frac{2y}{\sqrt{4{{y}^{2}}+4{{x}^{2}}+1}},\frac{1}{\sqrt{4{{y}^{2}}+4{{x}^{2}}+1}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{\lVert\vec{N}\rVert}\left\langle{-2 x,-2 y,1}\right\rangle$
+
+
+$\left({\nabla\times\vec{F}}\right)\circ\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlFoS:ratsimp(subst(map("=",\ensuremath{\zeta},S),curlF)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{curlFoS}=[0,1-y,{{y}^{2}}+{{x}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\left({\nabla\times\vec{F}}\right)\cdot\vec{N}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:ratsimp(curlFoS.N))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+T=3{{y}^{2}}-2y+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{S}^\ast\,\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:ratsimp(diff(S,y)|(diff(S,x)|subst(map("=",\ensuremath{\zeta},S),d\ensuremath{\alpha}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+P=3{{y}^{2}}-2y+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Change to Cylindrical coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:expand(trigsimp(subst(map("=",\ensuremath{\zeta},L),T))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+T=2{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux through} $\vec{S}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(expand(T*Jdet),r,0,a),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t45}\label{t45} 
+\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{a}{\left. 2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}dr\right.}d\mathit{\ensuremath{\theta}}\right.}=\left( \ensuremath{\pi} {{a}^{4}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{a}{\left. 2{{r}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{r}^{3}}dr\right.}d\mathit{\ensuremath{\theta}}\right.}=\left( 16\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{C}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:[a*cos(t),a*sin(t),a\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+\vec{C}=[a\,\cos{(t)},a\,\sin{(t)},{{a}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Derivative of the curve} $\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\backslash}':diff(C,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t48}\label{t48} 
+\mathit{C'}=[-a\,\sin{(t)},a\,\cos{(t)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\circ\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoC:subst(map("=",\ensuremath{\zeta},C),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+\mathit{FoC}=[{{a}^{2}},{{a}^{3}}\,\cos{(t)},{{a}^{2}}\,\cos{(t)}\,\sin{(t)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\cdot\vec{C}^{\prime}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:FoC.C\ensuremath{\backslash}')\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+T={{a}^{4}}\,{{\cos{(t)}}^{2}}-{{a}^{3}}\,\sin{(t)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{C}^\ast\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:C\ensuremath{\backslash}'|subst(map("=",\ensuremath{\zeta},C),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+P={{a}^{4}}\,{{\cos{(t)}}^{2}}-{{a}^{3}}\,\sin{(t)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral} $I$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(T,t,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t53}\label{t53} 
+\int_{0}^{2\ensuremath{\pi} }{\left. {{a}^{4}}\,{{\cos{(t)}}^{2}}-{{a}^{3}}\,\sin{(t)}dt\right.}=\left( \ensuremath{\pi} {{a}^{4}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+\int_{0}^{2\ensuremath{\pi} }{\left. {{a}^{4}}\,{{\cos{(t)}}^{2}}-{{a}^{3}}\,\sin{(t)}dt\right.}=\left( 16\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(a\ensuremath{>}0)\$\\
+forget(0\ensuremath{\leq}r)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+\pagebreak
+
+
+\section{Two Stoke's theorem examples}
+
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=0YEsKPK0be8}
+{Two Stoke's theorem examples}
+
+
+Verify Stoke's with $\vec{F}=\langle{2 x y^2 z,2 x^2 y z,x^2 y^2-2 z}\rangle$
+and $\vec{C}$ is $\vec{r}=\left\langle{\cos(t),\sin(t),\sin(t)}\right\rangle$
+with $t\in[0,2 \pi]$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,x,y,z)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[2*x*y\ensuremath{^2}*z,2*x\ensuremath{^2}*y*z,x\ensuremath{^2}*y\ensuremath{^2}-2*z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+\vec{F}=[2x\,{{y}^{2}}z,2{{x}^{2}}yz,{{x}^{2}}\,{{y}^{2}}-2z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{curlF}=[0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Potential} $\phi$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\phi}:potential(F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\mathit{\ensuremath{\phi}}={{x}^{2}}\,{{y}^{2}}z-{{z}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\mathit{\ensuremath{\alpha}}=\left( {{x}^{2}}\,{{y}^{2}}-2z\right) \,\mathit{dz}+2{{x}^{2}}yz\,\mathit{dy}+2x\,{{y}^{2}}z\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\mathit{d\ensuremath{\alpha}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\mathit{divF}=2{{y}^{2}}z+2{{x}^{2}}z-2\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\mathit{\ensuremath{\beta}}=2x\,{{y}^{2}}z\,\mathit{dy}\,\mathit{dz}-2{{x}^{2}}yz\,\mathit{dx}\,\mathit{dz}+\left( {{x}^{2}}\,{{y}^{2}}-2z\right) \,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\mathit{d\ensuremath{\beta}}=\left( 2{{y}^{2}}z+2{{x}^{2}}z-2\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+d\ensuremath{\beta}/apply("*",cartan\_basis);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o17}\label{o17} 
+2{{y}^{2}}z+2{{x}^{2}}z-2\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{C}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:[cos(t),sin(t),sin(t)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\vec{C}=[\cos{(t)},\sin{(t)},\sin{(t)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\gamma}:[cos(t),sin(t),0])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+\mathit{\ensuremath{\gamma}}=[\cos{(t)},\sin{(t)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(proportional\_axes=xyz,line\_width=2,\\
+         color=red,apply(parametric,append(C,[t,0,2*\ensuremath{\pi}])),\\
+         color=blue,apply(parametric,append(\ensuremath{\gamma},[t,0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Derivative of the curve} $\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\backslash}':diff(C,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+\mathit{C'}=[-\sin{(t)},\cos{(t)},\cos{(t)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\circ\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoC:subst(map("=",\ensuremath{\zeta},C),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\mathit{FoC}=[2\cos{(t)}\,{{\sin{(t)}}^{3}},2{{\cos{(t)}}^{2}}\,{{\sin{(t)}}^{2}},{{\cos{(t)}}^{2}}\,{{\sin{(t)}}^{2}}-2\sin{(t)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\cdot\vec{C}^{\prime}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:trigsimp(FoC.C\ensuremath{\backslash}'))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+T=-2\cos{(t)}\,\sin{(t)}-5{{\cos{(t)}}^{5}}+7{{\cos{(t)}}^{3}}-2\cos{(t)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{C}^\ast\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:trigsimp(C\ensuremath{\backslash}'|subst(map("=",\ensuremath{\zeta},C),\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+P=-2\cos{(t)}\,\sin{(t)}-5{{\cos{(t)}}^{5}}+7{{\cos{(t)}}^{3}}-2\cos{(t)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral} $I$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(T,t,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\int_{0}^{2\ensuremath{\pi} }{\left. -2\cos{(t)}\,\sin{(t)}-5{{\cos{(t)}}^{5}}+7{{\cos{(t)}}^{3}}-2\cos{(t)}dt\right.}=(0)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[x,y,y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\vec{S}=[x,y,y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         color=red,line\_width=2,apply(parametric,append(C,[t,0,2*\ensuremath{\pi}])),\\
+         color=blue,line\_width=1,apply(parametric\_surface,append(S,[x,-1,1,y,-1,1])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+$\nabla\times\vec{F}=\vec{0}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+\mathit{curlF}=[0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,x),diff(S,y))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+\vec{N}=[0,-1,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(trigsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+\hat{n}=\left[0,-\frac{1}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{\sqrt{2}}\left\langle{0,-1,1}\right\rangle$
+
+\pagebreak
+
+
+\textbf{Surface} $x^2+(1/2)(y^2+z^2)=1$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(proportional\_axes=xy,view=[70,70],\\
+         x\_voxel=20,y\_voxel=20,z\_voxel=20,xu\_grid=50,yv\_grid=50,\\
+         color=green,implicit(x\ensuremath{^2}+\ensuremath{\frac{1}{2}}*(y\ensuremath{^2}+z\ensuremath{^2})=1,x,-1.5,1.5,y,-1.5,1.5,z,-1.5,1.5),\\
+         color=blue,implicit(y=z,x,-1.5,1.5,y,-1.5,1.5,z,-1.5,1.5),\\
+         color=red,line\_width=3,apply(parametric,append(C,[t,0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+Based on Michael Penn Video
+\href{https://youtu.be/0YEsKPK0be8?t=760}
+{Two Stoke's theorem examples.}
+
+
+Calculate $\iint_S\left({\nabla\times\vec{F}}\right)\cdot\mathrm{d}\vec{S}$
+where $S$ is the part of $z=1-x^2-2 y^2$ with $z\geq 0$ and
+$\vec{F}=\left\langle{x,y^2,x e^{x y}}\right\rangle$
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x,y\ensuremath{^2},z*exp(x*y)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+F=[x,{{y}^{2}},{{e}^{xy}}z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_10}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t39}\label{t39} 
+\mathit{curlF}=[x\,{{e}^{xy}}z,-y\,{{e}^{xy}}z,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{\ensuremath{\alpha}}={{e}^{xy}}z\,\mathit{dz}+{{y}^{2}}\,\mathit{dy}+x\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+\mathit{d\ensuremath{\alpha}}=x\,{{e}^{xy}}z\,\mathit{dy}\,\mathit{dz}+y\,{{e}^{xy}}z\,\mathit{dx}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+\mathit{divF}={{e}^{xy}}+2y+1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\mathit{\ensuremath{\beta}}=x\,\mathit{dy}\,\mathit{dz}-{{y}^{2}}\,\mathit{dx}\,\mathit{dz}+{{e}^{xy}}z\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t44}\label{t44} 
+\mathit{d\ensuremath{\beta}}=\left( {{e}^{xy}}+2y+1\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+d\ensuremath{\beta}/apply("*",cartan\_basis);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o45}\label{o45} 
+{{e}^{xy}}+2y+1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[x,y,1-x\ensuremath{^2}-2*y\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+\vec{S}=[x,y,-2{{y}^{2}}-{{x}^{2}}+1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normal} $\vec{N}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,x),diff(S,y))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+\vec{N}=[2x,4y,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:scanmap(trigsimp,normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t48}\label{t48} 
+\hat{n}=\left[\frac{2x}{\sqrt{16{{y}^{2}}+4{{x}^{2}}+1}},\frac{4y}{\sqrt{16{{y}^{2}}+4{{x}^{2}}+1}},\frac{1}{\sqrt{16{{y}^{2}}+4{{x}^{2}}+1}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Hence} $\hat{n}=\dfrac{1}{\lVert{\vec{N}}\rVert}\left\langle{2 x,4 y,1}\right\rangle$
+
+
+$\left({\nabla\times\vec{F}}\right)\circ\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlFoS:ratsimp(subst(map("=",\ensuremath{\zeta},S),curlF)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+\mathit{curlFoS}=[\left( -2x\,{{y}^{2}}-{{x}^{3}}+x\right) \,{{e}^{xy}},\left( 2{{y}^{3}}+\left( {{x}^{2}}-1\right) y\right) \,{{e}^{xy}},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\left({\nabla\times\vec{F}}\right)\cdot\vec{N}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:ratsimp(curlFoS.N))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+T=\left( 8{{y}^{4}}-4{{y}^{2}}-2{{x}^{4}}+2{{x}^{2}}\right) \,{{e}^{xy}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{S}^\ast\,\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:ratsimp(diff(S,y)|(diff(S,x)|subst(map("=",\ensuremath{\zeta},S),d\ensuremath{\alpha}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+P=\left( 8{{y}^{4}}-4{{y}^{2}}-2{{x}^{4}}+2{{x}^{2}}\right) \,{{e}^{xy}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:[cos(t),sin(t)/\ensuremath{\sqrt{}}(2),0])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t52}\label{t52} 
+\vec{C}=\left[\cos{(t)},\frac{\sin{(t)}}{\sqrt{2}},0\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,zrange=[0,1],\\
+         color=red,line\_width=3,apply(parametric,append(C,[t,0,2*\ensuremath{\pi}])),\\
+         color=blue,line\_width=1,apply(parametric\_surface,append(S,[x,-1,1,y,-1,1])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t53}\label{t53} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Stoke's Theorem_img/Stoke's Theorem_11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Derivative of the curve} $\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\backslash}':diff(C,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+\mathit{C'}=\left[-\sin{(t)},\frac{\cos{(t)}}{\sqrt{2}},0\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\circ\vec{C}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoC:subst(map("=",\ensuremath{\zeta},C),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t55}\label{t55} 
+\mathit{FoC}=\left[\cos{(t)},\frac{{{\sin{(t)}}^{2}}}{2},0\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\vec{F}\cdot\vec{C}^{\prime}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:trigsimp(FoC.C\ensuremath{\backslash}'))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t56}\label{t56} 
+T=\frac{\cos{(t)}\,{{\sin{(t)}}^{2}}-{{2}^{\frac{3}{2}}}\,\cos{(t)}\,\sin{(t)}}{{{2}^{\frac{3}{2}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Pullback} $\vec{C}^\ast\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:trigsimp(C\ensuremath{\backslash}'|subst(map("=",\ensuremath{\zeta},C),\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t57}\label{t57} 
+P=\frac{\cos{(t)}\,{{\sin{(t)}}^{2}}-{{2}^{\frac{3}{2}}}\,\cos{(t)}\,\sin{(t)}}{{{2}^{\frac{3}{2}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral} $I$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(T,t,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+changevar(I,u=sin(t),u,t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\mbox{}\\\mbox{solve: using arc-trig functions to get a solution.}\mbox{}\\\mbox{Some solutions will be lost.}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}o59}\label{o59} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t60}\label{t60} 
+\frac{\int_{0}^{2\ensuremath{\pi} }{\left. \cos{(t)}\,{{\sin{(t)}}^{2}}-{{2}^{\frac{3}{2}}}\,\cos{(t)}\,\sin{(t)}dt\right.}}{{{2}^{\frac{3}{2}}}}=(0)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}

@@ -1,0 +1,2192 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Green's Theorem
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Green's Theorem},
+            pdfsubject={Multivariable Calculus},
+            pdfkeywords={Michael Penn}}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Green's Theorem
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=dCgHWc0m8U8}
+{Green's Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $\vec{C}$ be a positively oriented, piecewise smooth, simple closed
+curve bounding the region $D$. If $P$ and $Q$ have continuous partial
+derivatives on an open region containing $D$ then,
+
+$$\oint_C P\,\mathrm{d}x+Q\,\mathrm{d}y=
+\iint_D\left({\dfrac{\partial Q}{\partial x}-
+\dfrac{\partial P}{\partial y}}\right)\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Verification Example 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=_wToO33okAI}
+{Verification Example 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate $\oint_C x\,\mathrm{d}x+y\,\mathrm{d}y$ where $\vec{C}$ is the
+line segment $(0,1)\rightarrow(0,0)\rightarrow(1,0)$, parabola
+$y=1-x^2$ $(1,0)\rightarrow(0,1)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x,y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{2D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,-5,5],[y,-5,5])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]-F[2]*cartan_basis[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:ext_diff(β))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{End points}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[0,1]$B:[0,0]$C:[1,0]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_1\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:t*B+(1-t)*A)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_1:diff(C_1,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_1}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_1:subst(map("=",ζ,C_1),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_1\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_1:FoC_1.C\'_1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_1\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_1:C\'_1|subst(map("=",ζ,C_1),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(T_1,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_2\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_2:t*C+(1-t)*B)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_2:diff(C_2,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_2}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_2:subst(map("=",ζ,C_2),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_2\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_2:FoC_2.C\'_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_2\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_2:C\'_2|subst(map("=",ζ,C_2),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_2:'integrate(T_2,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_3\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_3:[-t,1-t²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_3:diff(C_3,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_3}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_3:subst(map("=",ζ,C_3),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_3\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_3:expand(FoC_3.C\'_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_3\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_3:C\'_3|subst(map("=",ζ,C_3),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_3:'integrate(T_3,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_3=box(ev(I_3,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Total line integral} $I_1+I_2+I_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1+I_2+I_3=box(ev(I_1+I_2+I_3,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use Green's Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(curlF,y,0,1-x²),x,0,1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-0.2,1.2],yrange=[-0.2,1.2],
+         color=red,apply(parametric,append(C_1,[t,0,1])),
+         color=blue,apply(parametric,append(C_2,[t,0,1])),
+         color=green,apply(parametric,append(C_3,[t,-1,0])),
+         color=black,label(["C_1",-0.05,0.5],["C_2",0.5,-0.05],["C_3",0.65,0.65]),
+         label(["(0,1)",-0.05,1],["(0,0)",-0.05,-0.05],["(1,0)",1,-0.05]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Verification Example 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=Vj9uBEFZw_Y}
+{Verification Example 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify Green's theorem where:
+$$D=\left\lbrace{(x,y)\mid 1 \leq x^2+y^2 \leq 4}\right\rbrace\quad,
+\quad\oint_C x y^2\,\mathrm{d}y-x^2 y\,\mathrm{d}x$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[-x²*y,x*y²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{2D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,-5,5],[y,-5,5])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]-F[2]*cartan_basis[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:ext_diff(β))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_1\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:[2*cos(t),2*sin(t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_1:diff(C_1,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_1}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_1:subst(map("=",ζ,C_1),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_1\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_1:FoC_1.C\'_1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_1\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_1:C\'_1|subst(map("=",ζ,C_1),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(T_1,t,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_2\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_2:[cos(t),sin(t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_2:diff(C_2,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_2}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_2:subst(map("=",ζ,C_2),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_2\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_2:FoC_2.C\'_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_2\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_2:C\'_2|subst(map("=",ζ,C_2),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_2:'integrate(T_2,t,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Total line integral} $I_2-I_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1-I_2=box(ev(I_1-I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2.5,2.5],yrange=[-2.5,2.5],
+         color=red,apply(parametric,append(C_1,[t,0,2*π])),
+         color=blue,apply(parametric,append(C_2,[t,0,2*π])),
+         color=black,label(["C_1",1.5,1.5],["C_2",0.8,0.8]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use Green's Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change to polar coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(r≥0)$
+assume(0≤t,t≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,t]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*cos(t),r*sin(t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(Tr,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\nabla\times\vec{F}}\right)\circ\vec{Tr}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T:trigsimp(subst(map("=",ζ,Tr),curlF)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{Tr}^\ast\,\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:trigsimp(diff(Tr,t)|(diff(Tr,r)|subst(map("=",ζ,Tr),dα))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(T*Jdet,r,1,2),t,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(r≥0)$
+forget(0≤t,t≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Two more Green's theorem examples
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=rMisi24o78I}
+{Two more Green's theorem examples}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{C}$ is a right angle triangle with vertices $(-1,2),(4,2),(4,5)$\\
+Calculate $$\oint_C\sin(x^2)\,\mathrm{d}x+(3 x-y)\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[sin(x²),3*x-y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{2D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,-5,5],[y,-5,5])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dα/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]-F[2]*cartan_basis[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{End points}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[-1,2]$B:[4,2]$C:[4,5]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_1\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:ratsimp(t*B+(1-t)*A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_1:diff(C_1,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_1}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_1:subst(map("=",ζ,C_1),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_1\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_1:expand(FoC_1.C\'_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_1\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_1:C\'_1|subst(map("=",ζ,C_1),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(T_1,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_2\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_2:ratsimp(t*C+(1-t)*B))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_2:diff(C_2,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_2}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_2:subst(map("=",ζ,C_2),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_2\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_2:expand(FoC_2.C\'_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_2\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_2:C\'_2|subst(map("=",ζ,C_2),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_2:'integrate(T_2,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}_3\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_3:ratsimp(t*A+(1-t)*C))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{C}_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\'_3:diff(C_3,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{C_3}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC_3:ratsimp(subst(map("=",ζ,C_3),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{C}^{\prime}_3\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_3:expand(FoC_3.C\'_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{C}^\ast_3\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_3:C\'_3|subst(map("=",ζ,C_3),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_3:'integrate(T_3,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Total line integral} $I_1+I_2+I_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1+I_2+I_3=box(ev(I_1+I_2+I_3,integrate,ratsimp)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use Green's Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+rhs(first(solve(eliminate(map("=",ζ,C_3),[t]),y)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(curlF,y,2,%),x,-1,4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw2d(proportional_axes=xy,xrange=[-2,5],yrange=[1,6],
+         color=red,apply(parametric,append(C_1,[t,0,1])),
+         color=blue,apply(parametric,append(C_2,[t,0,1])),
+         color=green,apply(parametric,append(C_3,[t,0,1])),
+         color=black,label(["C_1",1.5,1.9],["C_2",4.1,3.5],["C_3",1.9,3.8]),
+         label(["(-1,2)",-1,1.9],["(4,2)",4,1.9],["(4,5)",4,5.1]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find area of ellipse $\dfrac{x^2}{a^2}+\dfrac{y^2}{b^2}=1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(a>0,b>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([a,b],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+E:x²/a²+y²/b²=1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:solve(E,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(1,y,0,rhs(sol[2])),x,-a,a)+
+  'integrate('integrate(1,y,rhs(sol[1]),0),x,-a,a)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}_1\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_1:[0,x])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}_1\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF_1:ev(express(curl(F_1)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}_2\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_2:[-y,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}_2\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF_2:ev(express(curl(F_2)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}_3\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_3:½*(F_1+F_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}_3\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF_3:ev(express(curl(F_3)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha_3\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α_3:F_3.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha_3\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα_3:ext_diff(α_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dα_3/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}_3\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF_3:ev(express(div(F_3)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta_3\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β_3:first(F_3)*cartan_basis[2]-second(F_3)*cartan_basis[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta_3\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ_3:edit(ext_diff(β_3)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ_3/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$A(D)=\iint_D\mathrm{d}A=\dfrac{1}{2}\oint_C -y\,\mathrm{d}x+x\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parametrize the ellipse}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤t,t≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(r:[a*cos(t),b*sin(t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify this is an ellipse}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(subst(map("=",ζ,r),E)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{r}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(r\':diff(r,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}_3\circ\vec{r}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(For_3:subst(map("=",ζ,r),F_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}_3\cdot\vec{r}^{\prime}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_3:trigsimp(For_3.r\'))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{r}^\ast\alpha_3\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_3:trigsimp(r\'|subst(map("=",ζ,r),α_3)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_3:box('integrate(T_3,t,0,2*π)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(a>0,b>0)$
+forget(0≤t,t≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Vector forms of Green's Theorem
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=-ys51OICh_c}
+{Vector forms of Green's Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z,P,Q)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x²*y,x*z,z³])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Opentextbc Website
+\href{https://opentextbc.ca/calculusv3openstax/chapter/greens-theorem}
+{41 Green’s Theorem}
+
+Based on Openstax Website
+\href{https://openstax.org/books/calculus-volume-3/pages/6-4-greens-theorem}
+{6.4 Green’s Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Circulation Form of Green’s Theorem}
+
+$$\oint_C\vec{F}\,\mathrm{d}\vec{r}=
+\oint_C P\,\mathrm{d}x+Q\,\mathrm{d}y=
+\iint_D\left({Q_x-P_y}\right)\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux Form of Green’s Theorem}
+
+$$\oint_C\vec{F}\cdot\vec{N}\,\mathrm{d}s=
+\iint_D\left({P_x+Q_y}\right)\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+F:[P,Q]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(F,ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Version 1 of Green's theorem (Circulation Form)}
+$$\oint_C\vec{F}\,\mathrm{d}\vec{r}=
+\iint_D\left({\nabla\times\vec{F}}\right)\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Version 2 of Green's theorem (Flux Form)}
+$$\oint_C\left({\vec{F}\cdot\vec{N}}\right)\,\mathrm{d}s=
+\iint_D\left({\nabla\cdot\vec{F}}\right)\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]-F[2]*cartan_basis[1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+When Green's theorem doesn't apply
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=9859d7wGxVU}
+{When Green's theorem doesn't apply}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find all possible values of $\oint_C\vec{F}\cdot\mathrm{d}\vec{r}$ where
+$\vec{C}$ satisfies all the conditions.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(a>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(a,constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[a=1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:1/(x²+y²)*[y,-x])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{2D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,-5,5],[y,-5,5])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ratsimp(ev(express(curl(F)),diff)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Potential}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:potential(F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:factor(F.cartan_basis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:ratsimp(edit(ext_diff(α))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:factor(F[1]*cartan_basis[2]-F[2]*cartan_basis[1]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{r}_a\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(r_a:[a*cos(t),a*sin(t)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Derivative of the curve} $\vec{r}_a$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(r\'_a:diff(r_a,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{r}_a$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(For_a:trigsimp(subst(map("=",ζ,r_a),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\cdot\vec{r}^{\prime}_a\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_a:trigsimp(For_a.r\'_a))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{r}^\ast_a\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_a:trigsimp(r\'_a|subst(map("=",ζ,r_a),α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral} $I_a$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_a:'integrate(T_a,t,0,2*π))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(a>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

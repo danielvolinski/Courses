@@ -1,0 +1,1479 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Divergence theorem
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Divergence theorem},
+            pdfsubject={Multivariable Calculus},
+            pdfkeywords={Michael Penn}}
+
+Reference Wikipedia article
+\href{https://en.wikipedia.org/wiki/Divergence_theorem}
+{Divergence theorem}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Divergence theorem
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=J5S5y8W3eV8}
+{Divergence theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $\vec{S}$ be a piecewise smooth surface that encloses a solid
+$E\subseteq\mathbb{R}^3$ and is orientsd outward. Let $\vec{F}$ be
+a vector field with continuous partial derivatives on an open region
+containing $E$ then
+$$\iiint_E\left({\nabla\cdot\vec{F}}\right)\mathrm{d}V=
+\iint_S\vec{F}\cdot\mathrm{d}\vec{S}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,P,Q,R)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([P,Q,R],ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[P,Q,R])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{End points}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([x_0,x_1,y_0,y_1,z_0,z_1],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Top} $\vec{S}_1\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[x,y,z_0])$
+ldisplay(N_1:mycross(diff(S_1,x),diff(S_1,y)))$
+ldisplay(T_1:ratsimp(F.N_1))$
+ldisplay(Pb_1:ratsimp(diff(S_1,y)|(diff(S_1,x)|subst(map("=",ζ,S_1),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1:'integrate('integrate(T_1,x,x_0,x_1),y,y_0,y_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Bottom} $\vec{S}_2\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_2:[x,y,z_1])$
+ldisplay(N_2:mycross(diff(S_2,x),diff(S_2,y)))$
+ldisplay(T_2:ratsimp(F.N_2))$
+ldisplay(Pb_2:ratsimp(diff(S_2,y)|(diff(S_2,x)|subst(map("=",ζ,S_2),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2:'integrate('integrate(T_2,x,x_0,x_1),y,y_0,y_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Verifying the Divergence Theorem
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=W6drOHRvnZ0}
+{Verifying the Divergence Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify the Divergence Theorem with $\vec{F}=\langle{2 x+y,x+z,y-3 z}\rangle$
+and $\vec{S}$ is the cone $z=\sqrt{x^2+y^2}$ and top given by $z=1$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,r,t,x,y,z,ρ,θ,φ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[2*x+y,x+z,y-3*z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:ext_diff(α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Spherical coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤ρ)$
+assume(0≤φ,φ≤π)$
+assume(sin(φ)≥0)$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[ρ,φ,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(L:[ρ*cos(θ)*sin(φ),ρ*sin(θ)*sin(φ),ρ*cos(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(L,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤ρ)$
+forget(0≤φ,φ≤π)$
+forget(sin(φ)≥0)$
+forget(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Polar coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(L:[r*cos(θ),r*sin(θ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(L,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤ρ)$
+assume(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[x,y,√(x²+y²)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:1/√(2)*[ρ*cos(θ),ρ*sin(θ),ρ])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_2:[r*cos(t),r*sin(t),1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(xu_grid=50,yv_grid=50,proportional_axes=xyz,zrange=[0,1],
+         apply(parametric_surface,append(S_1,[ρ,0,√(2),θ,0,2*π])),
+         color=red,apply(parametric_surface,append(S_2,[r,0,1,t,0,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_1\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_1:trigsimp(mycross(diff(S_1,θ),diff(S_1,ρ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_1:scanmap(trigsimp,normalize(N_1)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Hence} $\hat{n}_1=\dfrac{1}{\rho}\langle{x,y,-z}\rangle$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_1\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_1:trigsimp(subst(map("=",ζ,S_1),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_1}\right)\cdot\vec{N}_1\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_1:trigsimp(FoS_1.N_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_1^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_1:trigsimp(diff(S_1,ρ)|(diff(S_1,θ)|subst(map("=",ζ,S_1),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux through} $\vec{S}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate('integrate(T_1,θ,0,2*π),ρ,0,√(2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_2\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_2:trigsimp(mycross(diff(S_2,r),diff(S_2,t))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_2:scanmap(trigsimp,normalize(N_2)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_2\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_2:trigsimp(subst(map("=",ζ,S_2),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_2}\right)\cdot\vec{N}_2\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_2:trigsimp(FoS_2.N_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_2^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_2:trigsimp(diff(S_2,t)|(diff(S_2,r)|subst(map("=",ζ,S_2),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux through} $\vec{S}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_2:'integrate('integrate(T_2,r,0,1),t,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Total flux through} $\vec{S}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1+I_2=box(ev(I_1+I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use the divergence theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume of the cone}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(V:π/3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Triple integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+box(divF*V);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤ρ)$
+forget(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+When the divergence theorem doesn't apply
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=ZGCZSFOfT6g}
+{When the divergence theorem doesn't apply}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,r,t,x,y,z,ρ,θ,φ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(a>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(a,constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[a=2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:subst([r=√(x²+y²+z²)],(1/r³)*[x,y,z]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,1,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:ext_diff(α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff,ratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:ratsimp(edit(ext_diff(β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Case 1}: $(0,0,0)\in\vec{S}$ The integral does on converge.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Case 2}: $(0,0,0)\notin\vec{S}$ and $(0,0,0)\in\vec{E}$\\
+\textbf{Important}: Divergence theorem applies with $\nabla\cdot\vec{F}=0$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Case 3}: $(0,0,0)\in\vec{E}$ and $(0,0,0)\notin\vec{S}$\\
+Let $a>0$ be such that $S_a\subseteq E$. Let $B_a$ be the interior
+of this sphere. The region $E\setminus B_a$ does not contain $(0,0,0)$
+$$\iint_S\vec{F}\cdot\mathrm{d}\vec{S}=
+\iint_{S_a}\vec{F}\cdot\mathrm{d}\vec{S}=$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface} $\vec{S}_a\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_a:[a*cos(θ)*sin(φ),a*sin(θ)*sin(φ),a*cos(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(xu_grid=50,yv_grid=50,proportional_axes=xyz,
+         apply(parametric_surface,append(S_a,[φ,0,π,θ,0,2*π]))),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_a\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_a:trigsimp(mycross(diff(S_a,φ),diff(S_a,θ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_a:scanmap(trigsimp,normalize(N_a)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Hence} $\hat{n}_a=\dfrac{1}{a}\langle{x,y,z}\rangle$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_a\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_a:trigsimp(subst(map("=",ζ,S_a),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_a}\right)\cdot\vec{N}_a\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_a:trigsimp(FoS_a.N_a))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_a^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_a:trigsimp(diff(S_a,θ)|(diff(S_a,φ)|subst(map("=",ζ,S_a),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux through} $\vec{S}_a$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_a:'integrate('integrate(T_a,φ,0,π),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_a=box(ev(I_a,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(a>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Divergence Theorem Example
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Michael Penn Video
+\href{https://www.youtube.com/watch?v=X11hr2QWNQw}
+{Divergence Theorem Example}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x³/3+y*z²,x²+y³/3+x*cos(z),z²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dβ/apply("*",cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[r*cos(θ),r*sin(θ),2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_2:[cos(θ),sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_3:[r*cos(θ),r*sin(θ),0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(xu_grid=50,yv_grid=50,proportional_axes=xyz,
+         apply(parametric_surface,append(S_2,[θ,0,2*π,z,0,2])),
+         color=green,apply(parametric_surface,append(S_1,[r,0,1,θ,0,2*π])),
+         color=cyan,apply(parametric_surface,append(S_3,[r,0,1,θ,0,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_1\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_1:trigsimp(mycross(diff(S_1,r),diff(S_1,θ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_1:scanmap(trigsimp,normalize(N_1)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_1\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_1:trigsimp(subst(map("=",ζ,S_1),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_1}\right)\cdot\vec{N}_1\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_1:trigsimp(FoS_1.N_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_1^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_1:trigsimp(diff(S_1,θ)|(diff(S_1,r)|subst(map("=",ζ,S_1),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux through} $\vec{S}_1$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate('integrate(T_1,r,0,1),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_2\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_2:trigsimp(mycross(diff(S_2,θ),diff(S_2,z))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_2:scanmap(trigsimp,normalize(N_2)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Hence} $\hat{n}_2=\langle{x,y,0}\rangle$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_2\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_2:trigsimp(subst(map("=",ζ,S_2),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_2}\right)\cdot\vec{N}_2\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_2:trigsimp(FoS_2.N_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_2^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_2:trigsimp(diff(S_2,z)|(diff(S_2,θ)|subst(map("=",ζ,S_2),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux through} $\vec{S}_2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_2:'integrate('integrate(T_2,z,0,2),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normal} $\vec{N}_3\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N_3:trigsimp(mycross(diff(S_3,r),diff(S_3,θ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n_3:scanmap(trigsimp,normalize(N_3)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\vec{F}\circ\vec{S}_3\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS_3:trigsimp(subst(map("=",ζ,S_3),F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\vec{F}\circ\vec{S}_3}\right)\cdot\vec{N}_3\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T_3:trigsimp(FoS_3.N_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{S}_3^\ast\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_3:trigsimp(diff(S_3,θ)|(diff(S_3,r)|subst(map("=",ζ,S_3),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Total flux through} $\vec{S}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use the divergence theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume} $\vec{E}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E:[r*cos(θ),r*sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\left({\nabla\cdot\vec{F}}\right)\circ\vec{E}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+divFoE:trigsimp(subst(map("=",ζ,E),divF));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Pullback} $\vec{E}^\ast\,\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(diff(E,z)|(diff(E,θ)|(diff(E,r)|subst(map("=",ζ,E),dβ))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Triple integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate('integrate(divFoE*r,z,0,2),r,0,1),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
