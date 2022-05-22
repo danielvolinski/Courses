@@ -1,0 +1,5118 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc MKS Vector Calculus}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Vector Calculus},
+            pdfsubject={Vector Calculus},
+            pdfkeywords={MKS Tutorials}}
+
+Based on MKS Tutorials Playlist
+\href{https://www.youtube.com/playlist?list=PLhSp9OSVmeyIeKw3AdI2e3R9Q2IKzPcy7}
+{Vector Calculus}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('drawdf,'version)=false then load(drawdf)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,\\
+                  xaxis=true,xaxis\_type=solid,xaxis\_width=3,\\
+                  yaxis=true,yaxis\_type=solid,yaxis\_width=3,\\
+                  zaxis=true,zaxis\_type=solid,zaxis\_width=3,\\
+                  background\_color=light\_gray)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(u.u))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('format,'version)=false then load(format)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Gradient of a Vector}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=1LpyTH9KJSk}
+{Gradient of a Vector}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(x,y,z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+Find $\nabla(x^2 y z)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x\ensuremath{^2}*y*z)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+f={{x}^{2}}yz\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf:ev(express(grad(f)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\mathit{gradf}=[2xyz,{{x}^{2}}z,{{x}^{2}}y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(df:edit(ext\_diff(f)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+\mathit{df}={{x}^{2}}y\,\mathit{dz}+{{x}^{2}}z\,\mathit{dy}+2xyz\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Directional Derivative}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=57EOiROT8I0}
+{Directional Derivative}
+
+
+\textbf{Directional Derivative}
+$$\dfrac{\mathrm{d}\phi}{\mathrm{d}s}=\hat{a}\cdot\nabla\phi$$
+\textbf{Divergence}
+$$\nabla\cdot\vec{F}$$
+\textbf{Curl}
+$$\nabla\times\vec{F}$$
+
+\pagebreak
+
+
+\section{Directional Derivative Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=hiJw4vrBsjQ}
+{Directional Derivative Problem \# 1}
+
+
+Find the directional derivative of $\phi=3 x^2 y z - 4 y^2 z^3$ in the
+direction of the vector $3\hat{i}-4\hat{j}+2\hat{k}$ at point $(2,-1,3)$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\phi}:3*x\ensuremath{^2}*y*z-4*y\ensuremath{^2}*z\ensuremath{^3})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\mathit{\ensuremath{\phi}}=3{{x}^{2}}yz-4{{y}^{2}}\,{{z}^{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(grad\ensuremath{\phi}:ev(express(grad(\ensuremath{\phi})),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{grad\ensuremath{\phi}}=[6xyz,3{{x}^{2}}z-8y\,{{z}^{3}},3{{x}^{2}}y-12{{y}^{2}}\,{{z}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\phi}:edit(ext\_diff(\ensuremath{\phi})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\mathit{d\ensuremath{\phi}}=\left( 3{{x}^{2}}y-12{{y}^{2}}\,{{z}^{2}}\right) \,\mathit{dz}+\left( 3{{x}^{2}}z-8y\,{{z}^{3}}\right) \,\mathit{dy}+6xyz\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(a:[3,-4,2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+a=[3,-4,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[2,-1,3])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+P=[2,-1,3]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a).grad\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+D=\frac{2\left( 16y\,{{z}^{3}}-12{{y}^{2}}\,{{z}^{2}}+9xyz-6{{x}^{2}}z+3{{x}^{2}}y\right) }{\sqrt{29}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a)|d\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+D=\frac{2\left( 16y\,{{z}^{3}}-12{{y}^{2}}\,{{z}^{2}}+9xyz-6{{x}^{2}}z+3{{x}^{2}}y\right) }{\sqrt{29}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D\_p:at(D,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+{{D}_{p}}=-\frac{1356}{\sqrt{29}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Directional Derivative Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=UQ44uORJMYg}
+{Directional Derivative Problem \# 2}
+
+
+Find the directional derivative of $\phi=x^2 - 2 y^2 + 4 z^2$ at the point
+$(1,1,-1)$ in the direction of $2\hat{i}+\hat{j}-\hat{k}$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\phi}:x\ensuremath{^2}-2*y\ensuremath{^2}+4*z\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\mathit{\ensuremath{\phi}}=4{{z}^{2}}-2{{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(grad\ensuremath{\phi}:ev(express(grad(\ensuremath{\phi})),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+\mathit{grad\ensuremath{\phi}}=[2x,-4y,8z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\phi}:edit(ext\_diff(\ensuremath{\phi})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t34}\label{t34} 
+\mathit{d\ensuremath{\phi}}=8z\,\mathit{dz}-4y\,\mathit{dy}+2x\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(a:[2,1,-1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+a=[2,1,-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[1,1,-1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+P=[1,1,-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a).grad\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+D=-\frac{{{2}^{\frac{3}{2}}}\,\left( 2z+y-x\right) }{\sqrt{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a)|d\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+D=-\frac{{{2}^{\frac{3}{2}}}\,\left( 2z+y-x\right) }{\sqrt{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D\_p:at(D,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t39}\label{t39} 
+{{D}_{p}}=\frac{{{2}^{\frac{5}{2}}}}{\sqrt{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Directional Derivative Problem \#3}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=Y9VYFgPpQq4}
+{Directional Derivative Problem \# 3}
+
+
+What is the directional derivative of $\phi=x y^2+y z^3$ at the point
+$(2,-1,1)$ in the direction of normal to the surface $x\log{z}-y^2=4$
+at $(-1,2,1)$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\phi}:x*y\ensuremath{^2}+y*z\ensuremath{^3})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{\ensuremath{\phi}}=y\,{{z}^{3}}+x\,{{y}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[2,-1,1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+P=[2,-1,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(grad\ensuremath{\phi}:ev(express(grad(\ensuremath{\phi})),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+\mathit{grad\ensuremath{\phi}}=[{{y}^{2}},{{z}^{3}}+2xy,3y\,{{z}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\phi}:edit(ext\_diff(\ensuremath{\phi})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\mathit{d\ensuremath{\phi}}=3y\,{{z}^{2}}\,\mathit{dz}+\left( {{z}^{3}}+2xy\right) \,\mathit{dy}+{{y}^{2}}\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:x*log(z)-y\ensuremath{^2}=4)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t44}\label{t44} 
+x\,\log{(z)}-{{y}^{2}}=4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Q:[-1,2,1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t45}\label{t45} 
+Q=[-1,2,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(a:ev(express(grad(lhs(S))),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+a=\left[\log{(z)},-2y,\frac{x}{z}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(a\_Q:at(a,map("=",\ensuremath{\zeta},Q)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+{{a}_{Q}}=[0,-4,-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a\_Q).grad\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t48}\label{t48} 
+D=-\frac{4{{z}^{3}}+3y\,{{z}^{2}}+8xy}{\sqrt{17}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D:factor(normalize(a\_Q)|d\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+D=-\frac{4{{z}^{3}}+3y\,{{z}^{2}}+8xy}{\sqrt{17}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(D\_P:at(D,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+{{D}_{P}}=\frac{15}{\sqrt{17}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Directional Derivative Problem \#4}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=P4zLNdnwiHQ}
+{Directional Derivative Problem \#4}
+
+
+The temperature of point in the space is given by $T=x^2+y^2-z$. A mosquito
+located at $(1,1,2)$ desires to fly in such a direction that it will get
+warm as soon as possible. In what direction should it move?
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(T:x\ensuremath{^2}+y\ensuremath{^2}-z)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+T=-z+{{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[1,1,2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t52}\label{t52} 
+P=[1,1,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradT:ev(express(grad(T)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t53}\label{t53} 
+\mathit{gradT}=[2x,2y,-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(dT:edit(ext\_diff(T)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+\mathit{dT}=-\mathit{dz}+2y\,\mathit{dy}+2x\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradT\_P:normalize(at(gradT,map("=",\ensuremath{\zeta},P))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t55}\label{t55} 
+{{\mathit{gradT}}_{P}}=\left[\frac{2}{3},\frac{2}{3},-\frac{1}{3}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Directional Derivative Problem \#5}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=lltyp_NstbM}
+{Directional Derivative Problem \# 5}
+
+
+Find the constants $a$ and $b$ so that the surface $a x^2 - b y z = (a+2)x$
+will be orthogonal to the surface $4 x^2 y + z^3=4$ at the point $(1,-1,2)$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,a,b)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[1,-1,2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+P=[1,-1,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_1:a*x\ensuremath{^2}-b*y*z=(a+2)*x)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+a\,{{x}^{2}}-byz=\left( a+2\right) x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_1:lhs(f\_1)-rhs(f\_1))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+{{f}_{1}}=-byz+a\,{{x}^{2}}-\left( a+2\right) x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf\_1:ev(express(grad(f\_1)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+{{\mathit{gradf}}_{1}}=[2ax-a-2,-bz,-by]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(df\_1:edit(ext\_diff(f\_1)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+{{\mathit{df}}_{1}}=-by\,\mathit{dz}-bz\,\mathit{dy}+\left( 2ax-a-2\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf\_P\_1:at(gradf\_1,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+{{\mathit{gradf\_ P}}_{1}}=[a-2,-2b,b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_2:4*x\ensuremath{^2}*y+z\ensuremath{^3}=4)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+{{z}^{3}}+4{{x}^{2}}y=4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_2:lhs(f\_2)-rhs(f\_2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+{{f}_{2}}={{z}^{3}}+4{{x}^{2}}y-4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf\_2:ev(express(grad(f\_2)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+{{\mathit{gradf}}_{2}}=[8xy,4{{x}^{2}},3{{z}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(df\_2:edit(ext\_diff(f\_2)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{\mathit{df}}_{2}}=3{{z}^{2}}\,\mathit{dz}+4{{x}^{2}}\,\mathit{dy}+8xy\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf\_P\_2:at(gradf\_2,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{\mathit{gradf\_ P}}_{2}}=[-8,4,12]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+The given surfaces intersect orthogonally at point $(1,-1,2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Eq1:gradf\_P\_1.gradf\_P\_2=0)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+4b-8\left( a-2\right) =0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+Also, the point $(1,-1,2)$ lies in both sufaces.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Eq2:at(f\_1,map("=",\ensuremath{\zeta},P))=0)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+2b-2=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve([Eq1,Eq2],[a,b]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+\left[a=\frac{5}{2},b=1\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Divergence and Curl Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=uho9tCElTYs}
+{Divergence and Curl Problem \# 1}
+
+
+Find the divergence and curl of $\vec{F}=3 x^2\hat{i}+5 x y^2\hat{j}+
+x y z^3\hat{k}$ at point $(1,2,3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:[1,2,3])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+P=[1,2,3]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[3*x\ensuremath{^2},5*x*y\ensuremath{^2},x*y*z\ensuremath{^3}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+F=[3{{x}^{2}},5x\,{{y}^{2}},xy\,{{z}^{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\mathit{curlF}=[x\,{{z}^{3}},-y\,{{z}^{3}},5{{y}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:edit(F.cartan\_basis))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{\ensuremath{\alpha}}=xy\,{{z}^{3}}\,\mathit{dz}+5x\,{{y}^{2}}\,\mathit{dy}+3{{x}^{2}}\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:edit(ext\_diff(\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+\mathit{d\ensuremath{\alpha}}=x\,{{z}^{3}}\,\mathit{dy}\,\mathit{dz}+y\,{{z}^{3}}\,\mathit{dx}\,\mathit{dz}+5{{y}^{2}}\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+\mathit{divF}=3xy\,{{z}^{2}}+10xy+6x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+\mathit{\ensuremath{\beta}}=3{{x}^{2}}\,\mathit{dy}\,\mathit{dz}-5x\,{{y}^{2}}\,\mathit{dx}\,\mathit{dz}+xy\,{{z}^{3}}\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\mathit{d\ensuremath{\beta}}=\left( 3xy\,{{z}^{2}}+10xy+6x\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+At $P$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF\_P:at(divF,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+{{\mathit{divF}}_{P}}=80\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF\_P:at(curlF,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+{{\mathit{curlF}}_{P}}=[27,-54,20]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Vector Calculus Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=FoPXKPhB9rA}
+{Vector Calculus Problem \# 1}
+
+
+Show that $\nabla^2 r^n=n(n+1)r^{n-2}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(spherical)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(n,integer)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(laplacian(r\^{}n)),diff);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o27}\label{o27} 
+n\,\left( n+1\right) \,{{r}^{n-2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diff(x\^{}n,x,2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o28}\label{o28} 
+\left( n-1\right) n\,{{x}^{n-2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Vector Calculus Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=oU47G_HY2kQ}
+{Vector Calculus Problem \# 2}
+
+
+If $f=(x^2+y^2+z^2)^{-n}$, find $\nabla\cdot(\nabla f)$ and determine $n$
+if $\nabla\cdot(\nabla f)=0$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(f)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:(x\ensuremath{^2}+y\ensuremath{^2}+z\ensuremath{^2})\^{}(-n))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+f=\frac{1}{{{\left( {{z}^{2}}+{{y}^{2}}+{{x}^{2}}\right) }^{n}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(lapf:ev(express(laplacian(f)),diff,factor))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\mathit{lapf}=2n\,\left( 2n-1\right) \,{{\left( {{z}^{2}}+{{y}^{2}}+{{x}^{2}}\right) }^{-n-1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(lapf,n);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+\left[n=\frac{1}{2},n=0\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Vector Calculus Problem \#3}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=90kudZD0F8g}
+{Vector Calculus Problem \# 3}
+
+
+Show that $\nabla^2 f(r)=f^{\prime\prime}+\frac{2}{r}f^{\prime}(r)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(f)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(spherical)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(f,r)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(f,scalar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(lapf:ev(express(laplacian(f)),diff,expand))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\mathit{lapf}=\frac{2\left( {{f}_{r}}\right) }{r}+{{f}_{rr}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Line Integrals Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=qAM6xG8emkU}
+{Line Integrals Problem \# 1}
+
+
+Evaluate $\int_C\vec{F}\cdot\mathrm{d}\vec{r}$ where $\vec{F}=(x^2-y^2)
+\hat{i}+x y\hat{j}$ and $C$ is the arc of curve $y=x^3$ in the $xy$ plane
+from $(0,0)$ to $(2,8)$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x\ensuremath{^2}-y\ensuremath{^2},x*y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+F=[{{x}^{2}}-{{y}^{2}},xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[0,0]\$B:[2,8]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:[t,t\ensuremath{^3}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+C=[t,{{t}^{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\ensuremath{\backslash}':diff(C,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{C'}=[1,3{{t}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoC:subst(map("=",\ensuremath{\zeta},C),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{FoC}=[{{t}^{2}}-{{t}^{6}},{{t}^{4}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:factor(FoC.C\ensuremath{\backslash}'))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{integrand}={{t}^{2}}\,\left( 2{{t}^{4}}+1\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(integrand,t,0,2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\int_{0}^{2}{\left. {{t}^{2}}\,\left( 2{{t}^{4}}+1\right) dt\right.}=\left( \frac{824}{21}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Line Integrals Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=VhxIasVT2uk}
+{Line Integrals Problem \# 2}
+
+
+Evaluate $\int_C\vec{F}\cdot\mathrm{d}\vec{r}$ where $\vec{F}=(x^2+y^2)
+\hat{i}-2 x y\hat{j}$ and $C$ is the rectangle in the $xy$ plane bounded
+by $y=0$, $x=a$, $y=b$ and $x=0$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,I,a,b)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x\ensuremath{^2}+y\ensuremath{^2},-2*x*y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+F=[{{y}^{2}}+{{x}^{2}},-2xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{End points}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+O:[0,0]\$A:[a,0]\$B:[a,b]\$C:[0,b]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+C\_1:expand(t*A+(1-t)*O)\$L\ensuremath{\backslash}'\_1:diff(C\_1,t)\$\\
+C\_2:expand(t*B+(1-t)*A)\$L\ensuremath{\backslash}'\_2:diff(C\_2,t)\$\\
+C\_3:expand(t*C+(1-t)*B)\$L\ensuremath{\backslash}'\_3:diff(C\_3,t)\$\\
+C\_4:expand(t*O+(1-t)*C)\$L\ensuremath{\backslash}'\_4:diff(C\_4,t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+FoC\_1:subst(map("=",\ensuremath{\zeta},C\_1),F)\$integrand\_1:FoC\_1.L\ensuremath{\backslash}'\_1\$\\
+FoC\_2:subst(map("=",\ensuremath{\zeta},C\_2),F)\$integrand\_2:FoC\_2.L\ensuremath{\backslash}'\_2\$\\
+FoC\_3:subst(map("=",\ensuremath{\zeta},C\_3),F)\$integrand\_3:FoC\_3.L\ensuremath{\backslash}'\_3\$\\
+FoC\_4:subst(map("=",\ensuremath{\zeta},C\_4),F)\$integrand\_4:FoC\_4.L\ensuremath{\backslash}'\_4\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate(integrand\_1,t,0,1)\$\\
+I\_2:'integrate(integrand\_2,t,0,1)\$\\
+I\_3:'integrate(integrand\_3,t,0,1)\$\\
+I\_4:'integrate(integrand\_4,t,0,1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate,expand)))\$\\
+ldisplay(I\_2=box(ev(I\_2,integrate,expand)))\$\\
+ldisplay(I\_3=box(ev(I\_3,integrate,expand)))\$\\
+ldisplay(I\_4=box(ev(I\_4,integrate,expand)))\$\\
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+{{a}^{3}}\,\int_{0}^{1}{\left. {{t}^{2}}dt\right.}=\left( \frac{{{a}^{3}}}{3}\right) \mbox{}\]
+\[\tag{\%{}t30}\label{t30} 
+-2a\,{{b}^{2}}\,\int_{0}^{1}{\left. tdt\right.}=\left( -a\,{{b}^{2}}\right) \mbox{}\]
+\[\tag{\%{}t31}\label{t31} 
+-a\,\int_{0}^{1}{\left. {{\left( a-at\right) }^{2}}+{{b}^{2}}dt\right.}=\left( -a\,{{b}^{2}}-\frac{{{a}^{3}}}{3}\right) \mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+0=(0)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2+I\_3+I\_4,integrate,expand)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+I=\left( -2a\,{{b}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Integrals Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=ebCYPUJvABU}
+{Surface Integrals Problem \# 1}
+
+
+Evaluate $\iint_S\vec{F}\cdot\hat{n}\mathrm{d}s$ where $\vec{F}=4 x\hat{i}-
+2 y\hat{j}+z^2\hat{k}$ is taken in the region bounded by $x^2+y^2=4$,
+$z=0$ and $z=3$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,I,a,b)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(R\ensuremath{>}0,h\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([R,h],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[R=2,h=3]\$
+\end{minipage}
+
+
+\textbf{Vector field} $F\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[4*x,-2*y,z\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[4x,-2y,{{z}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:edit(F.cartan\_basis))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\alpha}}={{z}^{2}}\,\mathit{dz}-2y\,\mathit{dy}+4x\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\beta}}=4x\,\mathit{dy}\,\mathit{dz}+2y\,\mathit{dx}\,\mathit{dz}+{{z}^{2}}\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Parametrized surfaces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_1:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),0])\$\\
+ldisplay(S\_2:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),h])\$\\
+ldisplay(S\_3:[R*cos(\ensuremath{\theta}),R*sin(\ensuremath{\theta}),z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{S}_{1}}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },0]\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{S}_{2}}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },h]\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{S}_{3}}=[R\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },R\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:at(F,map("=",\ensuremath{\zeta},S\_1)).mycross(diff(S\_1,r),diff(S\_1,\ensuremath{\theta})))\$
+ldisplay(integrand\_2:trigsimp(at(F,map("=",\ensuremath{\zeta},S\_2)).mycross(diff(S\_2,\ensuremath{\theta}),diff(S\_2,r))))\$
+ldisplay(integrand\_3:factor(trigsimp(at(F,map("=",\ensuremath{\zeta},S\_3)).mycross(diff(S\_3,\ensuremath{\theta}),diff(S\_3,z)))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{{\mathit{integrand}}_{1}}=0\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{integrand}}_{2}}=-{{h}^{2}}r\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{integrand}}_{3}}=-2{{R}^{2}}\,\left( 3{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:diff(S\_1,\ensuremath{\theta})|(diff(S\_1,r)|at(\ensuremath{\beta},map("=",\ensuremath{\zeta},S\_1))))\$
+ldisplay(integrand\_2:trigsimp(diff(S\_2,r)|(diff(S\_2,\ensuremath{\theta})|at(\ensuremath{\beta},map("=",\ensuremath{\zeta},S\_2)))))\$
+ldisplay(integrand\_3:factor(trigsimp(diff(S\_3,z)|(diff(S\_3,\ensuremath{\theta})|at(\ensuremath{\beta},map("=",\ensuremath{\zeta},S\_3))))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+{{\mathit{integrand}}_{1}}=0\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{\mathit{integrand}}_{2}}=-{{h}^{2}}r\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+{{\mathit{integrand}}_{3}}=-2{{R}^{2}}\,\left( 3{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate('integrate(integrand\_1,r,0,R),\ensuremath{\theta},0,2*\ensuremath{\pi})\$\\
+I\_2:'integrate('integrate(integrand\_2,r,0,R),\ensuremath{\theta},0,2*\ensuremath{\pi})\$\\
+I\_3:'integrate('integrate(integrand\_3,\ensuremath{\theta},0,2*\ensuremath{\pi}),z,0,h)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+0=(0)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_2=box(ev(I\_2,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+-2\ensuremath{\pi} {{h}^{2}}\,\int_{0}^{R}{\left. rdr\right.}=\left( -36\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_3=box(ev(I\_3,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+-2{{R}^{2}}h\,\int_{0}^{2\ensuremath{\pi} }{\left. 3{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2d\mathit{\ensuremath{\theta}}\right.}=\left( 24\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2+I\_3,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+I=\left( -12\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Green's Theorem Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=tE13hjgbx0U}
+{Green's Theorem Problem \# 1}
+
+
+If $C$ be the vector closed curve in $xy$-plane bounding any region $R$ and
+$f_1(x,y)$ and $f_2(x,y)$ be the continuous partial derivative
+$\frac{\partial f_1}{\partial x}$ and $\frac{\partial f_2}{\partial x}$
+in $\mathbb{R}$, then $$\oint_C(f_1\,\mathrm{d}x+f_2\,\mathrm{d}y)=
+\iint_R\left({\dfrac{\partial f_2}{\partial x}-\dfrac{\partial f_1}
+{\partial y}}\right)\,\mathrm{d}x\,\mathrm{d}y$$
+
+
+Verify Green's theorem for the following integral in $xy$-plane $$\oint_C
+\left[{(3 x^2-8 y^2)\,\mathrm{d}x+(4 y-6 x y)\,\mathrm{d}y}\right]$$ where
+$C$ in the boundary of region bounded by the parabolas $y=\sqrt{x}$
+and $y=x^2$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,x,y,I)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_1:3*x\ensuremath{^2}-8*y\ensuremath{^2})\$\\
+ldisplay(f\_2:4*y-6*x*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+{{f}_{1}}=3{{x}^{2}}-8{{y}^{2}}\mbox{}\]
+\[\tag{\%{}t5}\label{t5} 
+{{f}_{2}}=4y-6xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[f\_1,f\_2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+F=[3{{x}^{2}}-8{{y}^{2}},4y-6xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\mathit{curlF}=10y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\alpha}}=\left( 4y-6xy\right) \,\mathit{dy}+\left( 3{{x}^{2}}-8{{y}^{2}}\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:edit(ext\_diff(\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{d\ensuremath{\alpha}}=10y\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curves} $\vec{C}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\_1:[t,t\ensuremath{^2}])\$\\
+ldisplay(C\_2:[t\ensuremath{^2},t])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{C}_{1}}=[t,{{t}^{2}}]\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{C}_{2}}=[{{t}^{2}},t]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:expand(subst(map("=",\ensuremath{\zeta},C\_1),F).diff(C\_1,t)))\$\\
+ldisplay(integrand\_2:expand(subst(map("=",\ensuremath{\zeta},C\_2),F).diff(C\_2,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{\mathit{integrand}}_{1}}=-20{{t}^{4}}+8{{t}^{3}}+3{{t}^{2}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{\mathit{integrand}}_{2}}=6{{t}^{5}}-22{{t}^{3}}+4t\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:diff(C\_1,t)|subst(map("=",\ensuremath{\zeta},C\_1),\ensuremath{\alpha}))\$\\
+ldisplay(integrand\_2:diff(C\_2,t)|subst(map("=",\ensuremath{\zeta},C\_2),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{\mathit{integrand}}_{1}}=-20{{t}^{4}}+8{{t}^{3}}+3{{t}^{2}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{integrand}}_{2}}=6{{t}^{5}}-22{{t}^{3}}+4t\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integrals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate(integrand\_1,t,0,1)\$\\
+I\_2:'integrate(integrand\_2,t,1,0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\int_{0}^{1}{\left. -20{{t}^{4}}+8{{t}^{3}}+3{{t}^{2}}dt\right.}=\left( -1\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_2=box(ev(I\_2,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+-\int_{0}^{1}{\left. 6{{t}^{5}}-22{{t}^{3}}+4tdt\right.}=\left( \frac{5}{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+I=\left( \frac{3}{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Use Green's theorem}
+
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:curlF;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+10y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:diff(\ensuremath{\zeta},y)|(diff(\ensuremath{\zeta},x)|d\ensuremath{\alpha});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+10y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Double integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(curlF,y,x\ensuremath{^2},\ensuremath{\sqrt{}}(x)),x,0,1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+10\int_{0}^{1}{\left. \int_{{{x}^{2}}}^{\sqrt{x}}{\left. ydy\right.}dx\right.}=\left( \frac{3}{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdrawdf(F,[x,0,1],[y,0,1],color=red,
+         line\_width=2,field\_color=green,
+         apply(parametric,append(C\_1,[t,0,1])),
+         apply(parametric,append(C\_2,[t,0,1])),
+         color=black,font\_size=15,font="Helvetica")\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Green's Theorem Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=7B9Vcn4xfyE}
+{Green's Theorem Problem \# 2}
+
+
+Verify Green's theorem in the plane for $\oint_C\left[{(x y+y^2)\,
+\mathrm{d}x+x^2\,\mathrm{d}y}\right]$ where $C$ is the closed curve of the
+region bounded by $y=x$ and $y=x^2$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,x,y,I)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_1:x*y+y\ensuremath{^2})\$\\
+ldisplay(f\_2:x\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+{{f}_{1}}={{y}^{2}}+xy\mbox{}\]
+\[\tag{\%{}t5}\label{t5} 
+{{f}_{2}}={{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[f\_1,f\_2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+F=[{{y}^{2}}+xy,{{x}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\mathit{curlF}=x-2y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\alpha}}={{x}^{2}}\,\mathit{dy}+\left( {{y}^{2}}+xy\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:edit(ext\_diff(\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{d\ensuremath{\alpha}}=\left( x-2y\right) \,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curves} $\vec{C}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\_1:[t,t\ensuremath{^2}])\$\\
+ldisplay(C\_2:[t,t])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{C}_{1}}=[t,{{t}^{2}}]\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{C}_{2}}=[t,t]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:expand(subst(map("=",\ensuremath{\zeta},C\_1),F).diff(C\_1,t)))\$\\
+ldisplay(integrand\_2:expand(subst(map("=",\ensuremath{\zeta},C\_2),F).diff(C\_2,t)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{\mathit{integrand}}_{1}}={{t}^{4}}+3{{t}^{3}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{\mathit{integrand}}_{2}}=3{{t}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:diff(C\_1,t)|subst(map("=",\ensuremath{\zeta},C\_1),\ensuremath{\alpha}))\$\\
+ldisplay(integrand\_2:diff(C\_2,t)|subst(map("=",\ensuremath{\zeta},C\_2),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{\mathit{integrand}}_{1}}={{t}^{4}}+3{{t}^{3}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{integrand}}_{2}}=3{{t}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integrals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate(integrand\_1,t,0,1)\$\\
+I\_2:'integrate(integrand\_2,t,1,0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\int_{0}^{1}{\left. {{t}^{4}}+3{{t}^{3}}dt\right.}=\left( \frac{19}{20}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_2=box(ev(I\_2,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+-3\int_{0}^{1}{\left. {{t}^{2}}dt\right.}=\left( -1\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+I=\left( -\frac{1}{20}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Use Green's theorem}
+
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:curlF;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+x-2y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:diff(\ensuremath{\zeta},y)|(diff(\ensuremath{\zeta},x)|d\ensuremath{\alpha});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+x-2y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Double integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(curlF,y,x\ensuremath{^2},x),x,0,1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\int_{0}^{1}{\left. \int_{{{x}^{2}}}^{x}{\left. x-2ydy\right.}dx\right.}=\left( -\frac{1}{20}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdrawdf(F,[x,0,1],[y,0,1],color=red,\\
+         line\_width=2,field\_color=green,\\
+         apply(parametric,append(C\_1,[t,0,1])),\\
+         apply(parametric,append(C\_2,[t,0,1])),\\
+         color=black,font\_size=15,font="Helvetica")\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Gauss's Divergence Theorem Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=kox4HHL43oM}
+{Gauss's Divergence Theorem Problem \# 1}
+
+
+Relation between surface and volume integrals
+$$\iint_S\vec{F}\cdot\hat{n}\,\mathrm{d}s=
+\iiint_V\nabla\cdot\vec{F}\,\mathrm{d}V$$
+
+
+From Gauss's Divergence theorem, find $\iint_S\vec{F}\cdot\hat{n}\,
+\mathrm{d}s$ where $\vec{F}=4 x\hat{i}-2 y^2\hat{j}+z^2\hat{k}$ is taken
+in the region bounded by $x^2+y^2=4$, $z=0$ and $z=3$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,I,R,h,r,\ensuremath{\theta})\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(R\ensuremath{>}0,h\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([R,h],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[R=2,h=3]\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[4*x,-2*y\ensuremath{^2},z\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[4x,-2{{y}^{2}},{{z}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{divF}=2z-4y+4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\beta}}=4x\,\mathit{dy}\,\mathit{dz}+2{{y}^{2}}\,\mathit{dx}\,\mathit{dz}+{{z}^{2}}\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{d\ensuremath{\beta}}=\left( 2z-4y+4\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\textbf{Polarcylindrical coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[r,\ensuremath{\theta},z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\mathit{Tr}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Jacobian of the transformation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J:trigsimp(determinant(jacobian(Tr,\ensuremath{\xi}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+J=r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surfaces} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_1:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),0]) /* Bottom */\$\\
+ldisplay(S\_2:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),h]) /* Top */\$\\
+ldisplay(S\_3:[R*cos(\ensuremath{\theta}),R*sin(\ensuremath{\theta}),z]) /* Walls */\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+{{S}_{1}}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },0]\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{S}_{2}}=[r\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },h]\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+{{S}_{3}}=[R\,\cos{\left( \mathit{\ensuremath{\theta}}\right) },R\,\sin{\left( \mathit{\ensuremath{\theta}}\right) },z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:trigsimp(subst(map("=",\ensuremath{\zeta},S\_1),F).mycross(diff(S\_1,r),diff(S\_1,\ensuremath{\theta}))))\$\\
+ldisplay(integrand\_2:trigsimp(subst(map("=",\ensuremath{\zeta},S\_2),F).mycross(diff(S\_2,\ensuremath{\theta}),diff(S\_2,r))))\$\\
+ldisplay(integrand\_3:trigsimp(subst(map("=",\ensuremath{\zeta},S\_3),F).mycross(diff(S\_3,\ensuremath{\theta}),diff(S\_3,z))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{\mathit{integrand}}_{1}}=0\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{integrand}}_{2}}=-{{h}^{2}}r\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{integrand}}_{3}}=4{{R}^{2}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{R}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:trigsimp(diff(S\_1,\ensuremath{\theta})|(diff(S\_1,r)|subst(map("=",\ensuremath{\zeta},S\_1),\ensuremath{\beta}))))\$
+ldisplay(integrand\_2:trigsimp(diff(S\_2,r)|(diff(S\_2,\ensuremath{\theta})|subst(map("=",\ensuremath{\zeta},S\_2),\ensuremath{\beta}))))\$
+ldisplay(integrand\_3:trigsimp(diff(S\_3,z)|(diff(S\_3,\ensuremath{\theta})|subst(map("=",\ensuremath{\zeta},S\_3),\ensuremath{\beta}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{{\mathit{integrand}}_{1}}=0\mbox{}\]
+\[\tag{\%{}t23}\label{t23} 
+{{\mathit{integrand}}_{2}}=-{{h}^{2}}r\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{\mathit{integrand}}_{3}}=4{{R}^{2}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{R}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Surface integrals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate('integrate(integrand\_1,r,0,R),\ensuremath{\theta},0,2*\ensuremath{\pi})\$\\
+I\_2:'integrate('integrate(integrand\_2,\ensuremath{\theta},2*\ensuremath{\pi},0),r,0,R)\$\\
+I\_3:'integrate('integrate(integrand\_3,\ensuremath{\theta},0,2*\ensuremath{\pi}),z,0,h)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate,params)))\$\\
+ldisplay(I\_2=box(ev(I\_2,integrate,params)))\$\\
+ldisplay(I\_3=box(ev(I\_3,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+0=(0)\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+2\ensuremath{\pi} {{h}^{2}}\,\int_{0}^{R}{\left. rdr\right.}=\left( 36\ensuremath{\pi} \right) \mbox{}\]
+\[\tag{\%{}t30}\label{t30} 
+h\,\int_{0}^{2\ensuremath{\pi} }{\left. 4{{R}^{2}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2{{R}^{3}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{3}}d\mathit{\ensuremath{\theta}}\right.}=\left( 48\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2+I\_3,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+I=\left( 84\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Using Gauss's Divergence Theorem}
+
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:trigsimp(subst(map("=",\ensuremath{\zeta},Tr),divF)*J))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\mathit{integrand}=-4{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+2rz+4r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:trigsimp(diff(Tr,z)|(diff(Tr,\ensuremath{\theta})|(diff(Tr,r)|subst(map("=",\ensuremath{\zeta},Tr),d\ensuremath{\beta})))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+\mathit{integrand}=-4{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+2rz+4r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Volume integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate('integrate(integrand,r,0,R),\ensuremath{\theta},0,2*\ensuremath{\pi}),z,0,h)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,params)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+\int_{0}^{h}{\left. \int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{R}{\left. -4{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+2rz+4rdr\right.}d\mathit{\ensuremath{\theta}}\right.}dz\right.}=\left( 84\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(R\ensuremath{>}0,h\ensuremath{>}0)\$\\
+forget(0\ensuremath{\leq}r)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,-3,3))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F/15))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(proportional\_axes=xy,xu\_grid=100,yv\_grid=100,\\
+xrange=[-R,R],yrange=[-R,R],zrange=[0,h],\\
+color=cyan,apply(parametric\_surface,append(S\_3,[\ensuremath{\theta},0,2*\ensuremath{\pi},z,0,h])),\\
+color=green,apply(parametric\_surface,append(S\_2,[r,0,R,\ensuremath{\theta},0,2*\ensuremath{\pi}])),\\
+color=blue,apply(parametric\_surface,append(S\_1,[r,0,R,\ensuremath{\theta},0,2*\ensuremath{\pi}])),\\
+head\_length=0.05,head\_type='nofilled,line\_width=2,color=red,vect3),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Gauss's Divergence Theorem Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=zdmvvjo6U8s}
+{Gauss's Divergence Theorem Problem \# 2}
+
+
+Use Gauss's Divergence theorem for $\vec{F}=(x^2-y z)\hat{i}+(y^2-z x)
+\hat{j}+(z^2-x y)\hat{k}$ taken over the rectangular parallelepiped
+$0\leq x\leq a$, $0\leq y\leq b$ and $0\leq z\leq c$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,I,a,b,c,u,v)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(a\ensuremath{>}0,b\ensuremath{>}0,c\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([a,b,c],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[a=5,b=6,c=4]\$
+\end{minipage}
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x\ensuremath{^2}-y*z,y\ensuremath{^2}-z*x,z\ensuremath{^2}-x*y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[{{x}^{2}}-yz,{{y}^{2}}-xz,{{z}^{2}}-xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{divF}=2z+2y+2x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\beta}}=\left( {{x}^{2}}-yz\right) \,\mathit{dy}\,\mathit{dz}-\left( {{y}^{2}}-xz\right) \,\mathit{dx}\,\mathit{dz}+\left( {{z}^{2}}-xy\right) \,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:edit(ext\_diff(\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{d\ensuremath{\beta}}=\left( 2z+2y+2x\right) \,\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surfaces} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_1:[0,u,v]) /* Left side */\$\\
+ldisplay(S\_2:[a,u,v]) /* Right side */\$\\
+ldisplay(S\_3:[u,0,v]) /* Front side */\$\\
+ldisplay(S\_4:[u,b,v]) /* Back side */\$\\
+ldisplay(S\_5:[u,v,0]) /* Bottom side */\$\\
+ldisplay(S\_6:[u,v,c]) /* Top side */\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{S}_{1}}=[0,u,v]\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{S}_{2}}=[a,u,v]\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{S}_{3}}=[u,0,v]\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{S}_{4}}=[u,b,v]\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{S}_{5}}=[u,v,0]\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{S}_{6}}=[u,v,c]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:ratsimp(subst(map("=",\ensuremath{\zeta},S\_1),F).mycross(diff(S\_1,v),diff(S\_1,u))))\$
+ldisplay(integrand\_2:ratsimp(subst(map("=",\ensuremath{\zeta},S\_2),F).mycross(diff(S\_2,u),diff(S\_2,v))))\$
+ldisplay(integrand\_3:ratsimp(subst(map("=",\ensuremath{\zeta},S\_3),F).mycross(diff(S\_3,u),diff(S\_3,v))))\$
+ldisplay(integrand\_4:ratsimp(subst(map("=",\ensuremath{\zeta},S\_4),F).mycross(diff(S\_4,v),diff(S\_4,u))))\$
+ldisplay(integrand\_5:ratsimp(subst(map("=",\ensuremath{\zeta},S\_5),F).mycross(diff(S\_5,v),diff(S\_5,u))))\$
+ldisplay(integrand\_6:ratsimp(subst(map("=",\ensuremath{\zeta},S\_6),F).mycross(diff(S\_6,u),diff(S\_6,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+{{\mathit{integrand}}_{1}}=uv\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+{{\mathit{integrand}}_{2}}={{a}^{2}}-uv\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{integrand}}_{3}}=uv\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{integrand}}_{4}}={{b}^{2}}-uv\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{integrand}}_{5}}=uv\mbox{}\]
+\[\tag{\%{}t22}\label{t22} 
+{{\mathit{integrand}}_{6}}={{c}^{2}}-uv\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:ratsimp(diff(S\_1,u)|(diff(S\_1,v)|subst(map("=",\ensuremath{\zeta},S\_1),\ensuremath{\beta}))))\$
+ldisplay(integrand\_2:ratsimp(diff(S\_2,v)|(diff(S\_2,u)|subst(map("=",\ensuremath{\zeta},S\_2),\ensuremath{\beta}))))\$
+ldisplay(integrand\_3:ratsimp(diff(S\_3,v)|(diff(S\_3,u)|subst(map("=",\ensuremath{\zeta},S\_3),\ensuremath{\beta}))))\$
+ldisplay(integrand\_4:ratsimp(diff(S\_4,u)|(diff(S\_4,v)|subst(map("=",\ensuremath{\zeta},S\_4),\ensuremath{\beta}))))\$
+ldisplay(integrand\_5:ratsimp(diff(S\_5,u)|(diff(S\_5,v)|subst(map("=",\ensuremath{\zeta},S\_5),\ensuremath{\beta}))))\$
+ldisplay(integrand\_6:ratsimp(diff(S\_6,v)|(diff(S\_6,u)|subst(map("=",\ensuremath{\zeta},S\_6),\ensuremath{\beta}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+{{\mathit{integrand}}_{1}}=uv\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{\mathit{integrand}}_{2}}={{a}^{2}}-uv\mbox{}\]
+\[\tag{\%{}t25}\label{t25} 
+{{\mathit{integrand}}_{3}}=uv\mbox{}\]
+\[\tag{\%{}t26}\label{t26} 
+{{\mathit{integrand}}_{4}}={{b}^{2}}-uv\mbox{}\]
+\[\tag{\%{}t27}\label{t27} 
+{{\mathit{integrand}}_{5}}=uv\mbox{}\]
+\[\tag{\%{}t28}\label{t28} 
+{{\mathit{integrand}}_{6}}={{c}^{2}}-uv\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Surface integrals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate('integrate(integrand\_1,u,0,b),v,0,c)\$\\
+I\_2:'integrate('integrate(integrand\_2,u,0,b),v,0,c)\$\\
+I\_3:'integrate('integrate(integrand\_3,u,0,a),v,0,c)\$\\
+I\_4:'integrate('integrate(integrand\_4,u,0,a),v,0,c)\$\\
+I\_5:'integrate('integrate(integrand\_5,u,0,a),v,0,b)\$\\
+I\_6:'integrate('integrate(integrand\_6,u,0,a),v,0,b)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate)))\$\\
+ldisplay(I\_2=box(ev(I\_2,integrate)))\$\\
+ldisplay(I\_3=box(ev(I\_3,integrate)))\$\\
+ldisplay(I\_4=box(ev(I\_4,integrate)))\$\\
+ldisplay(I\_5=box(ev(I\_5,integrate)))\$\\
+ldisplay(I\_6=box(ev(I\_6,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+\int_{0}^{b}{\left. udu\right.}\,\int_{0}^{c}{\left. vdv\right.}=\left( \frac{{{b}^{2}}\,{{c}^{2}}}{4}\right) \mbox{}\]
+\[\tag{\%{}t36}\label{t36} 
+\int_{0}^{c}{\left. \int_{0}^{b}{\left. {{a}^{2}}-uvdu\right.}dv\right.}=\left( -\frac{{{b}^{2}}\,{{c}^{2}}-4{{a}^{2}}bc}{4}\right) \mbox{}\]
+\[\tag{\%{}t37}\label{t37} 
+\int_{0}^{a}{\left. udu\right.}\,\int_{0}^{c}{\left. vdv\right.}=\left( \frac{{{a}^{2}}\,{{c}^{2}}}{4}\right) \mbox{}\]
+\[\tag{\%{}t38}\label{t38} 
+\int_{0}^{c}{\left. \int_{0}^{a}{\left. {{b}^{2}}-uvdu\right.}dv\right.}=\left( -\frac{{{a}^{2}}\,{{c}^{2}}-4a\,{{b}^{2}}c}{4}\right) \mbox{}\]
+\[\tag{\%{}t39}\label{t39} 
+\int_{0}^{a}{\left. udu\right.}\,\int_{0}^{b}{\left. vdv\right.}=\left( \frac{{{a}^{2}}\,{{b}^{2}}}{4}\right) \mbox{}\]
+\[\tag{\%{}t40}\label{t40} 
+\int_{0}^{b}{\left. \int_{0}^{a}{\left. {{c}^{2}}-uvdu\right.}dv\right.}=\left( \frac{4ab\,{{c}^{2}}-{{a}^{2}}\,{{b}^{2}}}{4}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2+I\_3+I\_4+I\_5+I\_6,integrate,factor)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+I=\left( abc\,\left( c+b+a\right) \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Using Gauss's Divergence Theorem}
+
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:divF)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+\mathit{integrand}=2z+2y+2x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:diff(\ensuremath{\zeta},z)|(diff(\ensuremath{\zeta},y)|(diff(\ensuremath{\zeta},x)|d\ensuremath{\beta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\mathit{integrand}=2z+2y+2x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Volume integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate('integrate(integrand,x,0,a),y,0,b),z,0,c)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,factor)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t45}\label{t45} 
+\int_{0}^{c}{\left. \int_{0}^{b}{\left. \int_{0}^{a}{\left. 2z+2y+2xdx\right.}dy\right.}dz\right.}=\left( abc\,\left( c+b+a\right) \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(a\ensuremath{>}0,b\ensuremath{>}0,c\ensuremath{>}0)\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,8))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F/10))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(proportional\_axes=xy,xu\_grid=100,yv\_grid=100,view=[65,30],\\
+xrange=[0,a],yrange=[0,b],zrange=[0,c],font\_size=20,font="Helvetica", \\
+color=green,apply(parametric\_surface,append(S\_1,[u,0,b,v,0,c])),\\
+            apply(parametric\_surface,append(S\_2,[u,0,b,v,0,c])),\\
+color=black,label(["S\_1",0,b/2,c/2],["S\_2",a,b/2,c/2]),\\
+color=blue, apply(parametric\_surface,append(S\_3,[u,0,a,v,0,c])),\\
+            apply(parametric\_surface,append(S\_4,[u,0,a,v,0,c])),\\
+color=black,label(["S\_3",a/2,0,c/2],["S\_4",a/2,b,c/2]),\\
+color=cyan, apply(parametric\_surface,append(S\_5,[u,0,a,v,0,b])),\\
+            apply(parametric\_surface,append(S\_6,[u,0,a,v,0,b])),\\
+color=black,label(["S\_5",a/2,b/2,0],["S\_6",a/2,b/2,c]),\\
+head\_length=0.1,head\_type='nofilled,line\_width=2,color=red,vect3),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Stokes Theorem Problem \#1}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=MZnymin9i3s}
+{Stokes Theorem Problem \# 1}
+
+
+Relation between line integral and surface integral
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\iint_s(\nabla\times\vec{F})\cdot\hat{n}\,\mathrm{d}s$$
+
+
+Verify Stokes theorem for $\vec{F}=(x^2+y^2)\hat{i}-2 x y\hat{j}$ taken
+around the rectangle bounded by $x=\pm a$ and $y=0$ to $y=b$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,I,a,b)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(a\ensuremath{>}0,b\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([a,b],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[a=2,b=1]\$
+\end{minipage}
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x\ensuremath{^2}+y\ensuremath{^2},-2*x*y])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[{{y}^{2}}+{{x}^{2}},-2xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{curlF}=-4y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\alpha}}=\left( {{y}^{2}}+{{x}^{2}}\right) \,\mathit{dx}-2xy\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:edit(ext\_diff(\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{d\ensuremath{\alpha}}=-4y\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+\textbf{Curves} $C\in\mathbb{R}^2$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C\_1:[t,0])\$\\
+ldisplay(C\_2:[a,t])\$\\
+ldisplay(C\_3:[t,b])\$\\
+ldisplay(C\_4:[-a,t])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{C}_{1}}=[t,0]\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{C}_{2}}=[a,t]\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{C}_{3}}=[t,b]\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{C}_{4}}=[-a,t]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrands according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:subst(map("=",\ensuremath{\zeta},C\_1),F).diff(C\_1,t))\$\\
+ldisplay(integrand\_2:subst(map("=",\ensuremath{\zeta},C\_2),F).diff(C\_2,t))\$\\
+ldisplay(integrand\_3:subst(map("=",\ensuremath{\zeta},C\_3),F).diff(C\_3,t))\$\\
+ldisplay(integrand\_4:subst(map("=",\ensuremath{\zeta},C\_4),F).diff(C\_4,t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{\mathit{integrand}}_{1}}={{t}^{2}}\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{\mathit{integrand}}_{2}}=-2at\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{\mathit{integrand}}_{3}}={{t}^{2}}+{{b}^{2}}\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+{{\mathit{integrand}}_{4}}=2at\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrands according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand\_1:diff(C\_1,t)|subst(map("=",\ensuremath{\zeta},C\_1),\ensuremath{\alpha}))\$\\
+ldisplay(integrand\_2:diff(C\_2,t)|subst(map("=",\ensuremath{\zeta},C\_2),\ensuremath{\alpha}))\$\\
+ldisplay(integrand\_3:diff(C\_3,t)|subst(map("=",\ensuremath{\zeta},C\_3),\ensuremath{\alpha}))\$\\
+ldisplay(integrand\_4:diff(C\_4,t)|subst(map("=",\ensuremath{\zeta},C\_4),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{\mathit{integrand}}_{1}}={{t}^{2}}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{integrand}}_{2}}=-2at\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{integrand}}_{3}}={{t}^{2}}+{{b}^{2}}\mbox{}\]
+\[\tag{\%{}t22}\label{t22} 
+{{\mathit{integrand}}_{4}}=2at\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integrals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I\_1:'integrate(integrand\_1,t,-a,a)\$\\
+I\_2:'integrate(integrand\_2,t,0,b)\$\\
+I\_3:'integrate(integrand\_3,t,a,-a)\$\\
+I\_4:'integrate(integrand\_4,t,b,0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I\_1=box(ev(I\_1,integrate)))\$\\
+ldisplay(I\_2=box(ev(I\_2,integrate)))\$\\
+ldisplay(I\_3=box(ev(I\_3,integrate)))\$\\
+ldisplay(I\_4=box(ev(I\_4,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\int_{-a}^{a}{\left. {{t}^{2}}dt\right.}=\left( \frac{2{{a}^{3}}}{3}\right) \mbox{}\]
+\[\tag{\%{}t28}\label{t28} 
+-2a\,\int_{0}^{b}{\left. tdt\right.}=\left( -a\,{{b}^{2}}\right) \mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+-\int_{-a}^{a}{\left. {{t}^{2}}+{{b}^{2}}dt\right.}=\left( -\frac{2\left( 3a\,{{b}^{2}}+{{a}^{3}}\right) }{3}\right) \mbox{}\]
+\[\tag{\%{}t30}\label{t30} 
+-2a\,\int_{0}^{b}{\left. tdt\right.}=\left( -a\,{{b}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I\_1+I\_2+I\_3+I\_4,integrate,ratsimp)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+I=\left( -4a\,{{b}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\textbf{Using Stokes Theorem}
+
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:curlF)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\mathit{integrand}=-4y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:diff(\ensuremath{\zeta},y)|(diff(\ensuremath{\zeta},x)|d\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+\mathit{integrand}=-4y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Surface integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand,x,-a,a),y,0,b)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+-8a\,\int_{0}^{b}{\left. ydy\right.}=\left( -4a\,{{b}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(a\ensuremath{>}0,b\ensuremath{>}0)\$
+\end{minipage}
+\pagebreak
+
+\textbf{2D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdrawdf(F,[x,-a-\ensuremath{\frac{1}{2}},a+\ensuremath{\frac{1}{2}}],[y,-\ensuremath{\frac{1}{2}},b+\ensuremath{\frac{1}{2}}],\\
+color=blue,line\_width=3,field\_color=magenta,\\
+apply(parametric,append(C\_1,[t,-a,a])),\\
+apply(parametric,append(C\_2,[t,0,b])),\\
+apply(parametric,append(C\_3,[t,-a,a])),\\
+apply(parametric,append(C\_4,[t,0,b])),\\
+color=green,line\_width=2,\\
+vector([a,0],[0,b]),vector([a,b],[-2*a,0]),\\
+vector([-a,b],[0,-b]),vector([-a,0],[2*a,0]),\\
+color=black,font\_size=20,font="Helvetica",\\
+label(["C\_1",0.2,-0.1],["C\_2",a+0.2,b/2]),\\
+label(["C\_3",0.2,b+0.1],["C\_4",-a-0.2,b/2])),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Stokes Theorem Problem \#2}
+
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=_i21mjOXwX4}
+{Stokes Theorem Problem \# 2}
+
+
+Verify Stokes theorem for the field $\vec{F}=(2 x-y)\hat{i}-y z^2\hat{j}-
+y^2 z\hat{k}$ over the upper half surface of $x^2+y^2+z^2=1$ bounded by
+its projection on the $xy$-plane and $C$ is the boundary.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,r,\ensuremath{\theta},\ensuremath{\phi},I,R)\$
+\end{minipage}
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Parameters}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(R\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(R,constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[R=5]\$
+\end{minipage}
+
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[2*x-y,-y*z\ensuremath{^2},-y\ensuremath{^2}*z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[2x-y,-y\,{{z}^{2}},-{{y}^{2}}z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{curlF}=[0,0,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\alpha}}=-{{y}^{2}}z\,\mathit{dz}-y\,{{z}^{2}}\,\mathit{dy}+\left( 2x-y\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{d\ensuremath{\alpha}}=\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S},\vec{D}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[R*sin(\ensuremath{\theta})*cos(\ensuremath{\phi}),R*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),R*cos(\ensuremath{\theta})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+S=[R\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\cos{\left( \mathit{\ensuremath{\phi}}\right) },R\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },R\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:trigsimp(curlF.mycross(diff(S,\ensuremath{\theta}),diff(S,\ensuremath{\phi}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\mathit{integrand}={{R}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:trigsimp(diff(S,\ensuremath{\phi})|(diff(S,\ensuremath{\theta})|d\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\mathit{integrand}={{R}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Surface integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand,\ensuremath{\theta},0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}),\ensuremath{\phi},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+2\ensuremath{\pi} {{R}^{2}}\,\int_{0}^{\frac{\ensuremath{\pi} }{2}}{\left. \cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }d\mathit{\ensuremath{\theta}}\right.}=\left( \ensuremath{\pi} {{R}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Curve} $\vec{C}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(C:at(S,[\ensuremath{\theta}=\ensuremath{\frac{1}{2}}*\ensuremath{\pi}]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+C=[R\,\cos{\left( \mathit{\ensuremath{\phi}}\right) },R\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to vector calculus}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:factor(subst(map("=",\ensuremath{\zeta},C),F).diff(C,\ensuremath{\phi})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\mathit{integrand}={{R}^{2}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\phi}}\right) }-2\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand according to differential forms}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(integrand:factor(diff(C,\ensuremath{\phi})|subst(map("=",\ensuremath{\zeta},C),\ensuremath{\alpha})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{integrand}={{R}^{2}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\phi}}\right) }-2\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate(integrand,\ensuremath{\phi},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{R}^{2}}\,\int_{0}^{2\ensuremath{\pi} }{\left. \sin{\left( \mathit{\ensuremath{\phi}}\right) }\,\left( \sin{\left( \mathit{\ensuremath{\phi}}\right) }-2\cos{\left( \mathit{\ensuremath{\phi}}\right) }\right) d\mathit{\ensuremath{\phi}}\right.}=\left( \ensuremath{\pi} {{R}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(R\ensuremath{>}0)\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,-5,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F/10))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(proportional\_axes=xy,xu\_grid=100,yv\_grid=100,\\
+xrange=[-R,R],yrange=[-R,R],zrange=[0,R],font\_size=20,font="Helvetica",\\
+color=blue,apply(parametric\_surface,append(S,[\ensuremath{\theta},0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi},\ensuremath{\phi},0,2*\ensuremath{\pi}])),\\
+color=red,line\_width=3,apply(parametric,append(C,[\ensuremath{\phi},0,2*\ensuremath{\pi}])),\\
+head\_length=0.1,color=magenta,line\_width=1,head\_angle=25,unit\_vectors=true,vect3),params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{MKS Vector Calculus_img/MKS Vector Calculus_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}

@@ -1,0 +1,2689 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+MKS Vector Calculus
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Vector Calculus},
+            pdfsubject={Vector Calculus},
+            pdfkeywords={MKS Tutorials}}
+
+Based on MKS Tutorials Playlist
+\href{https://www.youtube.com/playlist?list=PLhSp9OSVmeyIeKw3AdI2e3R9Q2IKzPcy7}
+{Vector Calculus}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3,
+                  background_color=light_gray)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('format,'version)=false then load(format)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Gradient of a Vector
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=1LpyTH9KJSk}
+{Gradient of a Vector}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find $\nabla(x^2 y z)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x²*y*z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf:ev(express(grad(f)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(df:edit(ext_diff(f)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=57EOiROT8I0}
+{Directional Derivative}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Directional Derivative}
+$$\dfrac{\mathrm{d}\phi}{\mathrm{d}s}=\hat{a}\cdot\nabla\phi$$
+\textbf{Divergence}
+$$\nabla\cdot\vec{F}$$
+\textbf{Curl}
+$$\nabla\times\vec{F}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=hiJw4vrBsjQ}
+{Directional Derivative Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the directional derivative of $\phi=3 x^2 y z - 4 y^2 z^3$ in the
+direction of the vector $3\hat{i}-4\hat{j}+2\hat{k}$ at point $(2,-1,3)$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:3*x²*y*z-4*y²*z³)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradφ:ev(express(grad(φ)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dφ:edit(ext_diff(φ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(a:[3,-4,2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[2,-1,3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a).gradφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a)|dφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D_p:at(D,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=UQ44uORJMYg}
+{Directional Derivative Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the directional derivative of $\phi=x^2 - 2 y^2 + 4 z^2$ at the point
+$(1,1,-1)$ in the direction of $2\hat{i}+\hat{j}-\hat{k}$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:x²-2*y²+4*z²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradφ:ev(express(grad(φ)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dφ:edit(ext_diff(φ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(a:[2,1,-1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[1,1,-1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a).gradφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a)|dφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D_p:at(D,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative Problem \# 3
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=Y9VYFgPpQq4}
+{Directional Derivative Problem \# 3}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+What is the directional derivative of $\phi=x y^2+y z^3$ at the point
+$(2,-1,1)$ in the direction of normal to the surface $x\log{z}-y^2=4$
+at $(-1,2,1)$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(φ:x*y²+y*z³)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[2,-1,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradφ:ev(express(grad(φ)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dφ:edit(ext_diff(φ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:x*log(z)-y²=4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Q:[-1,2,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(a:ev(express(grad(lhs(S))),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(a_Q:at(a,map("=",ζ,Q)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a_Q).gradφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D:factor(normalize(a_Q)|dφ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(D_P:at(D,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative Problem \# 4
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=P4zLNdnwiHQ}
+{Directional Derivative Problem \# 4}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+The temperature of point in the space is given by $T=x^2+y^2-z$. A mosquito
+located at $(1,1,2)$ desires to fly in such a direction that it will get
+warm as soon as possible. In what direction should it move?
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T:x²+y²-z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[1,1,2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradT:ev(express(grad(T)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dT:edit(ext_diff(T)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradT_P:normalize(at(gradT,map("=",ζ,P))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Directional Derivative Problem \# 5
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=lltyp_NstbM}
+{Directional Derivative Problem \# 5}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the constants $a$ and $b$ so that the surface $a x^2 - b y z = (a+2)x$
+will be orthogonal to the surface $4 x^2 y + z^3=4$ at the point $(1,-1,2)$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[1,-1,2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_1:a*x²-b*y*z=(a+2)*x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_1:lhs(f_1)-rhs(f_1))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf_1:ev(express(grad(f_1)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(df_1:edit(ext_diff(f_1)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf_P_1:at(gradf_1,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_2:4*x²*y+z³=4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_2:lhs(f_2)-rhs(f_2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf_2:ev(express(grad(f_2)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(df_2:edit(ext_diff(f_2)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf_P_2:at(gradf_2,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+The given surfaces intersect orthogonally at point $(1,-1,2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Eq1:gradf_P_1.gradf_P_2=0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Also, the point $(1,-1,2)$ lies in both sufaces.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Eq2:at(f_1,map("=",ζ,P))=0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve([Eq1,Eq2],[a,b]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Divergence and Curl Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=uho9tCElTYs}
+{Divergence and Curl Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the divergence and curl of $\vec{F}=3 x^2\hat{i}+5 x y^2\hat{j}+
+x y z^3\hat{k}$ at point $(1,2,3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[1,2,3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[3*x²,5*x*y²,x*y*z³])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:edit(F.cartan_basis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+At $P$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF_P:at(divF,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF_P:at(curlF,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Vector Calculus Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=FoPXKPhB9rA}
+{Vector Calculus Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Show that $\nabla^2 r^n=n(n+1)r^{n-2}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(spherical)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(n,integer)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(laplacian(r^n)),diff);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(x^n,x,2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Vector Calculus Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=oU47G_HY2kQ}
+{Vector Calculus Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+If $f=(x^2+y^2+z^2)^{-n}$, find $\nabla\cdot(\nabla f)$ and determine $n$
+if $\nabla\cdot(\nabla f)=0$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(f)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:(x²+y²+z²)^(-n))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapf:ev(express(laplacian(f)),diff,factor))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(lapf,n);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Vector Calculus Problem \# 3
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=90kudZD0F8g}
+{Vector Calculus Problem \# 3}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Show that $\nabla^2 f(r)=f^{\prime\prime}+\frac{2}{r}f^{\prime}(r)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(f)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(spherical)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(f,scalar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapf:ev(express(laplacian(f)),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Line Integrals Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=qAM6xG8emkU}
+{Line Integrals Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\int_C\vec{F}\cdot\mathrm{d}\vec{r}$ where $\vec{F}=(x^2-y^2)
+\hat{i}+x y\hat{j}$ and $C$ is the arc of curve $y=x^3$ in the $xy$ plane
+from $(0,0)$ to $(2,8)$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x²-y²,x*y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[0,0]$B:[2,8]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C:[t,t³])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C\':diff(C,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoC:subst(map("=",ζ,C),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:factor(FoC.C\'))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate(integrand,t,0,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Line Integrals Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=VhxIasVT2uk}
+{Line Integrals Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\int_C\vec{F}\cdot\mathrm{d}\vec{r}$ where $\vec{F}=(x^2+y^2)
+\hat{i}-2 x y\hat{j}$ and $C$ is the rectangle in the $xy$ plane bounded
+by $y=0$, $x=a$, $y=b$ and $x=0$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,I,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x²+y²,-2*x*y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{End points}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+O:[0,0]$A:[a,0]$B:[a,b]$C:[0,b]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+C_1:expand(t*A+(1-t)*O)$L\'_1:diff(C_1,t)$
+C_2:expand(t*B+(1-t)*A)$L\'_2:diff(C_2,t)$
+C_3:expand(t*C+(1-t)*B)$L\'_3:diff(C_3,t)$
+C_4:expand(t*O+(1-t)*C)$L\'_4:diff(C_4,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+FoC_1:subst(map("=",ζ,C_1),F)$integrand_1:FoC_1.L\'_1$
+FoC_2:subst(map("=",ζ,C_2),F)$integrand_2:FoC_2.L\'_2$
+FoC_3:subst(map("=",ζ,C_3),F)$integrand_3:FoC_3.L\'_3$
+FoC_4:subst(map("=",ζ,C_4),F)$integrand_4:FoC_4.L\'_4$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(integrand_1,t,0,1)$
+I_2:'integrate(integrand_2,t,0,1)$
+I_3:'integrate(integrand_3,t,0,1)$
+I_4:'integrate(integrand_4,t,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate,expand)))$
+ldisplay(I_2=box(ev(I_2,integrate,expand)))$
+ldisplay(I_3=box(ev(I_3,integrate,expand)))$
+ldisplay(I_4=box(ev(I_4,integrate,expand)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2+I_3+I_4,integrate,expand)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Integrals Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=ebCYPUJvABU}
+{Surface Integrals Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S\vec{F}\cdot\hat{n}\mathrm{d}s$ where $\vec{F}=4 x\hat{i}-
+2 y\hat{j}+z^2\hat{k}$ is taken in the region bounded by $x^2+y^2=4$,
+$z=0$ and $z=3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,I,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(R>0,h>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([R,h],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[R=2,h=3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $F\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[4*x,-2*y,z²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:edit(F.cartan_basis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parametrized surfaces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[r*cos(θ),r*sin(θ),0])$
+ldisplay(S_2:[r*cos(θ),r*sin(θ),h])$
+ldisplay(S_3:[R*cos(θ),R*sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:at(F,map("=",ζ,S_1)).mycross(diff(S_1,r),diff(S_1,θ)))$
+ldisplay(integrand_2:trigsimp(at(F,map("=",ζ,S_2)).mycross(diff(S_2,θ),diff(S_2,r))))$
+ldisplay(integrand_3:factor(trigsimp(at(F,map("=",ζ,S_3)).mycross(diff(S_3,θ),diff(S_3,z)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:diff(S_1,θ)|(diff(S_1,r)|at(β,map("=",ζ,S_1))))$
+ldisplay(integrand_2:trigsimp(diff(S_2,r)|(diff(S_2,θ)|at(β,map("=",ζ,S_2)))))$
+ldisplay(integrand_3:factor(trigsimp(diff(S_3,z)|(diff(S_3,θ)|at(β,map("=",ζ,S_3))))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate('integrate(integrand_1,r,0,R),θ,0,2*π)$
+I_2:'integrate('integrate(integrand_2,r,0,R),θ,0,2*π)$
+I_3:'integrate('integrate(integrand_3,θ,0,2*π),z,0,h)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_3=box(ev(I_3,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2+I_3,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Green's Theorem Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=tE13hjgbx0U}
+{Green's Theorem Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+If $C$ be the vector closed curve in $xy$-plane bounding any region $R$ and
+$f_1(x,y)$ and $f_2(x,y)$ be the continuous partial derivative
+$\frac{\partial f_1}{\partial x}$ and $\frac{\partial f_2}{\partial x}$
+in $\mathbb{R}$, then $$\oint_C(f_1\,\mathrm{d}x+f_2\,\mathrm{d}y)=
+\iint_R\left({\dfrac{\partial f_2}{\partial x}-\dfrac{\partial f_1}
+{\partial y}}\right)\,\mathrm{d}x\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify Green's theorem for the following integral in $xy$-plane $$\oint_C
+\left[{(3 x^2-8 y^2)\,\mathrm{d}x+(4 y-6 x y)\,\mathrm{d}y}\right]$$ where
+$C$ in the boundary of region bounded by the parabolas $y=\sqrt{x}$
+and $y=x^2$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,I)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_1:3*x²-8*y²)$
+ldisplay(f_2:4*y-6*x*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[f_1,f_2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curves} $\vec{C}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:[t,t²])$
+ldisplay(C_2:[t²,t])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:expand(subst(map("=",ζ,C_1),F).diff(C_1,t)))$
+ldisplay(integrand_2:expand(subst(map("=",ζ,C_2),F).diff(C_2,t)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:diff(C_1,t)|subst(map("=",ζ,C_1),α))$
+ldisplay(integrand_2:diff(C_2,t)|subst(map("=",ζ,C_2),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integrals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(integrand_1,t,0,1)$
+I_2:'integrate(integrand_2,t,1,0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use Green's theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:curlF;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:diff(ζ,y)|(diff(ζ,x)|dα);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Double integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(curlF,y,x²,√(x)),x,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,0,1],[y,0,1],color=red,
+         line_width=2,field_color=green,
+         apply(parametric,append(C_1,[t,0,1])),
+         apply(parametric,append(C_2,[t,0,1])),
+         color=black,font_size=15,font="Helvetica")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Green's Theorem Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=7B9Vcn4xfyE}
+{Green's Theorem Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify Green's theorem in the plane for $\oint_C\left[{(x y+y^2)\,
+\mathrm{d}x+x^2\,\mathrm{d}y}\right]$ where $C$ is the closed curve of the
+region bounded by $y=x$ and $y=x^2$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,I)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f_1:x*y+y²)$
+ldisplay(f_2:x²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[f_1,f_2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curves} $\vec{C}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:[t,t²])$
+ldisplay(C_2:[t,t])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:expand(subst(map("=",ζ,C_1),F).diff(C_1,t)))$
+ldisplay(integrand_2:expand(subst(map("=",ζ,C_2),F).diff(C_2,t)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:diff(C_1,t)|subst(map("=",ζ,C_1),α))$
+ldisplay(integrand_2:diff(C_2,t)|subst(map("=",ζ,C_2),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integrals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(integrand_1,t,0,1)$
+I_2:'integrate(integrand_2,t,1,0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_2=box(ev(I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Use Green's theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:curlF;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:diff(ζ,y)|(diff(ζ,x)|dα);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Double integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(curlF,y,x²,x),x,0,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,0,1],[y,0,1],color=red,
+         line_width=2,field_color=green,
+         apply(parametric,append(C_1,[t,0,1])),
+         apply(parametric,append(C_2,[t,0,1])),
+         color=black,font_size=15,font="Helvetica")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Gauss's Divergence Theorem Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=kox4HHL43oM}
+{Gauss's Divergence Theorem Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Relation between surface and volume integrals
+$$\iint_S\vec{F}\cdot\hat{n}\,\mathrm{d}s=
+\iiint_V\nabla\cdot\vec{F}\,\mathrm{d}V$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+From Gauss's Divergence theorem, find $\iint_S\vec{F}\cdot\hat{n}\,
+\mathrm{d}s$ where $\vec{F}=4 x\hat{i}-2 y^2\hat{j}+z^2\hat{k}$ is taken
+in the region bounded by $x^2+y^2=4$, $z=0$ and $z=3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,I,R,h,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(R>0,h>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([R,h],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[R=2,h=3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[4*x,-2*y²,z²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Polarcylindrical coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*cos(θ),r*sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian of the transformation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:trigsimp(determinant(jacobian(Tr,ξ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surfaces} $\vec{S}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[r*cos(θ),r*sin(θ),0]) /* Bottom */$
+ldisplay(S_2:[r*cos(θ),r*sin(θ),h]) /* Top */$
+ldisplay(S_3:[R*cos(θ),R*sin(θ),z]) /* Walls */$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:trigsimp(subst(map("=",ζ,S_1),F).mycross(diff(S_1,r),diff(S_1,θ))))$
+ldisplay(integrand_2:trigsimp(subst(map("=",ζ,S_2),F).mycross(diff(S_2,θ),diff(S_2,r))))$
+ldisplay(integrand_3:trigsimp(subst(map("=",ζ,S_3),F).mycross(diff(S_3,θ),diff(S_3,z))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:trigsimp(diff(S_1,θ)|(diff(S_1,r)|subst(map("=",ζ,S_1),β))))$
+ldisplay(integrand_2:trigsimp(diff(S_2,r)|(diff(S_2,θ)|subst(map("=",ζ,S_2),β))))$
+ldisplay(integrand_3:trigsimp(diff(S_3,z)|(diff(S_3,θ)|subst(map("=",ζ,S_3),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface integrals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate('integrate(integrand_1,r,0,R),θ,0,2*π)$
+I_2:'integrate('integrate(integrand_2,θ,2*π,0),r,0,R)$
+I_3:'integrate('integrate(integrand_3,θ,0,2*π),z,0,h)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate,params)))$
+ldisplay(I_2=box(ev(I_2,integrate,params)))$
+ldisplay(I_3=box(ev(I_3,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2+I_3,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using Gauss's Divergence Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:trigsimp(subst(map("=",ζ,Tr),divF)*J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:trigsimp(diff(Tr,z)|(diff(Tr,θ)|(diff(Tr,r)|subst(map("=",ζ,Tr),dβ)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate('integrate(integrand,r,0,R),θ,0,2*π),z,0,h)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,params)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(R>0,h>0)$
+forget(0≤r)$
+forget(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,-3,3))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F/15))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(proportional_axes=xy,xu_grid=100,yv_grid=100,
+xrange=[-R,R],yrange=[-R,R],zrange=[0,h],
+color=cyan,apply(parametric_surface,append(S_3,[θ,0,2*π,z,0,h])),
+color=green,apply(parametric_surface,append(S_2,[r,0,R,θ,0,2*π])),
+color=blue,apply(parametric_surface,append(S_1,[r,0,R,θ,0,2*π])),
+head_length=0.05,head_type='nofilled,line_width=2,color=red,vect3),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Gauss's Divergence Theorem Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=zdmvvjo6U8s}
+{Gauss's Divergence Theorem Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Use Gauss's Divergence theorem for $\vec{F}=(x^2-y z)\hat{i}+(y^2-z x)
+\hat{j}+(z^2-x y)\hat{k}$ taken over the rectangular parallelepiped
+$0\leq x\leq a$, $0\leq y\leq b$ and $0\leq z\leq c$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,I,a,b,c,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(a>0,b>0,c>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([a,b,c],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[a=5,b=6,c=4]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x²-y*z,y²-z*x,z²-x*y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\cdot\vec{F}\in\mathbb{R}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divF:ev(express(div(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:F[1]*cartan_basis[2]~cartan_basis[3]+
+           F[2]*cartan_basis[3]~cartan_basis[1]+
+           F[3]*cartan_basis[1]~cartan_basis[2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:edit(ext_diff(β)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surfaces} $\vec{S}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S_1:[0,u,v]) /* Left side */$
+ldisplay(S_2:[a,u,v]) /* Right side */$
+ldisplay(S_3:[u,0,v]) /* Front side */$
+ldisplay(S_4:[u,b,v]) /* Back side */$
+ldisplay(S_5:[u,v,0]) /* Bottom side */$
+ldisplay(S_6:[u,v,c]) /* Top side */$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:ratsimp(subst(map("=",ζ,S_1),F).mycross(diff(S_1,v),diff(S_1,u))))$
+ldisplay(integrand_2:ratsimp(subst(map("=",ζ,S_2),F).mycross(diff(S_2,u),diff(S_2,v))))$
+ldisplay(integrand_3:ratsimp(subst(map("=",ζ,S_3),F).mycross(diff(S_3,u),diff(S_3,v))))$
+ldisplay(integrand_4:ratsimp(subst(map("=",ζ,S_4),F).mycross(diff(S_4,v),diff(S_4,u))))$
+ldisplay(integrand_5:ratsimp(subst(map("=",ζ,S_5),F).mycross(diff(S_5,v),diff(S_5,u))))$
+ldisplay(integrand_6:ratsimp(subst(map("=",ζ,S_6),F).mycross(diff(S_6,u),diff(S_6,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:ratsimp(diff(S_1,u)|(diff(S_1,v)|subst(map("=",ζ,S_1),β))))$
+ldisplay(integrand_2:ratsimp(diff(S_2,v)|(diff(S_2,u)|subst(map("=",ζ,S_2),β))))$
+ldisplay(integrand_3:ratsimp(diff(S_3,v)|(diff(S_3,u)|subst(map("=",ζ,S_3),β))))$
+ldisplay(integrand_4:ratsimp(diff(S_4,u)|(diff(S_4,v)|subst(map("=",ζ,S_4),β))))$
+ldisplay(integrand_5:ratsimp(diff(S_5,u)|(diff(S_5,v)|subst(map("=",ζ,S_5),β))))$
+ldisplay(integrand_6:ratsimp(diff(S_6,v)|(diff(S_6,u)|subst(map("=",ζ,S_6),β))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface integrals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate('integrate(integrand_1,u,0,b),v,0,c)$
+I_2:'integrate('integrate(integrand_2,u,0,b),v,0,c)$
+I_3:'integrate('integrate(integrand_3,u,0,a),v,0,c)$
+I_4:'integrate('integrate(integrand_4,u,0,a),v,0,c)$
+I_5:'integrate('integrate(integrand_5,u,0,a),v,0,b)$
+I_6:'integrate('integrate(integrand_6,u,0,a),v,0,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+ldisplay(I_2=box(ev(I_2,integrate)))$
+ldisplay(I_3=box(ev(I_3,integrate)))$
+ldisplay(I_4=box(ev(I_4,integrate)))$
+ldisplay(I_5=box(ev(I_5,integrate)))$
+ldisplay(I_6=box(ev(I_6,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2+I_3+I_4+I_5+I_6,integrate,factor)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using Gauss's Divergence Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:divF)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:diff(ζ,z)|(diff(ζ,y)|(diff(ζ,x)|dβ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate('integrate(integrand,x,0,a),y,0,b),z,0,c)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,factor)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(a>0,b>0,c>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,8))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F/10))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(proportional_axes=xy,xu_grid=100,yv_grid=100,view=[65,30],
+xrange=[0,a],yrange=[0,b],zrange=[0,c],font_size=20,font="Helvetica", 
+color=green,apply(parametric_surface,append(S_1,[u,0,b,v,0,c])),
+            apply(parametric_surface,append(S_2,[u,0,b,v,0,c])),
+color=black,label(["S_1",0,b/2,c/2],["S_2",a,b/2,c/2]),
+color=blue, apply(parametric_surface,append(S_3,[u,0,a,v,0,c])),
+            apply(parametric_surface,append(S_4,[u,0,a,v,0,c])),
+color=black,label(["S_3",a/2,0,c/2],["S_4",a/2,b,c/2]),
+color=cyan, apply(parametric_surface,append(S_5,[u,0,a,v,0,b])),
+            apply(parametric_surface,append(S_6,[u,0,a,v,0,b])),
+color=black,label(["S_5",a/2,b/2,0],["S_6",a/2,b/2,c]),
+head_length=0.1,head_type='nofilled,line_width=2,color=red,vect3),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Stokes Theorem Problem \# 1
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=MZnymin9i3s}
+{Stokes Theorem Problem \# 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Relation between line integral and surface integral
+$$\oint_C\vec{F}\cdot\mathrm{d}\vec{r}=
+\iint_s(\nabla\times\vec{F})\cdot\hat{n}\,\mathrm{d}s$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify Stokes theorem for $\vec{F}=(x^2+y^2)\hat{i}-2 x y\hat{j}$ taken
+around the rectangle bounded by $x=\pm a$ and $y=0$ to $y=b$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,I,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(a>0,b>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([a,b],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[a=2,b=1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x²+y²,-2*x*y])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^2)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:edit(ext_diff(α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curves} $C\in\mathbb{R}^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C_1:[t,0])$
+ldisplay(C_2:[a,t])$
+ldisplay(C_3:[t,b])$
+ldisplay(C_4:[-a,t])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrands according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:subst(map("=",ζ,C_1),F).diff(C_1,t))$
+ldisplay(integrand_2:subst(map("=",ζ,C_2),F).diff(C_2,t))$
+ldisplay(integrand_3:subst(map("=",ζ,C_3),F).diff(C_3,t))$
+ldisplay(integrand_4:subst(map("=",ζ,C_4),F).diff(C_4,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrands according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand_1:diff(C_1,t)|subst(map("=",ζ,C_1),α))$
+ldisplay(integrand_2:diff(C_2,t)|subst(map("=",ζ,C_2),α))$
+ldisplay(integrand_3:diff(C_3,t)|subst(map("=",ζ,C_3),α))$
+ldisplay(integrand_4:diff(C_4,t)|subst(map("=",ζ,C_4),α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integrals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I_1:'integrate(integrand_1,t,-a,a)$
+I_2:'integrate(integrand_2,t,0,b)$
+I_3:'integrate(integrand_3,t,a,-a)$
+I_4:'integrate(integrand_4,t,b,0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I_1=box(ev(I_1,integrate)))$
+ldisplay(I_2=box(ev(I_2,integrate)))$
+ldisplay(I_3=box(ev(I_3,integrate)))$
+ldisplay(I_4=box(ev(I_4,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I_1+I_2+I_3+I_4,integrate,ratsimp)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using Stokes Theorem}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:curlF)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:diff(ζ,y)|(diff(ζ,x)|dα))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand,x,-a,a),y,0,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(a>0,b>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{2D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdrawdf(F,[x,-a-½,a+½],[y,-½,b+½],
+color=blue,line_width=3,field_color=magenta,
+apply(parametric,append(C_1,[t,-a,a])),
+apply(parametric,append(C_2,[t,0,b])),
+apply(parametric,append(C_3,[t,-a,a])),
+apply(parametric,append(C_4,[t,0,b])),
+color=green,line_width=2,
+vector([a,0],[0,b]),vector([a,b],[-2*a,0]),
+vector([-a,b],[0,-b]),vector([-a,0],[2*a,0]),
+color=black,font_size=20,font="Helvetica",
+label(["C_1",0.2,-0.1],["C_2",a+0.2,b/2]),
+label(["C_3",0.2,b+0.1],["C_4",-a-0.2,b/2])),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+Stokes Theorem Problem \# 2
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on MKS Tutorials Video
+\href{https://www.youtube.com/watch?v=_i21mjOXwX4}
+{Stokes Theorem Problem \# 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Verify Stokes theorem for the field $\vec{F}=(2 x-y)\hat{i}-y z^2\hat{j}-
+y^2 z\hat{k}$ over the upper half surface of $x^2+y^2+z^2=1$ bounded by
+its projection on the $xy$-plane and $C$ is the boundary.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ,φ,I,R)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Parameters}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(R>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(R,constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[R=5]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[2*x-y,-y*z²,-y²*z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\nabla\times\vec{F}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlF:ev(express(curl(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:ext_diff(α))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface} $\vec{S},\vec{D}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[R*sin(θ)*cos(φ),R*sin(θ)*sin(φ),R*cos(θ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:trigsimp(curlF.mycross(diff(S,θ),diff(S,φ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:trigsimp(diff(S,φ)|(diff(S,θ)|dα)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Surface integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand,θ,0,½*π),φ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curve} $\vec{C}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(C:at(S,[θ=½*π]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to vector calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:factor(subst(map("=",ζ,C),F).diff(C,φ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Integrand according to differential forms}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(integrand:factor(diff(C,φ)|subst(map("=",ζ,C),α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line integral}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate(integrand,φ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(R>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,-5,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F/10))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(proportional_axes=xy,xu_grid=100,yv_grid=100,
+xrange=[-R,R],yrange=[-R,R],zrange=[0,R],font_size=20,font="Helvetica",
+color=blue,apply(parametric_surface,append(S,[θ,0,½*π,φ,0,2*π])),
+color=red,line_width=3,apply(parametric,append(C,[φ,0,2*π])),
+head_length=0.1,color=magenta,line_width=1,head_angle=25,unit_vectors=true,vect3),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
