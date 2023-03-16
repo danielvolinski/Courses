@@ -1,0 +1,811 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Connection forms
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Differential Geometry},
+            pdfsubject={Differential Geometry},
+            pdfkeywords={James Cook}}
+
+\begin{verbatim}
+Lecture Notes for Differential Geometry
+James S. Cook
+Liberty University
+Department of Mathematics
+Summer 2015
+\end{verbatim}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3,
+                  background_color=light_gray)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Cylindrical coordinate frame
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Examples 2.2.9, 2.2.15, 2.6.8, and 2.7.6.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartesian frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U[1],U[2],U[3]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Transformation formulas}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*cos(θ),r*sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(Tr,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Basis as Matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lb:transpose(J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Basis Vectors}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru 3 do ldisplay(le[ξ[i]]:lb[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(coframe:√(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ug:trigsimp(invert(lg)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Basis as Matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ub:trigsimp(ug.lb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Basis Vectors}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru 3 do ldisplay(ue[ξ[i]]:ub[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[dx,dy,dz]:list_matrix_entries(J.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dv:trigsimp(dx~dy~dz);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(ξ,z)|(diff(ξ,θ)|(diff(ξ,r)|dv));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dζ:trigsimp(ext_diff(at(ζ,map("=",ζ,Tr)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:apply('matrix,makelist(trigsimp(normalize(k)),k,args(transpose(J)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E:[E[1],E[2],E[3]]:trigsimp(list_matrix_entries(A.U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E[1],E[2],E[3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:[θ[1],θ[2],θ[3]]:list_matrix_entries(trigsimp(A.[dx,dy,dz])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:list_matrix_entries(trigsimp(A.dζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:sf*cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}A$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection form} $\omega\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{First structure equation of Cartan}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:ext_diff(Θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(ω.Θ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second structure equation of Cartan}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Spherical coordinate frame
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Examples 2.2.9, 2.2.15, 2.6.8 and 2.7.7.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartesian frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U[1],U[2],U[3]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Transformation formulas}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(Tr,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Basis as Matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lb:transpose(J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Basis Vectors}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru 3 do ldisplay(le[ξ[i]]:lb[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(coframe:√(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ug:trigsimp(invert(lg)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Basis as Matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ub:trigsimp(ug.lb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Basis Vectors}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru 3 do ldisplay(ue[ξ[i]]:ub[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[dx,dy,dz]:list_matrix_entries(J.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dv:trigsimp(dx~dy~dz);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(ξ,φ)|(diff(ξ,θ)|(diff(ξ,r)|dv));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dζ:trigsimp(ext_diff(at(ζ,map("=",ζ,Tr)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:apply('matrix,makelist(trigsimp(normalize(k)),k,args(transpose(J)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E:[E[1],E[2],E[3]]:trigsimp(list_matrix_entries(A.U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E[1],E[2],E[3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:[θ[1],θ[2],θ[3]]:list_matrix_entries(trigsimp(A.[dx,dy,dz])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:list_matrix_entries(trigsimp(A.dζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:sf*cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}A$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection form} $\omega\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{First structure equation of Cartan}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:ext_diff(Θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(ω.Θ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second structure equation of Cartan}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
