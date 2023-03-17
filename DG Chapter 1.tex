@@ -1,0 +1,1940 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Chapter 1 introduction}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Differential Geometry},
+            pdfsubject={Differential Geometry},
+            pdfkeywords={James Cook}}
+
+\begin{verbatim}
+Lecture Notes for Differential Geometry
+James S. Cook
+Liberty University
+Department of Mathematics
+Summer 2015
+\end{verbatim}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('drawdf,'version)=false then load(drawdf)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,\\
+                  xaxis=true,xaxis\_type=solid,xaxis\_width=3,\\
+                  yaxis=true,yaxis\_type=solid,yaxis\_width=3,\\
+                  zaxis=true,zaxis\_type=solid,zaxis\_width=3,\\
+                  background\_color=light\_gray)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(u.u))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+\section{points and vectors}
+
+
+\section{on tangent and cotangent spaces and bundles}
+
+
+\subsection{Example 1.2.2.}
+
+
+Define $f=2\,x^1-3\,x^4+(x_n)^2$ then $f(p)=\left({2\,x^1-3\,x^4+
+(x_n)^2}\right)(p)$ and by the usual addition of functions $f(p)=2\,
+p^1-3 p^4+(p_n)^2$.
+
+
+\subsection{Example 1.2.3.}
+
+
+Define $f=x+y^2+z^3$. Observe $f(a,b,c)=a+b^2+c^3$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x+y\ensuremath{^2}+z\ensuremath{^3})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+f={{z}^{3}}+{{y}^{2}}+x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(f,[x=a,y=b,z=c]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o17}\label{o17} 
+{{c}^{3}}+{{b}^{2}}+a\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{Example 1.2.13.}
+
+
+Let $f=\sqrt{(x^1)^2+\dots+(x^n)^2}$ clearly $f^2=(x^1)^2+\dots+(x^n)^2$
+and thus $\mathrm{d}f^2=2 f\,\mathrm{d}f$ and $\mathrm{d}(f^2)=2 x^1\,
+\mathrm{d}x^1+\dots+2 x^n\,\mathrm{d}x^n$ thus $$\mathrm{d}f=\dfrac{x^1\,
+\mathrm{d}x^1+\dots+x^n\,\mathrm{d}x^n}{\sqrt{(x^1)^2+\dots+(x^n)^2}}$$
+
+\pagebreak
+
+
+\section{the wedge product and differential forms}
+
+
+\subsection{Example 1.3.4.}
+
+
+A force $\vec{F}$ is conservative if there exists $f$ such that $\vec{F}=
+-\nabla\phi$. In the language of differential forms, this means the one-form
+$\omega_{\vec{F}}$ represents a conservative force if $\omega_{\vec{F}}=
+\omega_{-\nabla\phi}=-\mathrm{d}\phi$. Observe, $\omega_{\vec{F}}=
+-\mathrm{d}\phi$ implies $\mathrm{d}\omega_{\vec{F}}=-\mathrm{d}^2\phi=0$.
+As an application, consider $\omega_{\vec{F}}=-y\,\mathrm{d}x+x\,
+\mathrm{d}y+\mathrm{d}z$, is $\vec{F}$ conservative? 
+
+
+Calculate $$\mathrm{d}\omega_{\vec{F}}=-\mathrm{d}y\wedge\mathrm{d}x+
+\mathrm{d}x\wedge\mathrm{d}y+\mathrm{d}(\mathrm{d}z)=2\,\mathrm{d}x\wedge
+\mathrm{d}y\neq 0$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}\_F:-y*dx+x*dy+dz)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+{{\mathit{\ensuremath{\omega}}}_{F}}=\mathit{dz}+x\,\mathit{dy}-y\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\omega}\_F:edit(ext\_diff(\ensuremath{\omega}\_F)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+{{\mathit{d\ensuremath{\omega}}}_{F}}=2\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+thus $\vec{F}$ is not conservative.
+
+
+\subsection{Example 1.3.5.}
+
+
+It turns out that Maxwell's equations can be expressed in terms of the
+exterior derivative of the potential one-form $A$. The one-form contains
+both the voltage function and the magnetic vector-potential from which the
+time-derivative and gradient derive the electric and magnetic Fields.
+In spacetime the relation between the potentials and fields is simply
+$\vec{F}=\mathrm{d}A$. The choice of $A$ is far from unique. There is a
+\textbf{gauge freedom}. In particular, we can add an exterior derivative
+function of spacetime $\lambda$ and create $A^\prime=A+\mathrm{d}\lambda$.
+Note, $\mathrm{d}A^\prime=\mathrm{d}A+\mathrm{d}^2\lambda$ hence $A$ and
+$A^\prime$ generate the same electric and magnetic fields (which make up
+the Faraday tensor $F$)
+
+
+\subsection{Definition 1.3.6.}
+
+
+Work and Flux form correspondance
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+F:[P,Q,R]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}\_F:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+{{\mathit{\ensuremath{\omega}}}_{F}}=R\,\mathit{dz}+Q\,\mathit{dy}+P\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_flow:makelist((dx\ensuremath{\sim }dy\ensuremath{\sim }dz)/k,k,cartan\_basis)\$\\
+cartan\_sign:makelist((-1)\^{}(k+1),k,cartan\_dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Phi}\_F:F.(cartan\_flow*cartan\_sign))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{\mathit{\ensuremath{\Phi}}}_{F}}=P\,\mathit{dy}\,\mathit{dz}-Q\,\mathit{dx}\,\mathit{dz}+R\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{Proposition 1.3.7.}
+
+
+Vector algebra in Differential form.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y,z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[A\_1,A\_2,A\_3]\$\\
+B:[B\_1,B\_2,B\_3]\$\\
+C:[C\_1,C\_2,C\_3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}\_A:A.cartan\_basis)\$\\
+ldisplay(\ensuremath{\omega}\_B:B.cartan\_basis)\$\\
+ldisplay(\ensuremath{\omega}\_C:C.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+{{\mathit{\ensuremath{\omega}}}_{A}}={{A}_{3}}\mathit{dz}+{{A}_{2}}\mathit{dy}+{{A}_{1}}\mathit{dx}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\omega}}}_{B}}={{B}_{3}}\mathit{dz}+{{B}_{2}}\mathit{dy}+{{B}_{1}}\mathit{dx}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\omega}}}_{C}}={{C}_{3}}\mathit{dz}+{{C}_{2}}\mathit{dy}+{{C}_{1}}\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_flow:makelist((dx\ensuremath{\sim }dy\ensuremath{\sim }dz)/k,k,cartan\_basis)\$\\
+cartan\_sign:makelist((-1)\^{}(k+1),k,cartan\_dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Phi}\_A:A.(cartan\_flow*cartan\_sign))\$\\
+ldisplay(\ensuremath{\Phi}\_B:B.(cartan\_flow*cartan\_sign))\$\\
+ldisplay(\ensuremath{\Phi}\_C:C.(cartan\_flow*cartan\_sign))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+{{\mathit{\ensuremath{\Phi}}}_{A}}={{A}_{1}}\mathit{dy}\,\mathit{dz}-{{A}_{2}}\mathit{dx}\,\mathit{dz}+{{A}_{3}}\mathit{dx}\,\mathit{dy}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{\mathit{\ensuremath{\Phi}}}_{B}}={{B}_{1}}\mathit{dy}\,\mathit{dz}-{{B}_{2}}\mathit{dx}\,\mathit{dz}+{{B}_{3}}\mathit{dx}\,\mathit{dy}\mbox{}\]
+\[\tag{\%{}t25}\label{t25} 
+{{\mathit{\ensuremath{\Phi}}}_{C}}={{C}_{1}}\mathit{dy}\,\mathit{dz}-{{C}_{2}}\mathit{dx}\,\mathit{dz}+{{C}_{3}}\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\omega_A\wedge\omega_B=\Phi_{A\times B}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(\ensuremath{\omega}\_A\ensuremath{\sim }\ensuremath{\omega}\_B);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o26}\label{o26} 
+\left( {{A}_{2}}{{B}_{3}}-{{A}_{3}}{{B}_{2}}\right) \mathit{dy}\,\mathit{dz}+\left( {{A}_{1}}{{B}_{3}}-{{A}_{3}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dz}+\left( {{A}_{1}}{{B}_{2}}-{{A}_{2}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(mycross(A,B).(cartan\_flow*cartan\_sign));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o27}\label{o27} 
+\left( {{A}_{2}}{{B}_{3}}-{{A}_{3}}{{B}_{2}}\right) \mathit{dy}\,\mathit{dz}+\left( {{A}_{1}}{{B}_{3}}-{{A}_{3}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dz}+\left( {{A}_{1}}{{B}_{2}}-{{A}_{2}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o28}\label{o28} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\omega_A\wedge\omega_B\wedge\omega_C=A\cdot(B\times C)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(\ensuremath{\omega}\_A\ensuremath{\sim }\ensuremath{\omega}\_B\ensuremath{\sim }\ensuremath{\omega}\_C);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+\left( {{A}_{1}}{{B}_{2}}{{C}_{3}}-{{A}_{2}}{{B}_{1}}{{C}_{3}}-{{A}_{1}}{{B}_{3}}{{C}_{2}}+{{A}_{3}}{{B}_{1}}{{C}_{2}}+{{A}_{2}}{{B}_{3}}{{C}_{1}}-{{A}_{3}}{{B}_{2}}{{C}_{1}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(A.(mycross(B,C))*(dx\ensuremath{\sim }dy\ensuremath{\sim }dz));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o30}\label{o30} 
+\left( {{A}_{1}}{{B}_{2}}{{C}_{3}}-{{A}_{2}}{{B}_{1}}{{C}_{3}}-{{A}_{1}}{{B}_{3}}{{C}_{2}}+{{A}_{3}}{{B}_{1}}{{C}_{2}}+{{A}_{2}}{{B}_{3}}{{C}_{1}}-{{A}_{3}}{{B}_{2}}{{C}_{1}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o31}\label{o31} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\omega_A\wedge\Phi_B=(A\cdot B)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(\ensuremath{\omega}\_A\ensuremath{\sim }\ensuremath{\Phi}\_B);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\left( {{A}_{3}}{{B}_{3}}+{{A}_{2}}{{B}_{2}}+{{A}_{1}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit((A.B)*(dx\ensuremath{\sim }dy\ensuremath{\sim }dz));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+\left( {{A}_{3}}{{B}_{3}}+{{A}_{2}}{{B}_{2}}+{{A}_{1}}{{B}_{1}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+Differential vector calculus in differential form.
+
+
+\subsection{Proposition 1.3.8.}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y,z,f)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+F:[F\_1,F\_2,F\_3]\$\\
+G:[G\_1,G\_2,G\_3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(f,\ensuremath{\zeta})\$\\
+depends(F,\ensuremath{\zeta})\$\\
+depends(G,\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}\_F:F.cartan\_basis)\$\\
+ldisplay(\ensuremath{\omega}\_G:G.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+{{\mathit{\ensuremath{\omega}}}_{F}}={{F}_{3}}\mathit{dz}+{{F}_{2}}\mathit{dy}+{{F}_{1}}\mathit{dx}\mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+{{\mathit{\ensuremath{\omega}}}_{G}}={{G}_{3}}\mathit{dz}+{{G}_{2}}\mathit{dy}+{{G}_{1}}\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_flow:makelist((dx\ensuremath{\sim }dy\ensuremath{\sim }dz)/k,k,cartan\_basis)\$\\
+cartan\_sign:makelist((-1)\^{}(k+1),k,cartan\_dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Phi}\_F:F.(cartan\_flow*cartan\_sign))\$\\
+ldisplay(\ensuremath{\Phi}\_G:G.(cartan\_flow*cartan\_sign))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+{{\mathit{\ensuremath{\Phi}}}_{F}}={{F}_{1}}\mathit{dy}\,\mathit{dz}-{{F}_{2}}\mathit{dx}\,\mathit{dz}+{{F}_{3}}\mathit{dx}\,\mathit{dy}\mbox{}\]
+\[\tag{\%{}t48}\label{t48} 
+{{\mathit{\ensuremath{\Phi}}}_{G}}={{G}_{1}}\mathit{dy}\,\mathit{dz}-{{G}_{2}}\mathit{dx}\,\mathit{dz}+{{G}_{3}}\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}f=\omega_{\nabla f}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ext\_diff(f);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o49}\label{o49} 
+\left( {{f}_{z}}\right) \,\mathit{dz}+\left( {{f}_{y}}\right) \,\mathit{dy}+\left( {{f}_{x}}\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(grad(f)),diff).cartan\_basis;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o50}\label{o50} 
+\left( {{f}_{z}}\right) \,\mathit{dz}+\left( {{f}_{y}}\right) \,\mathit{dy}+\left( {{f}_{x}}\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o51}\label{o51} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\omega_F=\Phi_{\nabla\times\,F}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(ext\_diff(\ensuremath{\omega}\_F));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o52}\label{o52} 
+\left( {{{{F}_{3}}}_{y}}-{{{{F}_{2}}}_{z}}\right) \mathit{dy}\,\mathit{dz}+\left( {{{{F}_{3}}}_{x}}-{{{{F}_{1}}}_{z}}\right) \mathit{dx}\,\mathit{dz}+\left( {{{{F}_{2}}}_{x}}-{{{{F}_{1}}}_{y}}\right) \mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(ev(express(curl(F)),diff).(cartan\_flow*cartan\_sign));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o53}\label{o53} 
+\left( {{{{F}_{3}}}_{y}}-{{{{F}_{2}}}_{z}}\right) \mathit{dy}\,\mathit{dz}+\left( {{{{F}_{3}}}_{x}}-{{{{F}_{1}}}_{z}}\right) \mathit{dx}\,\mathit{dz}+\left( {{{{F}_{2}}}_{x}}-{{{{F}_{1}}}_{y}}\right) \mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o54}\label{o54} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$\mathrm{d}\Phi_G=(\nabla\cdot\,G)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+edit(ext\_diff(\ensuremath{\Phi}\_G));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o55}\label{o55} 
+\left( {{{{G}_{3}}}_{z}}+{{{{G}_{2}}}_{y}}+{{{{G}_{1}}}_{x}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(div(G)),diff)*(dx\ensuremath{\sim }dy\ensuremath{\sim }dz);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o56}\label{o56} 
+\left( {{{{G}_{3}}}_{z}}+{{{{G}_{2}}}_{y}}+{{{{G}_{1}}}_{x}}\right) \mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o57}\label{o57} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{paths and curves}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+\subsection{Example 1.4.4.}
+
+
+Let $\alpha(t)=p+t(q-p)$ for a given pair of distinct points
+$p,q\in\mathbb{R}^n$. You should identify $\alpha$ as the line connecting
+point $p=\alpha(0)$ and $q=\alpha(1)$. If we define $v=q-p$ then the
+velocity of $\alpha$ is given by: $$\alpha^\prime(t)=\left.{v^1
+\dfrac{\partial}{\partial x^1}}\right\vert_{\alpha(t)}+\left.{v^2
+\dfrac{\partial}{\partial x^2}}\right\vert_{\alpha(t)}+\dots+\left.{v^n
+\dfrac{\partial}{\partial x^n}}\right\vert_{\alpha(t)}$$
+
+
+Specializing to $n=2$ and $v=\langle{a,b}\rangle$ we have $\alpha(t)=
+(p^1+t a,p^2+t b)$ and $$\alpha^\prime(t)=\left.{a\dfrac{\partial}
+{\partial x}}\right\vert_{\alpha(t)}+\left.{b\dfrac{\partial}
+{\partial y}}\right\vert_{\alpha(t)}$$
+
+
+As an easy to check case, take $p=(0,0)$ hence $p^1=0$ and $p^2=0$ hence
+$\alpha^\prime(t)[f]=2 t(a^2+b^2)$. For $t>0$ we see $f$ is increasing as
+we travel away from the origin along the line $\alpha(t)$. But, $f$ is just
+the distance from the origin squared so the rate of change is quite
+reasonable. If we were to impose $a^2+b^2=1$ then $t$ represents the
+distance from the origin and the result reduces to $\alpha^\prime[f]=2 t$
+which makes sense as $f(\alpha(t))=(t a)^2+(t b)^2=t^2(a^2+b^2)=t^2$
+
+
+Notice that $\alpha^\prime(t)[f]$ gives the usual third-semester-American
+calculus directional derivative in the direction of $\alpha^\prime(t)[f]$
+only if we choose a parameter $t$ for which $\lVert\alpha^\prime(t)\rVert=1$.
+This choice of parametrization is known as the \textit{arclength} or
+\textit{unit-speed} parametrization.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y,z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([a,b,p\_1,p\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:[a,b]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:[p\_1,p\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:P+t*v)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\alpha}}=[at+{{p}_{1}},bt+{{p}_{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}\ensuremath{\backslash}':diff(\ensuremath{\alpha},t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\alpha}'}=[a,b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(\ensuremath{\alpha}\ensuremath{\backslash}');
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+\sqrt{{{b}^{2}}+{{a}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:x\ensuremath{^2}+y\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf:ev(express(grad(f)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\mathit{gradf}=[2x,2y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(\ensuremath{\alpha}\ensuremath{\backslash}'.gradf,map("=",\ensuremath{\zeta},\ensuremath{\alpha}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+2b\,\left( bt+{{p}_{2}}\right) +2a\,\left( at+{{p}_{1}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{Example 1.4.5.}
+
+
+Let $R,m>0$ be constants and $\alpha(t)=\langle{R\cos(t),R\sin(t),m t}
+\rangle$ for $t\in\mathbb{R}$. We say $\alpha$ is a helix with slope $m$
+and radius $R$. Notice $\alpha(t)$ falls on the cylinder $x^2+y^2=R^2$.
+Of course, we could define helices around other circular cylinders.
+The velocity vector field for $\alpha$ is given by: $$\alpha^\prime=\left.
+{\left({-R\sin(t)\dfrac{\partial}{\partial x}+R\cos(t)\dfrac{\partial}
+{\partial y}+m\dfrac{\partial}{\partial z}}\right)}\right\vert_{\alpha(t)}$$
+
+
+Then, $f(x,y,z)=x^2+y^2$ has $$\alpha^\prime(t)[f]=\left.{\left({-2 x
+R\sin(t)+2 y R\cos(t)}\right)}\right\rvert_{\alpha(t)}=-2 R^2\cos(t)
+\sin{t}+2 R^2\sin(t)\cos(t)=0.$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y,z,R,m)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+orderless(m,R)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([R,m],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(R\ensuremath{>}0,m\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:[R*cos(t),R*sin(t),m*t])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+\mathit{\ensuremath{\alpha}}=[R\,\cos{(t)},R\,\sin{(t)},mt]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}\ensuremath{\backslash}':diff(\ensuremath{\alpha},t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+\mathit{\ensuremath{\alpha}'}=[-R\,\sin{(t)},R\,\cos{(t)},m]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(norm(\ensuremath{\alpha}\ensuremath{\backslash}'));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+\sqrt{{{R}^{2}}+{{m}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:x\ensuremath{^2}+y\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradf:ev(express(grad(f)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{gradf}=[2x,2y,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(\ensuremath{\alpha}\ensuremath{\backslash}'.gradf,map("=",\ensuremath{\zeta},\ensuremath{\alpha}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o26}\label{o26} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{Example 1.4.8.}
+
+
+Consider the helix defined by $R,m > 0$ and $\alpha(t)=\left({R
+\cos(t),R\sin(t),m\,t}\right)$ for $t\in\mathbb{R}$. The speed of
+this helix is simply $\Vert{\alpha^\prime(t)}\Vert=\sqrt{R^2+m^2}$.
+Let $h(s)=\frac{s}{\sqrt{R^2+m^2}}$ then if $\beta$ is $\alpha$
+reparametrized by $h$ we calculate by Preposition 1.4.7
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(h:s/\ensuremath{\sqrt{}}(R\ensuremath{^2}+m\ensuremath{^2}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+h=\frac{s}{\sqrt{{{R}^{2}}+{{m}^{2}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}\ensuremath{\backslash}':diff(h,s)*at(\ensuremath{\alpha}\ensuremath{\backslash}',t=h))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\mathit{\ensuremath{\beta}'}=\left[-\frac{R\,\sin{\left( \frac{s}{\sqrt{{{R}^{2}}+{{m}^{2}}}}\right) }}{\sqrt{{{R}^{2}}+{{m}^{2}}}},\frac{R\,\cos{\left( \frac{s}{\sqrt{{{R}^{2}}+{{m}^{2}}}}\right) }}{\sqrt{{{R}^{2}}+{{m}^{2}}}},\frac{m}{\sqrt{{{R}^{2}}+{{m}^{2}}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(norm(\ensuremath{\beta}\ensuremath{\backslash}'));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+g:z\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(gradg:ev(express(grad(g)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+\mathit{gradg}=[0,0,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(\ensuremath{\beta}\ensuremath{\backslash}'.gradg,map("=",\ensuremath{\zeta},\ensuremath{\alpha}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\frac{m}{\sqrt{{{R}^{2}}+{{m}^{2}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+unorder()\$
+\end{minipage}
+\pagebreak
+
+
+\section{the push-forward or differential of a map}
+
+
+\subsection{Example 1.5.1.}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x\_1,x\_2,a,b)\$
+\end{minipage}
+
+Let $F(x^1,x^2)=\left({x^1+x^2,x^1-x^2}\right)$. Consider a
+parametrized curve $\alpha(t)=\left({a(t),b(t)}\right)$. The image of
+$\alpha$  under $F$ is: $$\left({F\circ\alpha(t)}\right)=
+F\left({a(t),b(t)}\right)=\left({a(t)+b(t),a(t)-b(t)}\right)$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x\_1,x\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\zeta},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+F:[x\_1+x\_2,x\_1-x\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:[a,b])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+\mathit{\ensuremath{\alpha}}=[a,b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\alpha},t)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}\ensuremath{\backslash}':diff(\ensuremath{\alpha},t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{\ensuremath{\alpha}'}=[{{a}_{t}},{{b}_{t}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(F,map("=",\ensuremath{\zeta},\ensuremath{\alpha}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o41}\label{o41} 
+[b+a,a-b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diff(\%,t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o42}\label{o42} 
+[{{b}_{t}}+{{a}_{t}},{{a}_{t}}-{{b}_{t}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+list\_matrix\_entries(jacobian(F,\ensuremath{\zeta}).\ensuremath{\alpha}\ensuremath{\backslash}');
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o43}\label{o43} 
+[{{b}_{t}}+{{a}_{t}},{{a}_{t}}-{{b}_{t}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o44}\label{o44} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\subsection{Example 1.5.2.}
+
+
+Another example, $F(x^1,x^2)=\left({e^{x^1+x^2},\sin(x^2),\cos(x^2)}
+\right)$. Once more, consider the curve $\alpha=(a,b)$ hence
+$\alpha^\prime=\langle{a^\prime,b^\prime}\rangle$ and
+$$(F\circ\alpha)^\prime=\langle{e^{a+b}\,(a^\prime)+b^\prime),\cos(b)
+\,b^\prime,(-\sin(b))\,b^\prime}\rangle$$
+
+
+\subsection{Example 1.5.4.}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y)\$
+\end{minipage}
+
+Let $F(x,y)=x^2+y^2$ then $F(x,y)=R^2$ is a circle and
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+F:x\ensuremath{^2}+y\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J\_F:ev(express(grad(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+{{J}_{F}}=[2x,2y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+We see $y\neq 0$ implies the last column is nonzero hence we may
+solve for $y$ near such points. In this case, $G(x)=\pm\sqrt{R^2-x^2}$
+where we choose $\pm$ appropriate to the location of the local solution.
+
+
+\subsection{Example 1.5.5.}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(t,x,y,z)\$
+\end{minipage}
+
+Let $F(x,y,z)=cos(x)+y+z^2$ then
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+F:cos(x)+y+z\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J\_F:ev(express(grad(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+{{J}_{F}}=[-\sin{(x)},1,2z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+this tells me I can solve for $z=z(x,y)$ when $z\neq 0$, or I can
+solve for $y=y(x,z)$ anywhere on $F(x,y,z)=c$, or I can solve for
+$x=x(y,z)$ when $x\neq n\pi$ for $n\in\mathbb{Z}$. Notice we can
+rearrange coordinates to put $x$ or $y$ as the last coordinate.
+
+\end{document}

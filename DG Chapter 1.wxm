@@ -1,0 +1,955 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Chapter 1 introduction
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Differential Geometry},
+            pdfsubject={Differential Geometry},
+            pdfkeywords={James Cook}}
+
+\begin{verbatim}
+Lecture Notes for Differential Geometry
+James S. Cook
+Liberty University
+Department of Mathematics
+Summer 2015
+\end{verbatim}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3,
+                  background_color=light_gray)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+points and vectors
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: section start ]
+on tangent and cotangent spaces and bundles
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.2.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Define $f=2\,x^1-3\,x^4+(x_n)^2$ then $f(p)=\left({2\,x^1-3\,x^4+
+(x_n)^2}\right)(p)$ and by the usual addition of functions $f(p)=2\,
+p^1-3 p^4+(p_n)^2$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.2.3.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Define $f=x+y^2+z^3$. Observe $f(a,b,c)=a+b^2+c^3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x+y²+z³)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(f,[x=a,y=b,z=c]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.2.13.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $f=\sqrt{(x^1)^2+\dots+(x^n)^2}$ clearly $f^2=(x^1)^2+\dots+(x^n)^2$
+and thus $\mathrm{d}f^2=2 f\,\mathrm{d}f$ and $\mathrm{d}(f^2)=2 x^1\,
+\mathrm{d}x^1+\dots+2 x^n\,\mathrm{d}x^n$ thus $$\mathrm{d}f=\dfrac{x^1\,
+\mathrm{d}x^1+\dots+x^n\,\mathrm{d}x^n}{\sqrt{(x^1)^2+\dots+(x^n)^2}}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+the wedge product and differential forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.3.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+A force $\vec{F}$ is conservative if there exists $f$ such that $\vec{F}=
+-\nabla\phi$. In the language of differential forms, this means the one-form
+$\omega_{\vec{F}}$ represents a conservative force if $\omega_{\vec{F}}=
+\omega_{-\nabla\phi}=-\mathrm{d}\phi$. Observe, $\omega_{\vec{F}}=
+-\mathrm{d}\phi$ implies $\mathrm{d}\omega_{\vec{F}}=-\mathrm{d}^2\phi=0$.
+As an application, consider $\omega_{\vec{F}}=-y\,\mathrm{d}x+x\,
+\mathrm{d}y+\mathrm{d}z$, is $\vec{F}$ conservative? 
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate $$\mathrm{d}\omega_{\vec{F}}=-\mathrm{d}y\wedge\mathrm{d}x+
+\mathrm{d}x\wedge\mathrm{d}y+\mathrm{d}(\mathrm{d}z)=2\,\mathrm{d}x\wedge
+\mathrm{d}y\neq 0$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω_F:-y*dx+x*dy+dz)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω_F:edit(ext_diff(ω_F)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+thus $\vec{F}$ is not conservative.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.3.5.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+It turns out that Maxwell's equations can be expressed in terms of the
+exterior derivative of the potential one-form $A$. The one-form contains
+both the voltage function and the magnetic vector-potential from which the
+time-derivative and gradient derive the electric and magnetic Fields.
+In spacetime the relation between the potentials and fields is simply
+$\vec{F}=\mathrm{d}A$. The choice of $A$ is far from unique. There is a
+\textbf{gauge freedom}. In particular, we can add an exterior derivative
+function of spacetime $\lambda$ and create $A^\prime=A+\mathrm{d}\lambda$.
+Note, $\mathrm{d}A^\prime=\mathrm{d}A+\mathrm{d}^2\lambda$ hence $A$ and
+$A^\prime$ generate the same electric and magnetic fields (which make up
+the Faraday tensor $F$)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Definition 1.3.6.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Work and Flux form correspondance
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F:[P,Q,R]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω_F:F.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_flow:makelist((dx~dy~dz)/k,k,cartan_basis)$
+cartan_sign:makelist((-1)^(k+1),k,cartan_dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Φ_F:F.(cartan_flow*cartan_sign))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 1.3.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Vector algebra in Differential form.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[A_1,A_2,A_3]$
+B:[B_1,B_2,B_3]$
+C:[C_1,C_2,C_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω_A:A.cartan_basis)$
+ldisplay(ω_B:B.cartan_basis)$
+ldisplay(ω_C:C.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_flow:makelist((dx~dy~dz)/k,k,cartan_basis)$
+cartan_sign:makelist((-1)^(k+1),k,cartan_dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Φ_A:A.(cartan_flow*cartan_sign))$
+ldisplay(Φ_B:B.(cartan_flow*cartan_sign))$
+ldisplay(Φ_C:C.(cartan_flow*cartan_sign))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega_A\wedge\omega_B=\Phi_{A\times B}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ω_A~ω_B);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(mycross(A,B).(cartan_flow*cartan_sign));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega_A\wedge\omega_B\wedge\omega_C=A\cdot(B\times C)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ω_A~ω_B~ω_C);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(A.(mycross(B,C))*(dx~dy~dz));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\omega_A\wedge\Phi_B=(A\cdot B)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ω_A~Φ_B);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+edit((A.B)*(dx~dy~dz));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Differential vector calculus in differential form.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 1.3.8.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z,f)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F:[F_1,F_2,F_3]$
+G:[G_1,G_2,G_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,ζ)$
+depends(F,ζ)$
+depends(G,ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω_F:F.cartan_basis)$
+ldisplay(ω_G:G.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_flow:makelist((dx~dy~dz)/k,k,cartan_basis)$
+cartan_sign:makelist((-1)^(k+1),k,cartan_dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Φ_F:F.(cartan_flow*cartan_sign))$
+ldisplay(Φ_G:G.(cartan_flow*cartan_sign))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}f=\omega_{\nabla\,f}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ext_diff(f);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(grad(f)),diff).cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\omega_F=\Phi_{\nabla\times\,F}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ext_diff(ω_F));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ev(express(curl(F)),diff).(cartan_flow*cartan_sign));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}\Phi_G=(\nabla\cdot\,G)
+\,\mathrm{d}x\wedge\,\mathrm{d}y\wedge\,\mathrm{d}z$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+edit(ext_diff(Φ_G));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(div(G)),diff)*(dx~dy~dz);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+paths and curves
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.4.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $\alpha(t)=p+t(q-p)$ for a given pair of distinct points
+$p,q\in\mathbb{R}^n$. You should identify $\alpha$ as the line connecting
+point $p=\alpha(0)$ and $q=\alpha(1)$. If we define $v=q-p$ then the
+velocity of $\alpha$ is given by: $$\alpha^\prime(t)=\left.{v^1
+\dfrac{\partial}{\partial x^1}}\right\vert_{\alpha(t)}+\left.{v^2
+\dfrac{\partial}{\partial x^2}}\right\vert_{\alpha(t)}+\dots+\left.{v^n
+\dfrac{\partial}{\partial x^n}}\right\vert_{\alpha(t)}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Specializing to $n=2$ and $v=\langle{a,b}\rangle$ we have $\alpha(t)=
+(p^1+t a,p^2+t b)$ and $$\alpha^\prime(t)=\left.{a\dfrac{\partial}
+{\partial x}}\right\vert_{\alpha(t)}+\left.{b\dfrac{\partial}
+{\partial y}}\right\vert_{\alpha(t)}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+As an easy to check case, take $p=(0,0)$ hence $p^1=0$ and $p^2=0$ hence
+$\alpha^\prime(t)[f]=2 t(a^2+b^2)$. For $t>0$ we see $f$ is increasing as
+we travel away from the origin along the line $\alpha(t)$. But, $f$ is just
+the distance from the origin squared so the rate of change is quite
+reasonable. If we were to impose $a^2+b^2=1$ then $t$ represents the
+distance from the origin and the result reduces to $\alpha^\prime[f]=2 t$
+which makes sense as $f(\alpha(t))=(t a)^2+(t b)^2=t^2(a^2+b^2)=t^2$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Notice that $\alpha^\prime(t)[f]$ gives the usual third-semester-American
+calculus directional derivative in the direction of $\alpha^\prime(t)[f]$
+only if we choose a parameter $t$ for which $\lVert\alpha^\prime(t)\rVert=1$.
+This choice of parametrization is known as the \textit{arclength} or
+\textit{unit-speed} parametrization.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([a,b,p_1,p_2],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v:[a,b]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+P:[p_1,p_2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:P+t*v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\':diff(α,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(α\');
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f:x²+y²$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf:ev(express(grad(f)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(α\'.gradf,map("=",ζ,α));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.4.5.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $R,m>0$ be constants and $\alpha(t)=\langle{R\cos(t),R\sin(t),m t}
+\rangle$ for $t\in\mathbb{R}$. We say $\alpha$ is a helix with slope $m$
+and radius $R$. Notice $\alpha(t)$ falls on the cylinder $x^2+y^2=R^2$.
+Of course, we could define helices around other circular cylinders.
+The velocity vector field for $\alpha$ is given by: $$\alpha^\prime=\left.
+{\left({-R\sin(t)\dfrac{\partial}{\partial x}+R\cos(t)\dfrac{\partial}
+{\partial y}+m\dfrac{\partial}{\partial z}}\right)}\right\vert_{\alpha(t)}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Then, $f(x,y,z)=x^2+y^2$ has $$\alpha^\prime(t)[f]=\left.{\left({-2 x
+R\sin(t)+2 y R\cos(t)}\right)}\right\rvert_{\alpha(t)}=-2 R^2\cos(t)
+\sin{t}+2 R^2\sin(t)\cos(t)=0.$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z,R,m)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orderless(m,R)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([R,m],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(R>0,m>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:[R*cos(t),R*sin(t),m*t])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\':diff(α,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(norm(α\'));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f:x²+y²$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradf:ev(express(grad(f)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(α\'.gradf,map("=",ζ,α));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.4.8.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Consider the helix defined by $R,m > 0$ and $\alpha(t)=\left({R
+\cos(t),R\sin(t),m\,t}\right)$ for $t\in\mathbb{R}$. The speed of
+this helix is simply $\Vert{\alpha^\prime(t)}\Vert=\sqrt{R^2+m^2}$.
+Let $h(s)=\frac{s}{\sqrt{R^2+m^2}}$ then if $\beta$ is $\alpha$
+reparametrized by $h$ we calculate by Preposition 1.4.7
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(h:s/√(R²+m²))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β\':diff(h,s)*at(α\',t=h))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(norm(β\'));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+g:z$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradg:ev(express(grad(g)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(β\'.gradg,map("=",ζ,α));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+unorder()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: section start ]
+the push-forward or differential of a map
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.5.1.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x_1,x_2,a,b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $F(x^1,x^2)=\left({x^1+x^2,x^1-x^2}\right)$. Consider a
+parametrized curve $\alpha(t)=\left({a(t),b(t)}\right)$. The image of
+$\alpha$  under $F$ is: $$\left({F\circ\alpha(t)}\right)=
+F\left({a(t),b(t)}\right)=\left({a(t)+b(t),a(t)-b(t)}\right)$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x_1,x_2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(ζ,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F:[x_1+x_2,x_1-x_2]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:[a,b])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(α,t)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\':diff(α,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(F,map("=",ζ,α));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(%,t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(jacobian(F,ζ).α\');
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.5.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Another example, $F(x^1,x^2)=\left({e^{x^1+x^2},\sin(x^2),\cos(x^2)}
+\right)$. Once more, consider the curve $\alpha=(a,b)$ hence
+$\alpha^\prime=\langle{a^\prime,b^\prime}\rangle$ and
+$$(F\circ\alpha)^\prime=\langle{e^{a+b}\,(a^\prime)+b^\prime),\cos(b)
+\,b^\prime,(-\sin(b))\,b^\prime}\rangle$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.5.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $F(x,y)=x^2+y^2$ then $F(x,y)=R^2$ is a circle and
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F:x²+y²$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J_F:ev(express(grad(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+We see $y\neq 0$ implies the last column is nonzero hence we may
+solve for $y$ near such points. In this case, $G(x)=\pm\sqrt{R^2-x^2}$
+where we choose $\pm$ appropriate to the location of the local solution.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 1.5.5.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: fold    start ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $F(x,y,z)=cos(x)+y+z^2$ then
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+F:cos(x)+y+z²$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J_F:ev(express(grad(F)),diff))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+this tells me I can solve for $z=z(x,y)$ when $z\neq 0$, or I can
+solve for $y=y(x,z)$ anywhere on $F(x,y,z)=c$, or I can solve for
+$x=x(y,z)$ when $x\neq n\pi$ for $n\in\mathbb{Z}$. Notice we can
+rearrange coordinates to put $x$ or $y$ as the last coordinate.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* [wxMaxima: fold    end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
