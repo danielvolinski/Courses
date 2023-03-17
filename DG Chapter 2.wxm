@@ -1,0 +1,2202 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Chapter 2 curves and frames
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Differential Geometry},
+            pdfsubject={Differential Geometry},
+            pdfkeywords={James Cook}}
+
+\begin{verbatim}
+Lecture Notes for Differential Geometry
+James S. Cook
+Liberty University
+Department of Mathematics
+Summer 2015
+\end{verbatim}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('drawdf,'version)=false then load(drawdf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3,
+                  background_color=light_gray)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+on distance in three dimensions
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: section start ]
+vectors and frames in three dimensions
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Levi-Civita symbol}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ε(i,j,k):=½*(i-j)*(j-k)*(k-i)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v:[v_1,v_2,v_3]$w:[w_1,w_2,w_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(v,w);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(sum(sum(ε(i,j,k)*v[i]*w[j],i,1,3),j,1,3),k,1,3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v.w;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sum(v[i]*w[i],i,1,3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(norm(mycross(v,w))²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand((v.v)*(w.w)-(v.w)²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $p\in\mathbb{R}^3$ then $E_1$, $E_2$, $E_3$ given below form a
+frame at $p$ $$E_1=\dfrac{1}{\sqrt{3}}\left({\left.\dfrac{\partial}
+{\partial x}\right\rvert_p+\left.\dfrac{\partial}{\partial y}\right
+\rvert_p+\left.\dfrac{\partial}{\partial z}\right\rvert_p}\right)
+\quad,\quad E_2=\dfrac{1}{\sqrt{2}}\left({\left.\dfrac{\partial}
+{\partial x}\right\rvert_p-\left.\dfrac{\partial}{\partial z}\right
+\rvert_p}\right)\quad,\quad E_3=\dfrac{1}{\sqrt{6}}\left({\left.
+\dfrac{\partial}{\partial x}\right\rvert_p-2\left.\dfrac{\partial}
+{\partial y}\right\rvert_p+\left.\dfrac{\partial}{\partial z}\right
+\rvert_p}\right)$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:1/√(3)*[1,1,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:1/√(2)*[1,0,-1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:1/√(6)*[1,-2,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rootscontract(mycross(E_1,E_2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.8.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Observe $\lbrace{\partial_x,\partial_y,\partial_z}\rbrace$ forms the
+\textbf{Cartesian coordinate frame} on $\mathbb{R}^3$. We sometimes
+denote this frame by the standard notation $\lbrace{U_1,U_2,U_3}
+\rbrace$. It is often useful to express a given frame in terms of the
+\textbf{Euclidean frame}. For example, the frame of the preceding
+example is written as:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:1/√(3)*(U_1+U_2+U_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:1/√(2)*(U_1-U_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:1/√(6)*(U_1+2*U_2+U_3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.9.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+The \textbf{cylindrical coordinate frame} is given below:\\
+$E_1=\cos\theta\,U_1+\sin\theta\,U_2$\\
+$E_2=-\sin\theta\,U_1+\cos\theta\,U_2$\\
+$E_3=U_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:cos(θ)*U_1+sin(θ)*U_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:-sin(θ)*U_1+cos(θ)*U_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+I often use the notation $E_1=\hat{r}$, $E_2=\hat{\theta}$ and
+$E_3=\hat{z}$ in multivariate calculus. This frame is very useful
+for simplifying calculations with cylindrical symmetry.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.10.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+The \textbf{spherical coordinate frame} for the usual spherical
+coordinates used in third-semester-American calculus is given below:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:cos(θ)*sin(φ)*U_1+sin(θ)*sin(φ)*U_2+cos(φ)*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:cos(θ)*cos(φ)*U_1+sin(θ)*cos(φ)*U_2-sin(φ)*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:-sin(θ)*U_1+cos(θ)*U_2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+I often use the notation $E_1=\hat{\rho}$, $E_2=\hat{\phi}$ and
+$E_3=\hat{\theta}$ in multivariate calculus. This frame is very
+useful for simplifying calculations with spherical symmetry.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+I should warn the readers of O'neill, he uses a different choice of
+\textbf{spherical coordinates} than we implicitly use in the example
+above. In fact, the example is based on the formulas:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[ρ,φ,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤ρ)$
+assume(0≤φ,φ≤π)$
+assume(0≤sin(φ))$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[ρ*cos(θ)*sin(φ),ρ*sin(θ)*sin(φ),ρ*cos(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+J:jacobian(Tr,ξ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:trigsimp(transpose(J).J);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+These coordinates envision $\phi$ being zero on the positive $z$-axis
+then sweeping down to $\pi$ on the negative $z$-axis. In contrast,
+see Figure 2.20 on page 86, O'neill prefers to work with $\phi$ which
+is zero on the $xy$-plane then sweeps up or down to $\pm\pi/2$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Definition 2.2.11.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix of a frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix(
+    makelist(coeff(E_1,k),k,U),
+    makelist(coeff(E_2,k),k,U),
+    makelist(coeff(E_3,k),k,U));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(transpose(A).A);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(mycross(A[1],A[2]))=A[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.13.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Example 2.2.7.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:1/√(3)*[1,1,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:1/√(2)*[1,0,-1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:1/√(6)*[1,-2,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix(E_1,E_2,E_3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(A).A;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.14.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Example 2.2.8., the attitude of the \textbf{Cartesian frame}
+is the identity matrix:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:[1,0,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:[0,1,0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:[0,0,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(mycross(E_1,E_2)=E_3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix(E_1,E_2,E_3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+transpose(A).A;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(mycross(A[1],A[2])=A[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.15.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Example 2.2.9, the attitude of the \textbf{cylindrical
+coordinate frame} is:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:[cos(θ),sin(θ),0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:[-sin(θ),cos(θ),0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:[0,0,1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(mycross(E_1,E_2)=E_3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix(E_1,E_2,E_3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(transpose(A).A);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(mycross(A[1],A[2]))=A[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.2.16.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Example 2.2.9 and 2.2.15, the
+\textbf{cylindrical coordinate frame} has attitude matrix:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_1:[cos(θ)*sin(φ),sin(θ)*sin(φ),cos(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_2:[cos(θ)*cos(φ),sin(θ)*cos(φ),-sin(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(E_3:[-sin(θ),cos(θ),0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(mycross(E_1,E_2)=E_3));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix(E_1,E_2,E_3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(transpose(A).A);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(mycross(A[1],A[2]))=A[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:trigsimp(ext_diff(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+calculus of vectors fields along curves
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.3.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $\alpha=\left({t,t^2,t^3}\right)$ for $t\in\mathbb{R}$ and
+$Y=x^2\partial_x+(y+sin(z))\partial_z$ then identify we have vector
+field component functions: $$Y^1=x^2\quad,\quad Y^2=0\quad,\quad
+Y^3=y+sin(z)$$ which give parametrized components on $\alpha=
+\left({t,t^2,t^3}\right)$ of $$\left({Y^1\circ\alpha}\right)(t)=
+t^2\quad,\quad\left({Y^2\circ\alpha}\right)(t)=0\quad,\quad
+\left({Y^3\circ\alpha}\right)(t)=t^2+\sin(t^3)$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+α:[t,t²,t³]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Y:[x²,0,y+sin(z)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Yoα:at(Y,map("=",ζ,α)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.3.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Continuing Example 2.3.2., the vector field along $\alpha$ is given
+by $$\left({Y\circ\alpha}\right)(t)=t^2\,U_1+\left({t^2+\sin(t^3)}
+\right)\,U_3$$ thus $Y^\prime=2\,t\,U_1+\left({2\,t+3\,t^2\cos(t^3)}
+\right)\in\,T_{(t,t^2,t^3)}\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Yoα\':diff(Yoα,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.3.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $\alpha=\left({t,t^2,t^3}\right)$ for $t\in\mathbb{R}$. Then
+$$\alpha^\prime(t)=U_1+2\,t\,U_2+3\,t^2\,U_3\quad,\quad
+\alpha^{\prime\prime}(t)=2\,U_2+6\,t\,U_3$$ where both $\alpha^\prime$
+and $\alpha^{\prime\prime}$ are in $T_{\alpha(t)}\mathbb{R}^3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:[t,t²,t³])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\':diff(α,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\'\':diff(α\',t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Frenet Serret frame of a curve
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.4.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Consider the helix defined by $R,m>0$ and
+$$\alpha(s)=\left({R\cos(k\,s),R\sin(k\,s),m\,k\,s}\right)$$
+for $s\in\mathbb{R}$ and $k=1/\sqrt{R^2+m^2}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(R>0,m>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([R,m],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+paramk:k=1/√(R²+m²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:[R*cos(k*s),R*sin(k*s),m*k*s])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T:α\':diff(α,s))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+at(trigsimp(norm(α\')),paramk);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+It follows $T=\alpha^\prime$. Differentiate $\alpha^\prime$ to obtain:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T\':α\'\':diff(α\',s))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(κ:at(trigsimp(norm(α\'\')),paramk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(norm(T\'));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:[-cos(k*s),-sin(k*s),0])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(B:trigsimp(mycross(T,N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+As a quick check on the calculation, notice
+$\mathbf{B}\cdot\mathbf{N}=0$ and $\mathbf{B}\cdot\mathbf{T}=0$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(B.N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(B.T);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(B\':diff(B,s))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+thus:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(τ:-at(trigsimp(B\'.N),paramk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.4.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+If a curve is on a sphere then it is at least as curved as a great
+circle on the sphere. To see this, consider $\alpha:I\rightarrow
+\mathbb{R}^3$ a unit-speed regular curve on the sphere with center
+$C$ and radius $R$. We are given $\Vert{\alpha(s)-C}\Vert=R$ for all
+$s\in\,I$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Theorem 2.4.8.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Frenet Serret Equations for non-unit speed curves}\\
+Let $\alpha$ be a non-linear regular smooth curve with speed
+$v=\lVert{\alpha^\prime}\rVert$ and $\mathbf{T},\mathbf{N},\mathbf{B},
+\kappa$ and $\tau$ as defined through the unit-speed
+reparameterization then:
+$$\dfrac{\mathrm{d}\mathbf{T}}{\mathrm{d}t}=v\kappa\mathbf{N}$$
+$$\dfrac{\mathrm{d}\mathbf{N}}{\mathrm{d}t}=-v\kappa\mathbf{T}+v\tau\mathbf{B}$$
+$$\dfrac{\mathrm{d}\mathbf{B}}{\mathrm{d}t}=-v\tau\mathbf{N}$$
+Moreover, $\kappa=\frac{1}{v}\lVert{\mathbf{T}^\prime}\rVert$ and
+$\tau=-\frac{1}{v}\mathbf{B}^\prime\cdot\mathbf{N}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.4.9.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Acceleration in terms of curvature and speed}\\
+Let $\alpha$ be a non-linear regular smooth curve with speed
+$v=\lVert{\alpha^\prime}\rVert$ then $\alpha^{\prime\prime}=
+\frac{\mathrm{d}v}{\mathrm{d}t}\mathbf{T}+\kappa\,v^2\mathbf{N}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.4.10.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Suppose $\alpha(t)=\left({t,t^2,t^3}\right)$ Calculate the Frenet
+apparatus or at least try.
+\href{https://en.wikipedia.org/wiki/Frenet%E2%80%93Serret_formulas#Other_expressions_of_the_frame}
+{Other expressions of the frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:[t,t²,t²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\':diff(α,t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\'\':diff(α\',t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\'\'\':diff(α\'\',t))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T:normalize(α\'))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(T\':factor(diff(T,t)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:rootscontract(normalize(T\')))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(B:factor(mycross(T,N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:mycross(α\',α\'\'))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(κ:norm(S)/norm(α\')³)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(τ:(S.α\'\'\')/norm(S)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\alpha^{\prime\prime}$ in the Frenet-Serret frame
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α\'\':[(α\'\'.T),(α\'\'.N),(α\'\'.B)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Theorem 2.4.11.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Slick formulas for the Frenet apparatus}\\
+Let $\alpha$ be a non-linear regular smooth curve with speed
+$v=\lVert{\alpha^\prime}\rVert$ and $\mathbf{T},\mathbf{N},\mathbf{B},
+\kappa$ and $\tau$ as defined through the unit-speed
+reparameterization then: $$\mathbf{T}=\dfrac{\alpha^\prime}{\lVert{
+\alpha^\prime}\rVert},\quad\mathbf{B}=\dfrac{\alpha^\prime\times
+\alpha^{\prime\prime}}{\lVert{\alpha^\prime\times\alpha^{\prime
+\prime}}\rVert},\quad\mathbf{N}=\mathbf{B}\times\mathbf{T},$$
+$$\kappa=\dfrac{\lVert{\alpha^\prime\times\alpha^{\prime\prime}}
+\rVert}{\lVert{\alpha^\prime}\rVert^3},\quad\tau=\dfrac{(\alpha^
+\prime\times\alpha^{\prime\prime})\cdot\alpha^{\prime\prime\prime}}
+{\lVert{\alpha^\prime\times\alpha^{\prime\prime}}\rVert^2}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+covariant derivatives
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.5.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+If $W(p)=a\,U_1+b\,U_2+c\,U_3$ for constants $a,b,c\in\mathbb{R}$ for
+all $p\in\mathbb{R}^3$ then $W(p+t\,v)=a\,U_1+b\,U_2+c\,U_3$ hence
+$W^\prime(p+t\,v)=0$ thus $(\nabla_v\,W)(p)=0$ for all $p\in\mathbb{R}^3$
+hence $\nabla_v\,W=0$ for any choice of $V\in\mathfrak{X}(\mathbb{R}^3)$
+as the calculation held for arbitrary $v$ at each $p$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,v,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define frame} $\mathbf{U}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define point} $P=(1,2,3)\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([a,b,c],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+P:[a,b,c]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v:[v_1,v_2,v_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:x*U_1+y*U_2+z*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:makelist(coeff(W,i),i,U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W_P:at(W,map("=",ζ,P)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W_t:at(W,map("=",ζ,P+t*v)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.5.3.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+What about the change of $W=x^2\,U_1+y\,U_3$ along $v=2\,U_2+U_3$
+at $p=(1.2.3)$?\\ Calculate, $$W(p+t\,v)=W(1+2\,t,2,3+t)=(1+2\,t)^2
+\,U_1+(3+t)\,U_3$$ thus, $$W^\prime(p+t\,v)=4(1+2\,t)\,U_1+U_3
+\Rightarrow W^\prime(p+t\,v)(0)=4\,U_1+U_3.$$
+Therefore,$(\nabla_v\,W)(1,2,3)=4\,U_1+U_3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define frame} $\mathbf{U}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define} $\mathbf{W}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:x²*U_1-2*z³*U_2+y*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:makelist(coeff(W,k),k,U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define} $\mathbf{v}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(v:2*U_2-U_1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(v:makelist(coeff(v,k),k,U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define} $\mathbf{P}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:[1,2,3])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using definition}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathbf{DW}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW:at(diff(at(W,map("=",ζ,P+t*v)),t),t=0))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW:DW.U)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using grad}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gradW:apply('matrix,ev(express(grad(W)),diff));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathbf{DW1}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW1:list_matrix_entries(v.at(gradW,map("=",ζ,P))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW1:DW1.U)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(DW1=DW);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.5.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coordinate derivative formula for covariant derivative}\\
+Let $\mathbf{V},\mathbf{W}\in\mathfrak{X}(\mathbb{R}^3)$ then
+$$\nabla_V\mathbf{W}=\sum_{j=1}^3\mathbf{V}\left[{W^j}\right]U_j$$
+    
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW2:list_matrix_entries(v.gradW))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW2:DW2.U)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.5.6.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $V=x\,U_1+y^2\,U_2+z^3\,U_3$ and $W=y\,z\,U_1+x\,y\,U_3$. Recall
+our notation $U_1,U_2,U_3$ masks the fact that these are derivations;
+$U_1=\partial_x$, $U_2=\partial_y$ and $U_3=\partial_z$ thus:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(t,x,v,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define frame} $\mathbf{U}\in\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define} $\mathbf{W}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:y*z*U_1+x*y*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(W:makelist(coeff(W,k),k,U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define} $\mathbf{v}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(v:x*U_1+y²*U_2+z³*U_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(v:makelist(coeff(v,k),k,U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\nabla\mathbf{W}$ Matrix
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gradW:apply('matrix,ev(express(grad(W)),diff));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathbf{DW1}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW:list_matrix_entries(v.gradW))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DW:DW.U)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.5.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate $\nabla_V\,V$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+gradV:apply('matrix,ev(express(grad(v)),diff));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DV:list_matrix_entries(v.gradV))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(DV:DV.U)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+v.ev(express(grad(norm(v))),diff);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+frames and connection forms
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Definition 2.6.1.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection forms}\\
+If $E_1,E_2,E_3$ is a frame for $\mathbb{R}^3$ then define
+$\omega_{i\,j}(p)\in\left(T_p\mathbb{R}^3\right)^\ast$ by
+$$\omega_{i\,j}(v)=\left({\nabla_v\,E_i}\right)\cdot\,E_j(p)$$
+for each $v\in\,T_p\mathbb{R}^3$. That is, $\omega_{i\,j}$ is a
+differential one-form on $\mathbb{R}^3$ defined by the assignment
+$p\rightarrow\omega_{i\,j}(p)$ for each $p\in\mathbb{R}^3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.6.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Properties of the covariant derivative on} $\mathbb{R}^3$\\
+Let $\lbrace{E_1,E_2,E_3}\rbrace$ be a frame on $\mathbb{R}^3$ then
+$\omega_{i\,j}=-\omega_{j\,i}$ and $\nabla_v\,E_i=\sum_{j=1}^3
+\omega_{i\,j}(V)\,E_j$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.6.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Let $A=\begin{pmatrix} \mathrm{d}x & \mathrm{d}y \\
+\mathrm{d}z & z^2\,\mathrm{d}y+y^2\,\mathrm{d}z \end{pmatrix}$ and
+$B=\begin{pmatrix} \mathrm{d}x+\mathrm{d}y & 0 \\ z^2\,\mathrm{d}y
+& \,\mathrm{d}x+\mathrm{d}z \end{pmatrix}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:matrix([dx,dy],[dz,z²*dy+y²*dz]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(B:matrix([dx+dy,0],[z²*dy,dx+dz]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $A\wedge B$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A.B;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:factor(ext_diff(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dB:factor(ext_diff(B)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.6.5.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Product rule for matrices of forms}\\
+Let $A$ be a matrix of $p$-forma and $B$ a matrix of $q$-forms and
+suppose that $A,B$ are multipliable then $$\mathrm{d}(A\wedge B)=
+\mathrm{d}A\wedge B+(-1)^p A\wedge\mathrm{d}B$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.6.6.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}\\
+Let $A$ be the attitude matrix of a given frame then
+$$\mathrm{d}A^T\wedge A=-A^T\wedge\mathrm{d}A,\quad
+\mathrm{d}A\wedge A^T=-A\wedge\mathrm{d}A^T$$
+Moreover, $\mathrm{d}A=-A\wedge\mathrm{d}A^T\wedge A$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.6.8.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Examples 2.2.9 and 2.2.15, the
+\textbf{cylindrical coordinate frame} has attitude matrix:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:matrix([cos(θ),sin(θ),0],[-sin(θ),cos(θ),0],[0,0,1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.6.9.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z,ρ,θ,φ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Following Example 2.2.10 and 2.2.16, the
+\textbf{spherical coordinate frame} has attitude matrix:
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[ρ,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:matrix([cos(θ)*sin(φ),sin(θ)*sin(φ),cos(φ)],
+                  [cos(θ)*cos(φ),sin(θ)*cos(φ),-sin(φ)],
+                  [-sin(θ),cos(θ),0]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coeff(dA,dθ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+coeff(dA,dφ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+coframes and Cartan Structure Equations
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: subsect start ]
+Definition 2.7.1.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe on} $\mathbb{R}^3$\\
+Suppose $\lbrace{E_1,E_2,E_3}\rbrace$ is a frame on $\mathbb{R}^3$
+then we say a set of differential one-forms $\lbrace{\theta^1,
+\theta_2,\theta_3}\rbrace$ on $\mathbb{R}^3$ is a \textbf{coframe}
+if $\theta^i(E_j)=\delta_{i\,j}$ for all $i,j$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.7.2.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define array function of two arguments} $h$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h[i,j]:=diff(ζ,ζ[i])|concat(d,ζ[j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+genmatrix(h,cartan_dim,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define array function of two arguments} $g$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+g[i,j]:=diff(cartan_coords,cartan_coords[i])|cartan_basis[j]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+genmatrix(g,cartan_dim,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define generic vector} $\mathbf{V}\in\mathfrak{X}(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+V:[V_1,V_2,V_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V|dx;
+V|dy;
+V|dz;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+V:[V|dx,V|dy,V|dz];
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.7.3.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Components with respect to frame and coframe}\\
+If $\lbrace{E_1,E_2,E_3}\rbrace$ is a frame with coframe
+$\lbrace{\theta^1,\theta^2,\theta^3}\rbrace$ if $Y\in\mathfrak{X}
+(\mathbb{R}^3)$ and $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$ then
+$$Y=\sum_{j=1}^3\theta^j(Y)E_j,\quad
+\alpha=\sum_{j=1}^3\alpha(E_j)\theta^j$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Proposition 2.7.4.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude of coframe}\\
+If $\lbrace{E_1,E_2,E_3}\rbrace$ is a frame with coframe
+$\lbrace{\theta^1,\theta^2,\theta^3}\rbrace$ and
+\ $\lbrace{U_1,U_2,U_3}\rbrace$ is the Cartesian frame with coframe
+$\lbrace{\mathrm{d}x^1,\mathrm{d}x^2,\mathrm{d}x^3}\rbrace$ on
+$\mathbb{R}^3$ then $$E_i=\sum_j A_{i\,j}U_j\Leftrightarrow
+\theta^i=\sum_j A_{i\,j}\mathrm{d}x^j$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Theorem 2.7.5.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan Structure Equations for} $\mathbb{R}^3$
+If $E_i$ is a frame with coframe $theta^i$ and $\omega$ is the
+connection form for the given frame then:
+$$\mathrm{d}\theta^i=\sum_j\omega_{i\,j}\wedge\theta^j,\quad
+\mathrm{d}\omega_{i\,j}=\sum_k\omega_{i\,k}\wedge\omega_{k,j}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.7.6.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z,r,θ,U_1,U_2,U_3,θ_1,θ_2,θ_3,E_1,E_2,E_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartesian frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Transformation formulas}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*cos(θ),r*sin(θ),z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(Tr,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[dx,dy,dz]:list_matrix_entries(J.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dv:trigsimp(dx~dy~dz);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(ξ,z)|(diff(ξ,θ)|(diff(ξ,r)|dv));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dζ:trigsimp(ext_diff(at(ζ,map("=",ζ,Tr)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:apply('matrix,makelist(trigsimp(normalize(k)),k,args(transpose(J)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E:[E_1,E_2,E_3]:trigsimp(list_matrix_entries(A.U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,E)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:[θ_1,θ_2,θ_3]:list_matrix_entries(trigsimp(A.[dx,dy,dz])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:list_matrix_entries(trigsimp(A.dζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:sf*cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}A$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection form} $\omega=\mathrm{d}A\wedge A^T\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{First Cartan structure equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:ext_diff(Θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(ω.Θ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second Cartan structure equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: subsect start ]
+Example 2.7.7.
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,t,x,y,z,r,θ,U_1,U_2,U_3,θ_1,θ_2,θ_3,E_1,E_2,E_3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartesian frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+U:[U_1,U_2,U_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Transformation formulas}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Tr:[r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(J:jacobian(Tr,ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lg:trigsimp(transpose(J).J))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jacobian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Jdet:trigsimp(determinant(J)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Volume}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[dx,dy,dz]:list_matrix_entries(J.cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dv:trigsimp(dx~dy~dz);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(ξ,φ)|(diff(ξ,θ)|(diff(ξ,r)|dv));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dζ:trigsimp(ext_diff(at(ζ,map("=",ζ,Tr)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:apply('matrix,makelist(trigsimp(normalize(k)),k,args(transpose(J)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Frame}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+E:[E_1,E_2,E_3]:trigsimp(list_matrix_entries(A.U))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,E)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:[θ_1,θ_2,θ_3]:list_matrix_entries(trigsimp(A.[dx,dy,dz])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:list_matrix_entries(trigsimp(A.dζ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:sf*cartan_basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\mathrm{d}A$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dA:ext_diff(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection form} $\omega\in\mathcal{A}^1(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:trigsimp(dA.transpose(A)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{First Cartan structure equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:ext_diff(Θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(ω.Θ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second Cartan structure equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(ω.ω);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
