@@ -1,0 +1,2902 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Killing vectors}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Killing vectors},
+            pdfsubject={General Relativity},
+            pdfkeywords={Start Somewhere}}
+
+Based on Start Somewhere Playlist
+\href{https://www.youtube.com/playlist?list=PLKQEYNlQv1I6Fepqwx88tNcTbapSqFGlK}
+{General Relativity}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(itensor)\$load(ctensor)\$load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ctrgsimp:true\$\\
+ratchristof:true\$\\
+ratriemann:true\$\\
+rateinstein:true\$\\
+ratweyl:true\$\\
+ratfac:true\$
+\end{minipage}
+
+\textbf{Killing equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(subst([\%1=\ensuremath{\sigma}],rename(liediff(\ensuremath{\xi},g([\ensuremath{\mu},\ensuremath{\nu}])))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{\mathit{\ensuremath{\xi}}}_{\mathit{,\ensuremath{\mu}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\sigma} \ensuremath{\nu}}}}+{{\mathit{\ensuremath{\xi}}}_{\mathit{,\ensuremath{\nu}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\sigma}}}}+{{\mathit{\ensuremath{\xi}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu},\ensuremath{\sigma}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+indices(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+[[\mathit{\ensuremath{\mu}},\mathit{\ensuremath{\nu}}],[\mathit{\ensuremath{\sigma}}]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(Eq:B([\ensuremath{\mu},\ensuremath{\nu}])=subst([\%1=\ensuremath{\sigma}],rename(liediff(\ensuremath{\xi},g([\ensuremath{\mu},\ensuremath{\nu}])))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{B}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}={{\mathit{\ensuremath{\xi}}}_{\mathit{,\ensuremath{\mu}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\sigma} \ensuremath{\nu}}}}+{{\mathit{\ensuremath{\xi}}}_{\mathit{,\ensuremath{\nu}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\sigma}}}}+{{\mathit{\ensuremath{\xi}}}^{\mathit{\ensuremath{\sigma}}}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu},\ensuremath{\sigma}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:ic\_convert(Eq)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Killing Vector for Polar Coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,r,\ensuremath{\theta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ct\_coordsys(append(Tr,[\ensuremath{\zeta}]),all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:trigsimp(lg)\$\\
+ug:trigsimp(ug)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2]\$\\
+depends(\ensuremath{\xi}\_1,\ensuremath{\zeta})\$\\
+depends(\ensuremath{\xi}\_2,\ensuremath{\zeta})\$\\
+\ensuremath{\xi}:ev(\ensuremath{\xi})\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+B=\begin{pmatrix}2\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{1}}\right)  & {{r}^{2}}\,\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +\frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{1}}\\\\
+{{r}^{2}}\,\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +\frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{1}} & 2{{r}^{2}}\,\left( \frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+2\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{1}}\right) \mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{r}^{2}}\,\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +\frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{1}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{r}^{2}}\,\left( \frac{d}{dr}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +\frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{1}}\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+2{{r}^{2}}\,\left( \frac{d}{d\mathit{\ensuremath{\theta}}}{{\mathit{\ensuremath{\xi}}}_{2}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([C\_1,C\_2,C\_3],constant)\$\\
+\ensuremath{\xi}:[C\_2*cos(\ensuremath{\theta})+C\_3*sin(\ensuremath{\theta}),-C\_2*sin(\ensuremath{\theta})/r+C\_3*cos(\ensuremath{\theta})/r+C\_1]\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B:trigsimp(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+B=\begin{pmatrix}0 & 0\\
+0 & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,t,r,\ensuremath{\theta},\ensuremath{\phi},f,g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_ctensor()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:ct\_coords:[t,r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends([f,g],r)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+lg[1,1]:-exp(f)\$\\
+lg[2,2]:exp(g)\$\\
+lg[3,3]:r\ensuremath{^2}\$\\
+lg[4,4]:r\ensuremath{^2}*sin(\ensuremath{\theta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Covariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-{{e}^{f}} & 0 & 0 & 0\\
+0 & {{e}^{g}} & 0 & 0\\
+0 & 0 & {{r}^{2}} & 0\\
+0 & 0 & 0 & {{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+{{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-{{e}^{-f}} & 0 & 0 & 0\\
+0 & {{e}^{-g}} & 0 & 0\\
+0 & 0 & \frac{1}{{{r}^{2}}} & 0\\
+0 & 0 & 0 & \frac{1}{{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:diff(\ensuremath{\zeta}).lg.transpose(diff(\ensuremath{\zeta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+{{\mathit{ds}}^{2}}={{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\operatorname{del}\left( \mathit{\ensuremath{\phi}}\right) }^{2}}+{{r}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}-{{e}^{f}}\,{{\operatorname{del}(t)}^{2}}+{{e}^{g}}\,{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$
+\end{minipage}
+
+\pagebreak
+\textbf{Christoffel symbols of the first kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if lcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j],\ensuremath{\zeta}[k]])=lcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t t r}}}=\frac{{{e}^{f}}\,\left( {{f}_{r}}\right) }{2}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t r t}}}=-\frac{{{e}^{f}}\,\left( {{f}_{r}}\right) }{2}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r r r}}}=\frac{{{e}^{g}}\,\left( {{g}_{r}}\right) }{2}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta} \ensuremath{\theta}}}}=r\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\phi} \ensuremath{\phi}}}}=r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta} r}}}=-r\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\phi} \ensuremath{\phi}}}}=\frac{{{r}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi} r}}}=-r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi} \ensuremath{\theta}}}}=-\frac{{{r}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Christoffel symbols of the second kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]],[\ensuremath{\zeta}[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t t}}^{r}}=\frac{\left( {{f}_{r}}\right) \,{{e}^{f-g}}}{2}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t r}}^{t}}=\frac{{{f}_{r}}}{2}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r r}}^{r}}=\frac{{{g}_{r}}}{2}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{1}{r}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{1}{r}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}^{r}}=-{{e}^{-g}}r\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{2\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}^{r}}=-{{e}^{-g}}r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}^{\mathit{\ensuremath{\theta}}}}=-\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Riemann Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(false)\$\\
+lriemann(false)\$\\
+uriemann(false)\$\\
+for a thru dim do for b thru dim do\\
+  for c thru (if symmetricp(lg,dim) then b else dim) do\\
+    for d thru (if symmetricp(lg,dim) then a else dim) do\\
+      if riem[a,b,c,d]\ensuremath{\neq}0 then\\
+        ishow(R(["  ",\ensuremath{\zeta}[a],\ensuremath{\zeta}[b],\ensuremath{\zeta}[c]],[\ensuremath{\zeta}[d]])=trigsimp(riem[a,b,c,d]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  r r t}}^{t}}=\frac{\left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) -2\left( {{f}_{rr}}\right) -{{\left( {{f}_{r}}\right) }^{2}}}{4}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  \ensuremath{\theta} \ensuremath{\theta} t}}^{t}}=-\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}r}{2}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  \ensuremath{\theta} \ensuremath{\theta} r}}^{r}}=\frac{{{e}^{-g}}\,\left( {{g}_{r}}\right) r}{2}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} t}}^{t}}=-\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} r}}^{r}}=\frac{{{e}^{-g}}\,\left( {{g}_{r}}\right) r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}\]
+\[\tag{\%{}t24}\label{t24} 
+{{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{{{e}^{-g}}\,\left( \left( {{e}^{g}}-4\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{g}}\right) }{4\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Ricci Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ric:zeromatrix(dim,dim)\$\\
+ricci(false)\$\\
+uricci(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if ric[i,j]\ensuremath{\neq}0 then\\
+    ishow(R([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]])=trigsimp(ric[i,j]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+{{R}_{\mathit{t t}}}=-\frac{{{e}^{f-g}}\,\left( \left( \left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) -2\left( {{f}_{rr}}\right) -{{\left( {{f}_{r}}\right) }^{2}}\right) r-4\left( {{f}_{r}}\right) \right) }{4r}\mbox{}\]
+\[\tag{\%{}t28}\label{t28} 
+{{R}_{\mathit{r r}}}=\frac{\left( \left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) -2\left( {{f}_{rr}}\right) -{{\left( {{f}_{r}}\right) }^{2}}\right) r+4\left( {{g}_{r}}\right) }{4r}\mbox{}\]
+\[\tag{\%{}t28}\label{t28} 
+{{R}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}}=\frac{{{e}^{-g}}\,\left( \left( \left( 2\left( {{g}_{r}}\right) -2\left( {{f}_{r}}\right) \right) r+{{e}^{g}}-4\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{g}}\right) }{4{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}\mbox{}\]
+\[\tag{\%{}t28}\label{t28} 
+{{R}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}}=\frac{{{e}^{-g}}\,\left( \left( \left( 2\left( {{g}_{r}}\right) -2\left( {{f}_{r}}\right) \right) r+{{e}^{g}}-4\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{g}}\right) }{4\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Scalar curvature}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(scurvature());
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+\frac{{{e}^{-g}}\,\left( \left( \left( \left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) -2\left( {{f}_{rr}}\right) -{{\left( {{f}_{r}}\right) }^{2}}\right) \,{{r}^{2}}+\left( 4\left( {{g}_{r}}\right) -4\left( {{f}_{r}}\right) \right) r+{{e}^{g}}-4\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{g}}\right) }{2{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Kretchmann invariant}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(rinvariant());
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o30}\label{o30} 
+({{e}^{-2g}}((({{\left( {{f}_{r}}\right) }^{2}}\,{{\left( {{g}_{r}}\right) }^{2}}+\left( -4\left( {{f}_{r}}\right) \,\left( {{f}_{rr}}\right) -2{{\left( {{f}_{r}}\right) }^{3}}\right) \,\left( {{g}_{r}}\right) +4{{\left( {{f}_{rr}}\right) }^{2}}+4{{\left( {{f}_{r}}\right) }^{2}}\,\left( {{f}_{rr}}\right) +{{\left( {{f}_{r}}\right) }^{4}})\,{{r}^{4}}+\left( 8{{\left( {{g}_{r}}\right) }^{2}}+8{{\left( {{f}_{r}}\right) }^{2}}\right) \,{{r}^{2}}+{{e}^{2g}}-8{{e}^{g}}+16)\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{4}}+\left( 2{{e}^{2g}}-8{{e}^{g}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{2g}}))/(4{{r}^{4}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{4}})\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Unique Differential Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,findde(ric,2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+\left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) r-2\left( {{f}_{rr}}\right) r-{{\left( {{f}_{r}}\right) }^{2}}r-4\left( {{f}_{r}}\right) \mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+\left( {{f}_{r}}\right) \,\left( {{g}_{r}}\right) r-2\left( {{f}_{rr}}\right) r-{{\left( {{f}_{r}}\right) }^{2}}r+4\left( {{g}_{r}}\right) \mbox{}\]
+\[\tag{\%{}t33}\label{t33} 
+2\left( {{g}_{r}}\right) r\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-2\left( {{f}_{r}}\right) r\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+2{{e}^{g}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-4{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{e}^{g}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+deindex;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+[[1,1],[2,2],[3,3]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Einstein Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lein:zeromatrix(dim,dim)\$\\
+einstein(false)\$\\
+leinstein(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if lein[i,j]\ensuremath{\neq}0 then \\
+    ishow(G([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]])=expand(lein[i,j]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+{{G}_{\mathit{t t}}}=\frac{{{e}^{f}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}{4{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}+\frac{{{e}^{f-g}}\,\left( {{g}_{r}}\right) }{r}-\frac{{{e}^{f-g}}}{{{r}^{2}}}+\frac{{{e}^{f}}}{2{{r}^{2}}}\mbox{}\]
+\[\tag{\%{}t38}\label{t38} 
+{{G}_{\mathit{r r}}}=-\frac{{{e}^{g}}\,{{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}{4{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}+\frac{{{f}_{r}}}{r}-\frac{{{e}^{g}}}{2{{r}^{2}}}+\frac{1}{{{r}^{2}}}\mbox{}\]
+\[\tag{\%{}t38}\label{t38} 
+{{G}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}}=-\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}\,\left( {{g}_{r}}\right) \,{{r}^{2}}}{4}+\frac{\left( {{f}_{rr}}\right) \,{{e}^{-g}}\,{{r}^{2}}}{2}+\frac{{{\left( {{f}_{r}}\right) }^{2}}\,{{e}^{-g}}\,{{r}^{2}}}{4}-\frac{{{e}^{-g}}\,\left( {{g}_{r}}\right) r}{2}+\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}r}{2}\mbox{}\]
+\[\tag{\%{}t38}\label{t38} 
+{{G}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}}=-\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}\,\left( {{g}_{r}}\right) \,{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{4}+\frac{\left( {{f}_{rr}}\right) \,{{e}^{-g}}\,{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{2}+\frac{{{\left( {{f}_{r}}\right) }^{2}}\,{{e}^{-g}}\,{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{4}-\frac{{{e}^{-g}}\,\left( {{g}_{r}}\right) r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{2}+\frac{\left( {{f}_{r}}\right) \,{{e}^{-g}}r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Computes the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol:expand(linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+{{t}_{ss}}=-\left( {{f}_{r}}\right) \,\left( {{r}_{s}}\right) \,\left( {{t}_{s}}\right) \mbox{}\]
+\[\tag{\%{}t42}\label{t42} 
+{{r}_{ss}}={{e}^{-g}}r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }^{2}}+{{e}^{-g}}r\,{{\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }^{2}}-\frac{\left( {{f}_{r}}\right) \,{{e}^{f-g}}\,{{\left( {{t}_{s}}\right) }^{2}}}{2}-\frac{\left( {{g}_{r}}\right) \,{{\left( {{r}_{s}}\right) }^{2}}}{2}\mbox{}\]
+\[\tag{\%{}t43}\label{t43} 
+{{\mathit{\ensuremath{\theta}}}_{ss}}=\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }^{2}}}{2}-\frac{2\left( {{r}_{s}}\right) \,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }{r}\mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+{{\mathit{\ensuremath{\phi}}}_{ss}}=-\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) \,\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}-\frac{2\left( {{r}_{s}}\right) \,\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }{r}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Reduce order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[T,R,\ensuremath{\Theta},\ensuremath{\Phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\xi},s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(t,s,T)\$\\
+gradef(r,s,R)\$\\
+gradef(\ensuremath{\theta},s,\ensuremath{\Theta})\$\\
+gradef(\ensuremath{\phi},s,\ensuremath{\Phi})\$
+\end{minipage}
+
+\textbf{Compute the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(\ensuremath{\zeta},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol:expand(linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t53}\label{t53} 
+{{T}_{s}}=-RT\,\left( {{f}_{r}}\right) \mbox{}\]
+\[\tag{\%{}t54}\label{t54} 
+{{R}_{s}}={{e}^{-g}}r\,{{\mathit{\ensuremath{\Phi}}}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{e}^{-g}}r\,{{\mathit{\ensuremath{\Theta}}}^{2}}-\frac{{{R}^{2}}\,\left( {{g}_{r}}\right) }{2}-\frac{{{T}^{2}}\,\left( {{f}_{r}}\right) \,{{e}^{f-g}}}{2}\mbox{}\]
+\[\tag{\%{}t55}\label{t55} 
+{{\mathit{\ensuremath{\Theta}}}_{s}}=\frac{{{\mathit{\ensuremath{\Phi}}}^{2}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{2}-\frac{2R\mathit{\ensuremath{\Theta}}}{r}\mbox{}\]
+\[\tag{\%{}t56}\label{t56} 
+{{\mathit{\ensuremath{\Phi}}}_{s}}=-\frac{\mathit{\ensuremath{\Theta}}\mathit{\ensuremath{\Phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}-\frac{2R\mathit{\ensuremath{\Phi}}}{r}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x\_1,x\_2,x\_3)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_ctensor()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:ct\_coords:[x\_1,x\_2,x\_3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+lg[1,1]:1\$\\
+lg[2,2]:2*x\_1\$\\
+lg[3,3]:2*x\_2\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Covariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0 & 0\\
+0 & 2{{x}_{1}} & 0\\
+0 & 0 & 2{{x}_{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0 & 0\\
+0 & \frac{1}{2{{x}_{1}}} & 0\\
+0 & 0 & \frac{1}{2{{x}_{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:diff(\ensuremath{\zeta}).lg.transpose(diff(\ensuremath{\zeta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{\mathit{ds}}^{2}}=2{{x}_{2}}{{\operatorname{del}\left( {{x}_{3}}\right) }^{2}}+2{{x}_{1}}{{\operatorname{del}\left( {{x}_{2}}\right) }^{2}}+{{\operatorname{del}\left( {{x}_{1}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Determinant of the metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gdet;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+4{{x}_{1}}{{x}_{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Computes the Christoffel symbols of both kinds}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$
+\end{minipage}
+
+\textbf{Christoffel symbols of the first kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if lcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j],\ensuremath{\zeta}[k]])=lcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 1 x\_ 2 x}}_{2}}}}=1\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 2 x\_ 2 x}}_{1}}}}=-1\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 2 x\_ 3 x}}_{3}}}}=1\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 3 x\_ 3 x}}_{2}}}}=-1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Christoffel symbols of the second kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]],[\ensuremath{\zeta}[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 1 x}}_{2}}}^{{{x}_{2}}}}=\frac{1}{2{{x}_{1}}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 2 x}}_{2}}}^{{{x}_{1}}}}=-1\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 2 x}}_{3}}}^{{{x}_{3}}}}=\frac{1}{2{{x}_{2}}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{{{\mathit{x\_ 3 x}}_{3}}}^{{{x}_{2}}}}=-\frac{1}{2{{x}_{1}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Riemann Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(false)\$\\
+lriemann(false)\$\\
+uriemann(false)\$\\
+for a thru dim do for b thru dim do\\
+  for c thru (if symmetricp(lg,dim) then b else dim) do\\
+    for d thru (if symmetricp(lg,dim) then a else dim) do\\
+      if riem[a,b,c,d]\ensuremath{\neq}0 then\\
+        ishow(R(["  ",\ensuremath{\zeta}[a],\ensuremath{\zeta}[b],\ensuremath{\zeta}[c]],[\ensuremath{\zeta}[d]])=riem[a,b,c,d])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{R}_{{{\mathit{  x\_ 2 x\_ 2 x}}_{1}}}^{{{x}_{1}}}}=\frac{1}{2{{x}_{1}}}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{R}_{{{\mathit{  x\_ 3 x\_ 3 x}}_{1}}}^{{{x}_{2}}}}=\frac{1}{4{{{{x}_{1}}}^{2}}}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{R}_{{{\mathit{  x\_ 3 x\_ 3 x}}_{2}}}^{{{x}_{1}}}}=\frac{1}{2{{x}_{1}}}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{R}_{{{\mathit{  x\_ 3 x\_ 3 x}}_{2}}}^{{{x}_{2}}}}=\frac{1}{4{{x}_{1}}{{x}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Ricci Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ric:zeromatrix(dim,dim)\$\\
+ricci(false)\$\\
+uricci(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if ric[i,j]\ensuremath{\neq}0 then\\
+    ishow(R([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]])=ric[i,j])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+{{R}_{{{\mathit{x\_ 1 x}}_{1}}}}=\frac{1}{4{{{{x}_{1}}}^{2}}}\mbox{}\]
+\[\tag{\%{}t23}\label{t23} 
+{{R}_{{{\mathit{x\_ 1 x}}_{2}}}}=\frac{1}{4{{x}_{1}}{{x}_{2}}}\mbox{}\]
+\[\tag{\%{}t23}\label{t23} 
+{{R}_{{{\mathit{x\_ 2 x}}_{2}}}}=\frac{2{{{{x}_{2}}}^{2}}+{{x}_{1}}}{4{{x}_{1}}{{{{x}_{2}}}^{2}}}\mbox{}\]
+\[\tag{\%{}t23}\label{t23} 
+{{R}_{{{\mathit{x\_ 3 x}}_{3}}}}=\frac{1}{4{{x}_{1}}{{x}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Scalar curvature}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scurvature();
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o24}\label{o24} 
+\frac{2{{{{x}_{2}}}^{2}}+{{x}_{1}}}{4{{{{x}_{1}}}^{2}}{{{{x}_{2}}}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Kretchmann invariant}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rinvariant();
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o25}\label{o25} 
+\frac{1}{4{{{{x}_{1}}}^{3}}{{{{x}_{2}}}^{2}}}+\frac{1}{16{{{{x}_{1}}}^{2}}{{{{x}_{2}}}^{4}}}+\frac{1}{4{{{{x}_{1}}}^{4}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Einstein Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lein:zeromatrix(dim,dim)\$\\
+einstein(false)\$\\
+leinstein(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if lein[i,j]\ensuremath{\neq}0 then \\
+    ishow(G([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]])=lein[i,j])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+{{G}_{{{\mathit{x\_ 1 x}}_{1}}}}=-\frac{1}{8{{x}_{1}}{{{{x}_{2}}}^{2}}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{{G}_{{{\mathit{x\_ 1 x}}_{2}}}}=\frac{1}{4{{x}_{1}}{{x}_{2}}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{{G}_{{{\mathit{x\_ 3 x}}_{3}}}}=-\frac{{{x}_{2}}}{2{{{{x}_{1}}}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Compute the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(\ensuremath{\zeta},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,factor(linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+{{{{x}_{1}}}_{ss}}={{\left( {{{{x}_{2}}}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t33}\label{t33} 
+{{{{x}_{2}}}_{ss}}=\frac{{{\left( {{{{x}_{3}}}_{s}}\right) }^{2}}-2\left( {{{{x}_{1}}}_{s}}\right) \left( {{{{x}_{2}}}_{s}}\right) }{2{{x}_{1}}}\mbox{}\]
+\[\tag{\%{}t34}\label{t34} 
+{{{{x}_{3}}}_{ss}}=-\frac{\left( {{{{x}_{2}}}_{s}}\right) \left( {{{{x}_{3}}}_{s}}\right) }{{{x}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Reduce order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[X\_1,X\_2,X\_3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\xi},s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(x\_1,s,X\_1)\$\\
+gradef(x\_2,s,X\_2)\$\\
+gradef(x\_3,s,X\_3)\$
+\end{minipage}
+
+\textbf{Compute the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(\ensuremath{\zeta},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+{{{{X}_{1}}}_{s}}={{{{X}_{2}}}^{2}}\mbox{}\]
+\[\tag{\%{}t43}\label{t43} 
+{{{{X}_{2}}}_{s}}=-\frac{2{{X}_{1}}{{X}_{2}}-{{{{X}_{3}}}^{2}}}{2{{x}_{1}}}\mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+{{{{X}_{3}}}_{s}}=-\frac{{{X}_{2}}{{X}_{3}}}{{{x}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Killing Vector for Cylindrical Coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,r,\ensuremath{\theta},z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[r,\ensuremath{\theta},z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta}),z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ct\_coordsys(append(Tr,[\ensuremath{\zeta}]),all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:trigsimp(lg)\$\\
+ug:trigsimp(ug)\$
+\end{minipage}
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(\ensuremath{\xi},\ensuremath{\zeta})\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{\ensuremath{\xi}}=[{{\mathit{\ensuremath{\xi}}}_{1}},{{\mathit{\ensuremath{\xi}}}_{2}},{{\mathit{\ensuremath{\xi}}}_{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+B=\begin{pmatrix}2\left( {{{{\mathit{\ensuremath{\xi}}}_{1}}}_{r}}\right)  & {{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\\\\
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}} & 2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \\\\
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right)  & 2\left( {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{z}}\right) \end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+symmetricp(B,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o7}\label{o7} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+2\left( {{{{\mathit{\ensuremath{\xi}}}_{1}}}_{r}}\right) \mbox{}\]
+\[\tag{\%{}t9}\label{t9} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t10}\label{t10} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+2\left( {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{z}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(\ensuremath{\xi}\_1,[\ensuremath{\theta},z])\$\\
+depends(\ensuremath{\xi}\_2,\ensuremath{\zeta})\$\\
+depends(\ensuremath{\xi}\_3,[r,\ensuremath{\theta}])\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\mathit{\ensuremath{\xi}}=[{{\mathit{\ensuremath{\xi}}}_{1}},{{\mathit{\ensuremath{\xi}}}_{2}},{{\mathit{\ensuremath{\xi}}}_{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+B=\begin{pmatrix}0 & {{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\\\\
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}} & 2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \\\\
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right)  & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+symmetricp(B,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o9}\label{o9} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+0\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2r\,{{\mathit{\ensuremath{\xi}}}_{1}}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{{{\mathit{\ensuremath{\xi}}}_{1}}}_{z}}\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(f,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_1:f\$\\
+depends(\ensuremath{\xi}\_2,\ensuremath{\zeta})\$\\
+depends(\ensuremath{\xi}\_3,[r,\ensuremath{\theta}])\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\mathit{\ensuremath{\xi}}=[f,{{\mathit{\ensuremath{\xi}}}_{2}},{{\mathit{\ensuremath{\xi}}}_{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+B=\begin{pmatrix}0 & {{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{f}_{\mathit{\ensuremath{\theta}}}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\\\\
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{f}_{\mathit{\ensuremath{\theta}}}} & 2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2fr & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \\\\
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right)  & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+0\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{f}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}\right) +{{f}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+2{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{\mathit{\ensuremath{\theta}}}}\right) +2fr\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+{{r}^{2}}\,\left( {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{z}}\right) \mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrate(solve(B[1,2],diff(\ensuremath{\xi}\_2,r)),r);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o19}\label{o19} 
+\left[\int {\left. {{{{\mathit{\ensuremath{\xi}}}_{2}}}_{r}}dr\right.}=\frac{{{f}_{\mathit{\ensuremath{\theta}}}}}{r}+\mathit{\%{}c1}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(f,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_1:f\$\\
+depends(g,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_2:diff(f,\ensuremath{\theta})/r+g\$\\
+depends(\ensuremath{\xi}\_3,[r,\ensuremath{\theta}])\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\mathit{\ensuremath{\xi}}=\left[f,\frac{{{f}_{\mathit{\ensuremath{\theta}}}}}{r}+g,{{\mathit{\ensuremath{\xi}}}_{3}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+B=\begin{pmatrix}0 & 0 & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\\\\
+0 & 2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}\\\\
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}} & {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}} & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+0\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+0\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+0\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}+{{f}_{z}}\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+{{{{\mathit{\ensuremath{\xi}}}_{3}}}_{\mathit{\ensuremath{\theta}}}}+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrate(solve(B[1,3],diff(\ensuremath{\xi}\_3,r)),r);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o20}\label{o20} 
+\left[\int {\left. {{{{\mathit{\ensuremath{\xi}}}_{3}}}_{r}}dr\right.}=\mathit{\%{}c2}-\left( {{f}_{z}}\right) r\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(f,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_1:f\$\\
+depends(g,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_2:diff(f,\ensuremath{\theta})/r+g\$\\
+depends(h,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_3:-r*diff(f,z)+h\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\xi}}=\left[f,\frac{{{f}_{\mathit{\ensuremath{\theta}}}}}{r}+g,h-\left( {{f}_{z}}\right) r\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+B=\begin{pmatrix}0 & 0 & 0\\\\
+0 & 2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr & \left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}-\left( {{f}_{z\mathit{\ensuremath{\theta}}}}\right) r+{{h}_{\mathit{\ensuremath{\theta}}}}\\\\
+0 & \left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}-\left( {{f}_{z\mathit{\ensuremath{\theta}}}}\right) r+{{h}_{\mathit{\ensuremath{\theta}}}} & 2\left( {{h}_{z}}\right) -2\left( {{f}_{zz}}\right) r\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+0\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+0\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+0\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+0\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}-\left( {{f}_{z\mathit{\ensuremath{\theta}}}}\right) r+{{h}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+0\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+\left( \frac{{{f}_{z\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{z}}\right) \,{{r}^{2}}-\left( {{f}_{z\mathit{\ensuremath{\theta}}}}\right) r+{{h}_{\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+2\left( {{h}_{z}}\right) -2\left( {{f}_{zz}}\right) r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+depends(f,[\ensuremath{\theta},z])\$\ensuremath{\xi}\_1:f\$\\
+depends(g,[\ensuremath{\theta}])\$\ensuremath{\xi}\_2:diff(f,\ensuremath{\theta})/r+g\$\\
+depends(h,[z])\$\ensuremath{\xi}\_3:-r*diff(f,z)+h\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\mathit{\ensuremath{\xi}}=\left[f,\frac{{{f}_{\mathit{\ensuremath{\theta}}}}}{r}+g,h-\left( {{f}_{z}}\right) r\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+B=\begin{pmatrix}0 & 0 & 0\\\\
+0 & 2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr & 0\\\\
+0 & 0 & 2\left( {{h}_{z}}\right) -2\left( {{f}_{zz}}\right) r\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+0\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+0\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+0\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+0\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+2\left( \frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{r}+{{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2fr\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+0\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+0\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+0\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+2\left( {{h}_{z}}\right) -2\left( {{f}_{zz}}\right) r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+expand(B[2,2]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o21}\label{o21} 
+2\left( {{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}+2\left( {{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}\right) r+2fr\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq1:f*coeff(expand(B[2,2]),f)+\\
+diff(f,\ensuremath{\theta},1)*coeff(expand(B[2,2]),diff(f,\ensuremath{\theta},1))+\\
+diff(f,\ensuremath{\theta},2)*coeff(expand(B[2,2]),diff(f,\ensuremath{\theta},2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq1}\label{Eq1}
+2\left( {{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}\right) r+2fr\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol1:ode2(Eq1,f,\ensuremath{\theta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol1}\label{sol1}
+f=\mathit{\%{}k1}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+\mathit{\%{}k2}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq2:g*coeff(expand(B[2,2]),g)+\\
+diff(g,\ensuremath{\theta},1)*coeff(expand(B[2,2]),diff(g,\ensuremath{\theta},1))+\\
+diff(g,\ensuremath{\theta},2)*coeff(expand(B[2,2]),diff(g,\ensuremath{\theta},2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq2}\label{Eq2}
+2\left( {{g}_{\mathit{\ensuremath{\theta}}}}\right) \,{{r}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol2:ode2(Eq2,g,\ensuremath{\theta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol2}\label{sol2}
+g=\mathit{\%{}c}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+declare([C\_1,C\_2,C\_3,C\_4],constant)\$\\
+\ensuremath{\xi}\_1:C\_2*sin(\ensuremath{\theta})+C\_3*cos(\ensuremath{\theta})\$\\
+\ensuremath{\xi}\_2:diff(\ensuremath{\xi}\_1,\ensuremath{\theta})/r+C\_1\$\\
+\ensuremath{\xi}\_3:C\_4\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\mathit{\ensuremath{\xi}}=\left[{{C}_{2}}\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{C}_{3}}\cos{\left( \mathit{\ensuremath{\theta}}\right) },\frac{{{C}_{2}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }-{{C}_{3}}\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{r}+{{C}_{1}},{{C}_{4}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B:trigsimp(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+B=\begin{pmatrix}0 & 0 & 0\\
+0 & 0 & 0\\
+0 & 0 & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3)\$\\
+\ensuremath{\xi}:[\ensuremath{\xi}\_1,\ensuremath{\xi}\_2,\ensuremath{\xi}\_3]\$\\
+declare([C\_1,C\_2,C\_3,C\_4],constant)\$\\
+\ensuremath{\xi}\_1:C\_2+C\_3*exp(-\ensuremath{\theta})\$\\
+\ensuremath{\xi}\_2:C\_1-C\_3*exp(-\ensuremath{\theta})/r\$\\
+\ensuremath{\xi}\_3:r*exp(-\ensuremath{\theta})+C\_4\$\\
+ldisplay(\ensuremath{\xi}:ev(\ensuremath{\xi}))\$\\
+B:zeromatrix(dim,dim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\mathit{\ensuremath{\xi}}=\left[{{C}_{3}}{{e}^{-\mathit{\ensuremath{\theta}}}}+{{C}_{2}},{{C}_{1}}-\frac{{{C}_{3}}{{e}^{-\mathit{\ensuremath{\theta}}}}}{r},r\,{{e}^{-\mathit{\ensuremath{\theta}}}}+{{C}_{4}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(B:expand(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+B=\begin{pmatrix}0 & 0 & {{e}^{-\mathit{\ensuremath{\theta}}}}\\\\
+0 & 4{{C}_{3}}r\,{{e}^{-\mathit{\ensuremath{\theta}}}}+2{{C}_{2}}r & -r\,{{e}^{-\mathit{\ensuremath{\theta}}}}\\\\
+{{e}^{-\mathit{\ensuremath{\theta}}}} & -r\,{{e}^{-\mathit{\ensuremath{\theta}}}} & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,list\_matrix\_entries(B))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+0\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+0\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+{{e}^{-\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+0\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+4{{C}_{3}}r\,{{e}^{-\mathit{\ensuremath{\theta}}}}+2{{C}_{2}}r\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+-r\,{{e}^{-\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{e}^{-\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t17}\label{t17} 
+-r\,{{e}^{-\mathit{\ensuremath{\theta}}}}\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Geodesics for Polar Coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,r,\ensuremath{\theta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_ctensor()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:ct\_coords:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+lg[1,1]:1\$\\
+lg[2,2]:r\ensuremath{^2}\$\\
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Covariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0\\
+0 & {{r}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0\\
+0 & \frac{1}{{{r}^{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:diff(\ensuremath{\zeta}).lg.transpose(diff(\ensuremath{\zeta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{\mathit{ds}}^{2}}={{r}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}+{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$
+\end{minipage}
+
+\textbf{Christoffel symbols of the first kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if lcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j],\ensuremath{\zeta}[k]])=lcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta} \ensuremath{\theta}}}}=r\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta} r}}}=-r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Christoffel symbols of the second kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]],[\ensuremath{\zeta}[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{1}{r}\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}^{r}}=-r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Compute the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+{{r}_{ss}}=r\,{{\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+{{\mathit{\ensuremath{\theta}}}_{ss}}=-\frac{2\left( {{r}_{s}}\right) \,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }{r}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+eliminate(listarray(geod),[diff(\ensuremath{\theta},s)]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o20}\label{o20} 
+\left[4{{\left( {{r}_{s}}\right) }^{2}}\,\left( {{r}_{ss}}\right) -{{r}^{3}}\,{{\left( {{\mathit{\ensuremath{\theta}}}_{ss}}\right) }^{2}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Geodesics for Cylindrical Coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,r,\ensuremath{\theta},z)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_ctensor()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:ct\_coords:[r,\ensuremath{\theta},z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+lg[1,1]:1\$\\
+lg[2,2]:r\ensuremath{^2}\$\\
+lg[3,3]:1\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Covariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0 & 0\\
+0 & {{r}^{2}} & 0\\
+0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}1 & 0 & 0\\
+0 & \frac{1}{{{r}^{2}}} & 0\\
+0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:diff(\ensuremath{\zeta}).lg.transpose(diff(\ensuremath{\zeta})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{{\mathit{ds}}^{2}}={{r}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}+{{\operatorname{del}(z)}^{2}}+{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$
+\end{minipage}
+
+\textbf{Christoffel symbols of the first kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if lcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j],\ensuremath{\zeta}[k]])=lcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta} \ensuremath{\theta}}}}=r\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta} r}}}=-r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Christoffel symbols of the second kind}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\zeta}[i],\ensuremath{\zeta}[j]],[\ensuremath{\zeta}[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{1}{r}\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}^{r}}=-r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Computes the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(ct\_coords,s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,linsol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{r}_{ss}}=r\,{{\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+{{\mathit{\ensuremath{\theta}}}_{ss}}=-\frac{2\left( {{r}_{s}}\right) \,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }{r}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{z}_{ss}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+eliminate(listarray(geod),[diff(\ensuremath{\theta},s)]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+\left[{{\left( {{z}_{ss}}\right) }^{2}},4{{\left( {{r}_{s}}\right) }^{2}}\,\left( {{r}_{ss}}\right) -{{r}^{3}}\,{{\left( {{\mathit{\ensuremath{\theta}}}_{ss}}\right) }^{2}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
