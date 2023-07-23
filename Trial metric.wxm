@@ -1,0 +1,797 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Trial metric
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Cosmology, step by step},
+            pdfsubject={General Relativity},
+            pdfkeywords={Robin Hankin}}
+
+Based on Trin Tragula:
+\href{https://www.youtube.com/playlist?list=PL9_n3Tqzq9iVzlqlcL1gPExPRGQc2yrXK}
+{General relativity, step by step}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(a,t,q,r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:matrix([-1,0,0,0],[0,a²,0,0],[0,0,a²*q²,0],
+    [0,0,0,a²*q²*sin(θ)²])$
+ishow(g([μ,ν],[])=lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(lg,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Sets up the package for further calculations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([],[μ,ν])=ug)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(ug,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ct_coords).lg.transpose(diff(ct_coords)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel symbols}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if mcs[i,j,k]≠0 then 
+    ishow(Γ([ξ[i],ξ[j]],[ξ[k]])=mcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(mcs,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrixp(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Γ_2:genmatrix(lambda([i,j],mcs[2,i,j]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrixp(Γ_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+lriemann(false)$
+uriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if riem[a,b,c,d]≠0 then
+        ishow(R(["  ",ξ[a],ξ[b],ξ[c]],[ξ[d]])=riem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+for a thru dim do for b:a thru dim do
+  if ric[a,b]≠0 then
+    ishow(R([ξ[a],ξ[b]])=ric[a,b])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(ric,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+uric:zeromatrix(dim,dim)$
+uricci(false)$
+for a thru dim do for b:a thru dim do
+  if uric[a,b]≠0 then
+    ishow(R([ξ[a]],[ξ[b]])=uric[a,b])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(uric,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vacuum Einstein field equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(uric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar curvature}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(radcan(scurvature()));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kretschmann invariant}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(radcan(rinvariant()));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+for i thru dim do for j:i thru dim do
+  if ein[i,j]≠0 then
+    ishow(G([ξ[i]],[ξ[j]])=ein[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(ein,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lein:zeromatrix(dim,dim)$
+leinstein(false)$
+for i thru dim do for j:i thru dim do
+  if lein[i,j]≠0 then
+    ishow(G([ξ[i],ξ[j]],[])=lein[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(lein,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vacuum Einstein field equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,findde(ein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,findde(lein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Computes the Weyl conformal tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+weyl(false)$
+for i thru dim do
+  for j from (if symmetricp(lg,dim) then i+1 else 1) thru dim do
+    for k from (if symmetricp(lg,dim) then i else 1) thru dim do
+      for l from (if symmetricp(lg,dim) then k+1 else 1) thru (if (symmetricp(lg,dim) and k=i) then j else dim) do
+        if weyl[i,j,k,l]≠0 then
+          ishow(W([ξ[i],ξ[j],ξ[k],ξ[l]],[])=weyl[i,j,k,l])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Computes the Geodesics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(listarray(geod),diff(ξ,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,fullratsimp(linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Formula to raise one index of a} $(0,2)$ \textbf{tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Raise:B([ν],[α])=g([],[μ,α])*A([μ,ν],[]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Raise:ic_convert(Raise)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Formula to lower one index of a} $(2,0)$ \textbf{tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Lower:D([α],[ν])=g([μ,α],[])*C([],[μ,ν]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Lower:ic_convert(Lower)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein field equation formula}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(EFE:A([μ,ν])=κ*B([μ,ν])-Λ*g([μ,ν]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+EFE:ic_convert(EFE)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Energy-Momentum tensor formula}
+declare([ρ_0,p_0],constant)$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([ρ_0,p_0],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(EMT:S([],[μ,ν])=(ρ_0+p_0)*u([],[μ])*u([],[ν])+p_0*g([],[μ,ν]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+EMT:ic_convert(EMT)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant derivative formulas}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(CD1:Y([β,γ],[α])=subst([%1=σ],rename(covdiff(X([β],[α]),γ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CD1:ic_convert(CD1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(CD2:Z([β],[])=subst([%1=σ,%2=λ],rename(covdiff(X([β],[α]),α))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+CD2:ic_convert(CD2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Energy-Momentum tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+S:zeromatrix(dim,dim)$
+u:[1,0,0,0]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(EMT)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(T([],[μ,ν])=S)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(S,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lower one index from the Energy-Momentum tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C:S$
+D:zeromatrix(dim,dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Lower)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(T([ν],[μ])=D)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(D,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant derivative of mixed Energy-Momentum tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+X:D$
+Z:[0,0,0,0]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(CD2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(CDT:expand(-a³*Z))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(first(CDT)=diff(a³*ρ_0,t)+p_0*diff(a³,t));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lower second index from the Energy-Momentum tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+C:D$
+D:zeromatrix(dim,dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Lower)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(T([μ,ν],[])=D)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+diagmatrixp(D,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein field equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:zeromatrix(dim,dim)$
+B:D$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(EFE)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(G([μ,ν],[])=factor(A))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+EFE:makelist(expand(lein[i,i])=factor(A[i,i]),i,dim-1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+maplist(ldisp,EFE)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Autonomous equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq1:expand(EFE[3]-q²*EFE[2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Transform equation}
+\href{https://math24.net/order-reduction-cases.html}
+{Cases of Reduction of Order}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([K,K_1,K_2,K_3,K_4,K_5,K_6],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq2:subst(['diff(q,r)=p,'diff(q,r,2)=p*'diff(p,q)],Eq1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:2*logcontract(ode2(Eq2,p,q));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:subst([%c=K],sol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:expand(exp(lhs(sol))=exp(rhs(sol)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{First case} $p^2-1>0$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+sola:solve(sol,p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sola:subst(p='diff(q,r),sola);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(sola[1],q,r),q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qa1:subst([exp(K)=1/r_0,%c=K_1],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(sola[2],q,r),q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qa2:subst([exp(K)=1/r_0,%c=K_2],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second case} $p^2-1<0$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+solb:solve(-lhs(sol)=rhs(sol),p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solb:subst(p='diff(q,r),solb);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(solb[1],q,r),q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qb1:subst([exp(K)=1/r_0,%c=K_3],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(solb[2],q,r),q);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qb2:subst([exp(K)=1/r_0,%c=K_4],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Third case} $p^2-1=0$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+solc:solve(p²=1,p);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solc:subst(p='diff(q,r),solc);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(solc[1],q,r),q)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qc1:subst([%c=K_5],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+solve(ode2(solc[2],q,r),q)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Qc2:subst([%c=K_6],%th(2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qa1,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qa2,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qb1,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qb2,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qc1,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(ev(Eq1,Qc2,diff,trigsimp));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Limits}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+limit(r_0*sin(r/r_0),r_0,∞);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+limit(r_0*sinh(r/r_0),r_0,∞);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qa1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qa2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qb1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qb2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qc1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(limit(q,r_0,∞),Qc2);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

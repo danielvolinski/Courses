@@ -1,0 +1,2258 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Trial metric}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Cosmology, step by step},
+            pdfsubject={General Relativity},
+            pdfkeywords={Robin Hankin}}
+
+Based on Trin Tragula:
+\href{https://www.youtube.com/playlist?list=PL9_n3Tqzq9iVzlqlcL1gPExPRGQc2yrXK}
+{General relativity, step by step}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('itensor,'version)=false then load(itensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('ctensor,'version)=false then load(ctensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:ct\_coords:[t,r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(ct\_coords)\$
+\end{minipage}
+
+\textbf{Covariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(a,t,q,r)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:matrix([-1,0,0,0],[0,a\ensuremath{^2},0,0],[0,0,a\ensuremath{^2}*q\ensuremath{^2},0],
+    [0,0,0,a\ensuremath{^2}*q\ensuremath{^2}*sin(\ensuremath{\theta})\ensuremath{^2}])\$
+ishow(g([\ensuremath{\mu},\ensuremath{\nu}],[])=lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{\mathrm{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-1 & 0 & 0 & 0\\
+0 & {{a}^{2}} & 0 & 0\\
+0 & 0 & {{a}^{2}}\,{{q}^{2}} & 0\\
+0 & 0 & 0 & {{a}^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(lg,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o15}\label{o15} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Sets up the package for further calculations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Contravariant metric tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(g([],[\ensuremath{\mu},\ensuremath{\nu}])=ug)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+{\mathrm{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}-1 & 0 & 0 & 0\\
+0 & \frac{1}{{{a}^{2}}} & 0 & 0\\
+0 & 0 & \frac{1}{{{a}^{2}}\,{{q}^{2}}} & 0\\
+0 & 0 & 0 & \frac{1}{{{a}^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(ug,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o18}\label{o18} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=diff(ct\_coords).lg.transpose(diff(ct\_coords)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+{{\mathit{ds}}^{2}}={{a}^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\phi}}\right) }^{2}}+{{a}^{2}}\,{{q}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}-{{\operatorname{del}(t)}^{2}}+{{a}^{2}}\,{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Christoffel symbols}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$\\
+for i thru dim do for j:i thru dim do for k thru dim do\\
+  if mcs[i,j,k]\ensuremath{\neq}0 then \\
+    ishow(\ensuremath{\Gamma}([\ensuremath{\xi}[i],\ensuremath{\xi}[j]],[\ensuremath{\xi}[k]])=mcs[i,j,k])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t r}}^{r}}=\frac{{\dot{a}}}{a}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{{\dot{a}}}{a}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{t \ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{{\dot{a}}}{a}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r r}}^{t}}=a\,\left( {\dot{a}}\right) \mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{{{q^\prime}}}{q}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{r \ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{{{q^\prime}}}{q}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}^{t}}=a\,\left( {\dot{a}}\right) \,{{q}^{2}}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}^{r}}=-q\,\left( {{q^\prime}}\right) \mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\theta} \ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}^{t}}=a\,\left( {\dot{a}}\right) \,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}^{r}}=-q\,\left( {{q^\prime}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+{{\mathit{\ensuremath{\Gamma}}}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}^{\mathit{\ensuremath{\theta}}}}=-\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cdisplay(mcs,2)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+{{\mathit{mcs}}_{2}}=\begin{pmatrix}0 & \frac{{\dot{a}}}{a} & 0 & 0\\
+a\,\left( {\dot{a}}\right)  & 0 & 0 & 0\\
+0 & 0 & \frac{{{q^\prime}}}{q} & 0\\
+0 & 0 & 0 & \frac{{{q^\prime}}}{q}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrixp(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+\mbox{false}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Gamma}\_2:genmatrix(lambda([i,j],mcs[2,i,j]),dim,dim))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+{{\mathit{\ensuremath{\Gamma}}}_{2}}=\begin{pmatrix}0 & \frac{{\dot{a}}}{a} & 0 & 0\\
+a\,\left( {\dot{a}}\right)  & 0 & 0 & 0\\
+0 & 0 & \frac{{{q^\prime}}}{q} & 0\\
+0 & 0 & 0 & \frac{{{q^\prime}}}{q}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrixp(\ensuremath{\Gamma}\_2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o25}\label{o25} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Riemann Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(false)\$\\
+lriemann(false)\$\\
+uriemann(false)\$\\
+for a thru dim do for b thru dim do\\
+  for c thru (if symmetricp(lg,dim) then b else dim) do\\
+    for d thru (if symmetricp(lg,dim) then a else dim) do\\
+      if riem[a,b,c,d]\ensuremath{\neq}0 then\\
+        ishow(R(["  ",\ensuremath{\xi}[a],\ensuremath{\xi}[b],\ensuremath{\xi}[c]],[\ensuremath{\xi}[d]])=riem[a,b,c,d])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  r r t}}^{t}}=a\,\left( {\ddot{a}}\right) \mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  \ensuremath{\theta} \ensuremath{\theta} t}}^{t}}=a\,\left( {\ddot{a}}\right) \,{{q}^{2}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  \ensuremath{\theta} \ensuremath{\theta} r}}^{r}}={{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-q\,\left( {{q^{\prime\prime}}}\right) \mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} t}}^{t}}=a\,\left( {\ddot{a}}\right) \,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} r}}^{r}}=\left( {{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-q\,\left( {{q^{\prime\prime}}}\right) \right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}\]
+\[\tag{\%{}t29}\label{t29} 
+{\mathbf{R}_{\mathit{  \ensuremath{\phi} \ensuremath{\phi} \ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\left( -{{\left( {{q^\prime}}\right) }^{2}}+{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}+1\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Ricci Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ric:zeromatrix(dim,dim)\$\\
+ricci(false)\$\\
+for a thru dim do for b:a thru dim do\\
+  if ric[a,b]\ensuremath{\neq}0 then\\
+    ishow(R([\ensuremath{\xi}[a],\ensuremath{\xi}[b]])=ric[a,b])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+{\mathbf{R}_{\mathit{t t}}}=-\frac{3\left( {\ddot{a}}\right) }{a}\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+{\mathbf{R}_{\mathit{r r}}}=-\frac{2\left( {{q^{\prime\prime}}}\right) }{q}+a\,\left( {\ddot{a}}\right) +2{{\left( {\dot{a}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+{\mathbf{R}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}}=-q\,\left( {{q^{\prime\prime}}}\right) -{{\left( {{q^\prime}}\right) }^{2}}+a\,\left( {\ddot{a}}\right) \,{{q}^{2}}+2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}+1\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+{\mathbf{R}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}}=-q\,\left( {{q^{\prime\prime}}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}-{{\left( {{q^\prime}}\right) }^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+a\,\left( {\ddot{a}}\right) \,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}+{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(ric,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+uric:zeromatrix(dim,dim)\$\\
+uricci(false)\$\\
+for a thru dim do for b:a thru dim do\\
+  if uric[a,b]\ensuremath{\neq}0 then\\
+    ishow(R([\ensuremath{\xi}[a]],[\ensuremath{\xi}[b]])=uric[a,b])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+{\mathbf{R}_{t}^{t}}=\frac{3\left( {\ddot{a}}\right) }{a}\mbox{}\]
+\[\tag{\%{}t36}\label{t36} 
+{\mathbf{R}_{r}^{r}}=-\frac{2\left( {{q^{\prime\prime}}}\right) +\left( -a\,\left( {\ddot{a}}\right) -2{{\left( {\dot{a}}\right) }^{2}}\right) q}{{{a}^{2}}q}\mbox{}\]
+\[\tag{\%{}t36}\label{t36} 
+{\mathbf{R}_{\mathit{\ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=-\frac{q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}+\left( -a\,\left( {\ddot{a}}\right) -2{{\left( {\dot{a}}\right) }^{2}}\right) \,{{q}^{2}}-1}{{{a}^{2}}\,{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t36}\label{t36} 
+{\mathbf{R}_{\mathit{\ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=-\frac{q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}+\left( -a\,\left( {\ddot{a}}\right) -2{{\left( {\dot{a}}\right) }^{2}}\right) \,{{q}^{2}}-1}{{{a}^{2}}\,{{q}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(uric,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o37}\label{o37} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Vacuum Einstein field equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,efe:findde(ric,2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+{\ddot{a}}\mbox{}\]
+\[\tag{\%{}t39}\label{t39} 
+2\left( {{q^{\prime\prime}}}\right) -a\,\left( {\ddot{a}}\right) q-2{{\left( {\dot{a}}\right) }^{2}}q\mbox{}\]
+\[\tag{\%{}t40}\label{t40} 
+q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+deindex;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o41}\label{o41} 
+[[1,1],[2,2],[3,3]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,efe:findde(uric,2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+{\ddot{a}}\mbox{}\]
+\[\tag{\%{}t43}\label{t43} 
+2\left( {{q^{\prime\prime}}}\right) -a\,\left( {\ddot{a}}\right) q-2{{\left( {\dot{a}}\right) }^{2}}q\mbox{}\]
+\[\tag{\%{}t44}\label{t44} 
+q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+deindex;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o45}\label{o45} 
+[[1,1],[2,2],[3,3]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Scalar curvature}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+factor(radcan(scurvature()));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o46}\label{o46} 
+-\frac{2\left( 2q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-3a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-3{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\right) }{{{a}^{2}}\,{{q}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Kretschmann invariant}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+factor(radcan(rinvariant()));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o47}\label{o47} 
+(4(2{{q}^{2}}\,{{\left( {{q^{\prime\prime}}}\right) }^{2}}-4{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{3}}\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{4}}-2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}\,{{\left( {{q^\prime}}\right) }^{2}}-2{{\left( {{q^\prime}}\right) }^{2}}+3{{a}^{2}}\,{{\left( {\ddot{a}}\right) }^{2}}\,{{q}^{4}}+3{{\left( {\dot{a}}\right) }^{4}}\,{{q}^{4}}+2{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}+1))/({{a}^{4}}\,{{q}^{4}})\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Einstein Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ein:zeromatrix(dim,dim)\$\\
+einstein(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if ein[i,j]\ensuremath{\neq}0 then\\
+    ishow(G([\ensuremath{\xi}[i]],[\ensuremath{\xi}[j]])=ein[i,j])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+{\mathbf{G}_{t}^{t}}=\frac{2q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-3{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1}{{{a}^{2}}\,{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t50}\label{t50} 
+{\mathbf{G}_{r}^{r}}=\frac{{{\left( {{q^\prime}}\right) }^{2}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) \,{{q}^{2}}-1}{{{a}^{2}}\,{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t50}\label{t50} 
+{\mathbf{G}_{\mathit{\ensuremath{\theta}}}^{\mathit{\ensuremath{\theta}}}}=\frac{{{q^{\prime\prime}}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) q}{{{a}^{2}}q}\mbox{}\]
+\[\tag{\%{}t50}\label{t50} 
+{\mathbf{G}_{\mathit{\ensuremath{\phi}}}^{\mathit{\ensuremath{\phi}}}}=\frac{{{q^{\prime\prime}}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) q}{{{a}^{2}}q}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(ein,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o51}\label{o51} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lein:zeromatrix(dim,dim)\$\\
+leinstein(false)\$\\
+for i thru dim do for j:i thru dim do\\
+  if lein[i,j]\ensuremath{\neq}0 then\\
+    ishow(G([\ensuremath{\xi}[i],\ensuremath{\xi}[j]],[])=lein[i,j])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+{\mathbf{G}_{\mathit{t t}}}=-\frac{2q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-3{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1}{{{a}^{2}}\,{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t54}\label{t54} 
+{\mathbf{G}_{\mathit{r r}}}=\frac{{{\left( {{q^\prime}}\right) }^{2}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) \,{{q}^{2}}-1}{{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t54}\label{t54} 
+{\mathbf{G}_{\mathit{\ensuremath{\theta} \ensuremath{\theta}}}}=q\,\left( {{q^{\prime\prime}}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) q\right) \mbox{}\]
+\[\tag{\%{}t54}\label{t54} 
+{\mathbf{G}_{\mathit{\ensuremath{\phi} \ensuremath{\phi}}}}=q\,\left( {{q^{\prime\prime}}}+\left( -2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}\right) q\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(lein,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o55}\label{o55} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Vacuum Einstein field equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,findde(ein,2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t56}\label{t56} 
+2q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-3{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}\]
+\[\tag{\%{}t57}\label{t57} 
+{{\left( {{q^\prime}}\right) }^{2}}-2a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}\]
+\[\tag{\%{}t58}\label{t58} 
+{{q^{\prime\prime}}}-2a\,\left( {\ddot{a}}\right) q-{{\left( {\dot{a}}\right) }^{2}}q\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+deindex;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o59}\label{o59} 
+[[1,1],[2,2],[3,3]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,findde(lein,2))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t60}\label{t60} 
+2q\,\left( {{q^{\prime\prime}}}\right) +{{\left( {{q^\prime}}\right) }^{2}}-3{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}\]
+\[\tag{\%{}t61}\label{t61} 
+{{\left( {{q^\prime}}\right) }^{2}}-2a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}-1\mbox{}\]
+\[\tag{\%{}t62}\label{t62} 
+{{q^{\prime\prime}}}-2a\,\left( {\ddot{a}}\right) q-{{\left( {\dot{a}}\right) }^{2}}q\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+deindex;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o63}\label{o63} 
+[[1,1],[2,2],[3,3]]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Computes the Weyl conformal tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+weyl(false)\$\\
+for i thru dim do\\
+  for j from (if symmetricp(lg,dim) then i+1 else 1) thru dim do\\
+    for k from (if symmetricp(lg,dim) then i else 1) thru dim do\\
+      for l from (if symmetricp(lg,dim) then k+1 else 1) thru (if (symmetricp(lg,dim) and k=i) then j else dim) do\\
+        if weyl[i,j,k,l]\ensuremath{\neq}0 then\\
+          ishow(W([\ensuremath{\xi}[i],\ensuremath{\xi}[j],\ensuremath{\xi}[k],\ensuremath{\xi}[l]],[])=weyl[i,j,k,l])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{t r t r}}}=\frac{q\,\left( {{q^{\prime\prime}}}\right) -{{\left( {{q^\prime}}\right) }^{2}}+1}{3{{q}^{2}}}\mbox{}\]
+\[\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{t \ensuremath{\theta} t \ensuremath{\theta}}}}=-\frac{q\,\left( {{q^{\prime\prime}}}\right) -{{\left( {{q^\prime}}\right) }^{2}}+1}{6}\mbox{}\]
+\[\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{t \ensuremath{\phi} t \ensuremath{\phi}}}}=-\frac{\left( q\,\left( {{q^{\prime\prime}}}\right) -{{\left( {{q^\prime}}\right) }^{2}}+1\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}{6}\mbox{}\]
+\[\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{r \ensuremath{\theta} r \ensuremath{\theta}}}}=\frac{{{a}^{2}}q\,\left( {{q^{\prime\prime}}}\right) -{{a}^{2}}\,{{\left( {{q^\prime}}\right) }^{2}}+{{a}^{2}}}{6}\mbox{}\]
+\[\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{r \ensuremath{\phi} r \ensuremath{\phi}}}}=\frac{\left( {{a}^{2}}q\,\left( {{q^{\prime\prime}}}\right) -{{a}^{2}}\,{{\left( {{q^\prime}}\right) }^{2}}+{{a}^{2}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}{6}\mbox{}\]
+\[\tag{\%{}t65}\label{t65} 
+{\mathbf{W}_{\mathit{\ensuremath{\theta} \ensuremath{\phi} \ensuremath{\theta} \ensuremath{\phi}}}}=-\frac{\left( {{a}^{2}}\,{{q}^{3}}\,\left( {{q^{\prime\prime}}}\right) -{{a}^{2}}\,{{q}^{2}}\,{{\left( {{q^\prime}}\right) }^{2}}+{{a}^{2}}\,{{q}^{2}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}{3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Computes the Geodesics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i67) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(listarray(geod),diff(\ensuremath{\xi},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,fullratsimp(linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t68}\label{t68} 
+{{t}_{ss}}=-a\,\left( {\dot{a}}\right) \,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }^{2}}-a\,\left( {\dot{a}}\right) \,{{q}^{2}}\,{{\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }^{2}}-a\,\left( {\dot{a}}\right) \,{{\left( {{r}_{s}}\right) }^{2}}\mbox{}\]
+\[\tag{\%{}t69}\label{t69} 
+{{r}_{ss}}=\frac{aq\,\left( {{q^\prime}}\right) \,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,{{\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }^{2}}+aq\,\left( {{q^\prime}}\right) \,{{\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }^{2}}-2\left( {\dot{a}}\right) \,\left( {{r}_{s}}\right) \,\left( {{t}_{s}}\right) }{a}\mbox{}\]
+\[\tag{\%{}t70}\label{t70} 
+{{\mathit{\ensuremath{\theta}}}_{ss}}=\frac{aq\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }^{2}}+\left( -2\left( {\dot{a}}\right) q\,\left( {{t}_{s}}\right) -2a\,\left( {{q^\prime}}\right) \,\left( {{r}_{s}}\right) \right) \,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) }{aq}\mbox{}\]
+\[\tag{\%{}t71}\label{t71} 
+{{\mathit{\ensuremath{\phi}}}_{ss}}=-\frac{\left( 2aq\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\left( {{\mathit{\ensuremath{\theta}}}_{s}}\right) +\left( 2\left( {\dot{a}}\right) q\,\left( {{t}_{s}}\right) +2a\,\left( {{q^\prime}}\right) \,\left( {{r}_{s}}\right) \right) \,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\right) \,\left( {{\mathit{\ensuremath{\phi}}}_{s}}\right) }{aq\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Formula to raise one index of a} $(0,2)$ \textbf{tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i72) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(Raise:B([\ensuremath{\nu}],[\ensuremath{\alpha}])=g([],[\ensuremath{\mu},\ensuremath{\alpha}])*A([\ensuremath{\mu},\ensuremath{\nu}],[]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+{{B}_{\mathit{\ensuremath{\nu}}}^{\mathit{\ensuremath{\alpha}}}}={{g}^{\mathit{\ensuremath{\mu} \ensuremath{\alpha}}}}\,{{A}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Raise:ic\_convert(Raise)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+\textbf{Formula to lower one index of a} $(2,0)$ \textbf{tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(Lower:D([\ensuremath{\alpha}],[\ensuremath{\nu}])=g([\ensuremath{\mu},\ensuremath{\alpha}],[])*C([],[\ensuremath{\mu},\ensuremath{\nu}]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+{{D}_{\mathit{\ensuremath{\alpha}}}^{\mathit{\ensuremath{\nu}}}}={{C}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\alpha}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Lower:ic\_convert(Lower)\$
+\end{minipage}
+
+\textbf{Einstein field equation formula}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(EFE:A([\ensuremath{\mu},\ensuremath{\nu}])=\ensuremath{\kappa}*B([\ensuremath{\mu},\ensuremath{\nu}])-\ensuremath{\Lambda}*g([\ensuremath{\mu},\ensuremath{\nu}]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+{{A}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\mathit{\ensuremath{\kappa}}\,{{B}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}-\mathit{\ensuremath{\Lambda}}\,{{g}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+EFE:ic\_convert(EFE)\$
+\end{minipage}
+
+\textbf{Energy-Momentum tensor formula}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends([\ensuremath{\rho}\_0,p\_0],t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o7}\label{o7} 
+[{{\mathit{\ensuremath{\rho}}}_{0}}(t),{{p}_{0}}(t)]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(EMT:S([],[\ensuremath{\mu},\ensuremath{\nu}])=(\ensuremath{\rho}\_0+p\_0)*u([],[\ensuremath{\mu}])*u([],[\ensuremath{\nu}])+p\_0*g([],[\ensuremath{\mu},\ensuremath{\nu}]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+{{S}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}={{u}^{\mathit{\ensuremath{\mu}}}}\,{{u}^{\mathit{\ensuremath{\nu}}}}\,\left( {{\mathit{\ensuremath{\rho}}}_{0}}+{{p}_{0}}\right) +{{g}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}\,{{p}_{0}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+EMT:ic\_convert(EMT)\$
+\end{minipage}
+
+\textbf{Covariant derivative formulas}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(CD1:Y([\ensuremath{\beta},\ensuremath{\gamma}],[\ensuremath{\alpha}])=subst([\%1=\ensuremath{\sigma}],rename(covdiff(X([\ensuremath{\beta}],[\ensuremath{\alpha}]),\ensuremath{\gamma}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+{{Y}_{\mathit{\ensuremath{\beta} \ensuremath{\gamma}}}^{\mathit{\ensuremath{\alpha}}}}={{X}_{\mathit{\ensuremath{\beta}}}^{\mathit{\ensuremath{\sigma}}}}\,{{\mathit{\Gamma}}_{\mathit{\ensuremath{\sigma} \ensuremath{\gamma}}}^{\mathit{\ensuremath{\alpha}}}}-{{\mathit{\Gamma}}_{\mathit{\ensuremath{\beta} \ensuremath{\gamma}}}^{\mathit{\ensuremath{\sigma}}}}\,{{X}_{\mathit{\ensuremath{\sigma}}}^{\mathit{\ensuremath{\alpha}}}}+{{X}_{\mathit{\ensuremath{\beta},\ensuremath{\gamma}}}^{\mathit{\ensuremath{\alpha}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+CD1:ic\_convert(CD1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(CD2:Z([\ensuremath{\beta}],[])=subst([\%1=\ensuremath{\sigma},\%2=\ensuremath{\lambda}],rename(covdiff(X([\ensuremath{\beta}],[\ensuremath{\alpha}]),\ensuremath{\alpha}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{Z}_{\mathit{\ensuremath{\beta}}}}={{X}_{\mathit{\ensuremath{\beta}}}^{\mathit{\ensuremath{\lambda}}}}\,{{\mathit{\Gamma}}_{\mathit{\ensuremath{\lambda} \ensuremath{\sigma}}}^{\mathit{\ensuremath{\sigma}}}}-{{\mathit{\Gamma}}_{\mathit{\ensuremath{\beta} \ensuremath{\sigma}}}^{\mathit{\ensuremath{\lambda}}}}\,{{X}_{\mathit{\ensuremath{\lambda}}}^{\mathit{\ensuremath{\sigma}}}}+{{X}_{\mathit{\ensuremath{\beta},\ensuremath{\sigma}}}^{\mathit{\ensuremath{\sigma}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+CD2:ic\_convert(CD2)\$
+\end{minipage}
+
+\textbf{Energy-Momentum tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+S:zeromatrix(dim,dim)\$\\
+u:[1,0,0,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(EMT)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(T([],[\ensuremath{\mu},\ensuremath{\nu}])=S)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+{\mathbf{T}^{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}{{\mathit{\ensuremath{\rho}}}_{0}} & 0 & 0 & 0\\
+0 & \frac{{{p}_{0}}}{{{a}^{2}}} & 0 & 0\\
+0 & 0 & \frac{{{p}_{0}}}{{{a}^{2}}\,{{q}^{2}}} & 0\\
+0 & 0 & 0 & \frac{{{p}_{0}}}{{{a}^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(S,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o18}\label{o18} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Lower one index from the Energy-Momentum tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+C:S\$\\
+D:zeromatrix(dim,dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Lower)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(T([\ensuremath{\nu}],[\ensuremath{\mu}])=D)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{\mathbf{T}_{\mathit{\ensuremath{\nu}}}^{\mathit{\ensuremath{\mu}}}}=\begin{pmatrix}-{{\mathit{\ensuremath{\rho}}}_{0}} & 0 & 0 & 0\\
+0 & {{p}_{0}} & 0 & 0\\
+0 & 0 & {{p}_{0}} & 0\\
+0 & 0 & 0 & {{p}_{0}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(D,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Covariant derivative of mixed Energy-Momentum tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+X:D\$\\
+Z:[0,0,0,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(CD2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(CDT:expand(-a\ensuremath{^3}*Z))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\mathit{CDT}=[{{a}^{3}}\,\left( {{{{\mathit{\ensuremath{\rho}}}_{0}}}_{t}}\right) +3{{a}^{2}}\,\left( {\dot{a}}\right) \,{{\mathit{\ensuremath{\rho}}}_{0}}+3{{a}^{2}}\,\left( {\dot{a}}\right) \,{{p}_{0}},0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(first(CDT)=diff(a\ensuremath{^3}*\ensuremath{\rho}\_0,t)+p\_0*diff(a\ensuremath{^3},t));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o28}\label{o28} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Lower second index from the Energy-Momentum tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+C:D\$\\
+D:zeromatrix(dim,dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Lower)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(T([\ensuremath{\mu},\ensuremath{\nu}],[])=D)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+{\mathbf{T}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}{{\mathit{\ensuremath{\rho}}}_{0}} & 0 & 0 & 0\\
+0 & {{a}^{2}}\,{{p}_{0}} & 0 & 0\\
+0 & 0 & {{a}^{2}}\,{{p}_{0}}{{q}^{2}} & 0\\
+0 & 0 & 0 & {{a}^{2}}\,{{p}_{0}}{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+diagmatrixp(D,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Einstein field equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:zeromatrix(dim,dim)\$\\
+B:D\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(EFE)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(G([\ensuremath{\mu},\ensuremath{\nu}],[])=factor(A))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+{\mathbf{G}_{\mathit{\ensuremath{\mu} \ensuremath{\nu}}}}=\begin{pmatrix}\mathit{\ensuremath{\kappa}}\,{{\mathit{\ensuremath{\rho}}}_{0}}+\mathit{\ensuremath{\Lambda}} & 0 & 0 & 0\\
+0 & {{a}^{2}}\,\left( {{p}_{0}}\mathit{\ensuremath{\kappa}}-\mathit{\ensuremath{\Lambda}}\right)  & 0 & 0\\
+0 & 0 & {{a}^{2}}\,{{q}^{2}}\,\left( {{p}_{0}}\mathit{\ensuremath{\kappa}}-\mathit{\ensuremath{\Lambda}}\right)  & 0\\
+0 & 0 & 0 & {{a}^{2}}\,{{q}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,\left( {{p}_{0}}\mathit{\ensuremath{\kappa}}-\mathit{\ensuremath{\Lambda}}\right) \end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+EFE:makelist(expand(lein[i,i])=factor(A[i,i]),i,dim-1)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+maplist(ldisp,EFE)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t39}\label{t39} 
+-\frac{2\left( {{q^{\prime\prime}}}\right) }{{{a}^{2}}q}-\frac{{{\left( {{q^\prime}}\right) }^{2}}}{{{a}^{2}}\,{{q}^{2}}}+\frac{1}{{{a}^{2}}\,{{q}^{2}}}+\frac{3{{\left( {\dot{a}}\right) }^{2}}}{{{a}^{2}}}=\mathit{\ensuremath{\kappa}}\,{{\mathit{\ensuremath{\rho}}}_{0}}+\mathit{\ensuremath{\Lambda}}\mbox{}\]
+\[\tag{\%{}t40}\label{t40} 
+\frac{{{\left( {{q^\prime}}\right) }^{2}}}{{{q}^{2}}}-\frac{1}{{{q}^{2}}}-2a\,\left( {\ddot{a}}\right) -{{\left( {\dot{a}}\right) }^{2}}={{a}^{2}}\,\left( {{p}_{0}}\mathit{\ensuremath{\kappa}}-\mathit{\ensuremath{\Lambda}}\right) \mbox{}\]
+\[\tag{\%{}t41}\label{t41} 
+q\,\left( {{q^{\prime\prime}}}\right) -2a\,\left( {\ddot{a}}\right) \,{{q}^{2}}-{{\left( {\dot{a}}\right) }^{2}}\,{{q}^{2}}={{a}^{2}}\,{{q}^{2}}\,\left( {{p}_{0}}\mathit{\ensuremath{\kappa}}-\mathit{\ensuremath{\Lambda}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Autonomous equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq1:expand(EFE[3]-q\ensuremath{^2}*EFE[2]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq1}\label{Eq1}
+q\,\left( {{q^{\prime\prime}}}\right) -{{\left( {{q^\prime}}\right) }^{2}}+1=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Transform equation}
+\href{https://math24.net/order-reduction-cases.html}
+{Cases of Reduction of Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([K,K\_1,K\_2,K\_3,K\_4,K\_5,K\_6],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq2:subst(['diff(q,r)=p,'diff(q,r,2)=p*'diff(p,q)],Eq1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq2}\label{Eq2}
+p\,\left( {{p}_{q}}\right) q-{{p}^{2}}+1=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:2*logcontract(ode2(Eq2,p,q));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+\log{\left( \left( p-1\right) \,\left( p+1\right) \right) }=2\left( \log{(q)}+\mathit{\%{}c}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:subst([\%c=K],sol);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+\log{\left( \left( p-1\right) \,\left( p+1\right) \right) }=2\left( \log{(q)}+K\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+\mathit{separable}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:expand(exp(lhs(sol))=exp(rhs(sol)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+{{p}^{2}}-1={{e}^{2K}}\,{{q}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{First case} $p^2-1>0$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sola:solve(sol,p);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sola}\label{sola}
+\left[p=-\sqrt{{{e}^{2K}}\,{{q}^{2}}+1},p=\sqrt{{{e}^{2K}}\,{{q}^{2}}+1}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sola:subst(p='diff(q,r),sola);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sola}\label{sola}
+\left[{{q^\prime}}=-\sqrt{{{e}^{2K}}\,{{q}^{2}}+1},{{q^\prime}}=\sqrt{{{e}^{2K}}\,{{q}^{2}}+1}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(sola[1],q,r),q);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+\left[q=-{{e}^{-K}}\,\operatorname{sinh}\left( {{e}^{K}}r+{{e}^{K}}\,\mathit{\%{}c}\right)\right ]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o11}\label{o11} 
+\mathit{separable}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qa1:subst([exp(K)=1/r\_0,\%c=K\_1],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qa1}\label{Qa1}
+\left[q=-\operatorname{sinh}\left( \frac{r}{{{r}_{0}}}+\frac{{{K}_{1}}}{{{r}_{0}}}\right) {{r}_{0}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(sola[2],q,r),q);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+\left[q={{e}^{-K}}\,\operatorname{sinh}\left( {{e}^{K}}r+{{e}^{K}}\,\mathit{\%{}c}\right)\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o14}\label{o14} 
+\mathit{separable}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qa2:subst([exp(K)=1/r\_0,\%c=K\_2],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qa2}\label{Qa2}
+\left[q=\operatorname{sinh}\left( \frac{r}{{{r}_{0}}}+\frac{{{K}_{2}}}{{{r}_{0}}}\right) {{r}_{0}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Second case} $p^2-1<0$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solb:solve(-lhs(sol)=rhs(sol),p);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{solb}\label{solb}
+\left[p=-\sqrt{1-{{e}^{2K}}\,{{q}^{2}}},p=\sqrt{1-{{e}^{2K}}\,{{q}^{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solb:subst(p='diff(q,r),solb);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{solb}\label{solb}
+\left[{{q^\prime}}=-\sqrt{1-{{e}^{2K}}\,{{q}^{2}}},{{q^\prime}}=\sqrt{1-{{e}^{2K}}\,{{q}^{2}}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(solb[1],q,r),q);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o18}\label{o18} 
+\left[q=-{{e}^{-K}}\,\sin{\left( {{e}^{K}}r+{{e}^{K}}\,\mathit{\%{}c}\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o19}\label{o19} 
+\mathit{separable}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qb1:subst([exp(K)=1/r\_0,\%c=K\_3],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qb1}\label{Qb1}
+\left[q=-\sin{\left( \frac{r}{{{r}_{0}}}+\frac{{{K}_{3}}}{{{r}_{0}}}\right) }{{r}_{0}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(solb[2],q,r),q);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o21}\label{o21} 
+\left[q={{e}^{-K}}\,\sin{\left( {{e}^{K}}r+{{e}^{K}}\,\mathit{\%{}c}\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+\mathit{separable}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qb2:subst([exp(K)=1/r\_0,\%c=K\_4],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qb2}\label{Qb2}
+\left[q=\sin{\left( \frac{r}{{{r}_{0}}}+\frac{{{K}_{4}}}{{{r}_{0}}}\right) }{{r}_{0}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Third case} $p^2-1=0$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solc:solve(p\ensuremath{^2}=1,p);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{solc}\label{solc}
+[p=-1,p=1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solc:subst(p='diff(q,r),solc);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{solc}\label{solc}
+[{{q^\prime}}=-1,{{q^\prime}}=1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(solc[1],q,r),q)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o27}\label{o27} 
+\mathit{linear}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qc1:subst([\%c=K\_5],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qc1}\label{Qc1}
+[q={{K}_{5}}-r]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+solve(ode2(solc[2],q,r),q)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o30}\label{o30} 
+\mathit{linear}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Qc2:subst([\%c=K\_6],\%th(2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Qc2}\label{Qc2}
+[q=r+{{K}_{6}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Verify solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qa1,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qa2,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qb1,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qb2,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o35}\label{o35} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qc1,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o36}\label{o36} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(ev(Eq1,Qc2,diff,trigsimp));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o37}\label{o37} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Limits}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+limit(r\_0*sin(r/r\_0),r\_0,\ensuremath{\infty});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o38}\label{o38} 
+r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+limit(r\_0*sinh(r/r\_0),r\_0,\ensuremath{\infty});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qa1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o40}\label{o40} 
+-r-{{K}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qa2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o41}\label{o41} 
+r+{{K}_{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qb1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o42}\label{o42} 
+-r-{{K}_{3}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qb2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o43}\label{o43} 
+r+{{K}_{4}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qc1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o44}\label{o44} 
+{{K}_{5}}-r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(limit(q,r\_0,\ensuremath{\infty}),Qc2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o45}\label{o45} 
+r+{{K}_{6}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
