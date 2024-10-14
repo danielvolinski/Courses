@@ -1,0 +1,3926 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Surface Integrals}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Surface Integrals},
+            pdfsubject={Calculus III},
+            pdfkeywords={Mathispower4u}}
+
+Based on Mathispower4u Playlist
+\href{https://www.youtube.com/playlist?list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g}
+{Mathispower4u Surface Integrals}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,\\
+                  xaxis=true,xaxis\_type=solid,xaxis\_width=3,\\
+                  yaxis=true,yaxis\_type=solid,yaxis\_width=3,\\
+                  zaxis=true,zaxis\_type=solid,zaxis\_width=3)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(express(u.u)))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Parameterized Surfaces}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=0kKBPbmzwm8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=1}
+{Parameterized Surfaces}
+
+
+\subsection{}
+
+
+Determine a parameterization for the given surface.
+$2\,x-3\,y+z=6$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:2*x-3*y+z=6;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq}\label{Eq}
+z-3y+2x=6\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(Eq,z);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+[z=3y-2x+6]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:subst(append(linsol,[x=u,y=v]),\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+S=[u,v,3v-2u+6]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Plane",view=[60,30],ztics=5,\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-3,3,v,-3,3])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Determine a parameterization for the given surface.
+$x^2+(y-2)^2=4$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:x\ensuremath{^2}+(y-2)\ensuremath{^2}=4;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq}\label{Eq}
+{{\left( y-2\right) }^{2}}+{{x}^{2}}=4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[2*cos(u),2*sin(u)+2,v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+S=[2\cos{(u)},2\sin{(u)}+2,v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(trigsimp(subst(map("=",\ensuremath{\zeta},S),Eq)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o5}\label{o5} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Cylinder",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-5,5,v,-5,5])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\subsection{}
+
+
+Determine a parameterization for the given surface.
+$x^2+y^2+z^2=9$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,\ensuremath{\phi},\ensuremath{\theta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[\ensuremath{\phi},\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:x\ensuremath{^2}+y\ensuremath{^2}+z\ensuremath{^2}=9;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq}\label{Eq}
+{{z}^{2}}+{{y}^{2}}+{{x}^{2}}=9\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[3*sin(\ensuremath{\phi})*cos(\ensuremath{\theta}),3*sin(\ensuremath{\phi})*sin(\ensuremath{\theta}),3*cos(\ensuremath{\phi})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+S=[3\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },3\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },3\cos{\left( \mathit{\ensuremath{\phi}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(trigsimp(subst(map("=",\ensuremath{\zeta},S),Eq)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o5}\label{o5} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Sphere",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[\ensuremath{\phi},0,\ensuremath{\pi},\ensuremath{\theta},0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\subsection{}
+
+
+Determine the rectangular equation given by
+$\vec{r}(u,v)=\langle{u,v,\sqrt{u^2+v^2}}\rangle$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[u,v,\ensuremath{\sqrt{}}(u\ensuremath{^2}+v\ensuremath{^2})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+S=[u,v,\sqrt{{{v}^{2}}+{{u}^{2}}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst([u=x,v=y],S);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+[x,y,\sqrt{{{y}^{2}}+{{x}^{2}}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:z=last(\%);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eq}\label{Eq}
+z=\sqrt{{{y}^{2}}+{{x}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Cone",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-2,2,v,-2,2])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Determine the rectangular equation given by
+$\vec{r}(u,v)=\langle{3\,u\,\sin(v),3\,u\,\cos(v),u^2}\rangle$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[3*u*sin(v),3*u*cos(v),u\ensuremath{^2}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+S=[3u\,\sin{(v)},3u\,\cos{(v)},{{u}^{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(trigsimp(S[1]\ensuremath{^2}+S[2]\ensuremath{^2})=9*S[3]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Paraboloid",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-2,2,v,0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Write a Parameterized Surface Using Cartesian Coordinates}
+
+
+For each surface $\vec{r}(u,v)$, identify the best
+description
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+\textbf{Reference}:
+\href{https://en.wikipedia.org/wiki/Quadric}{Quadric}
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[v*cos(u),v,v*sin(u)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+S=[\cos{(u)}v,v,\sin{(u)}v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(S[1]\ensuremath{^2}+S[3]\ensuremath{^2}-S[2]\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Cone",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         enhanced3d=[sin(r*s),r,s],\\
+         apply(parametric\_surface,append(S,[u,-2*\ensuremath{\pi},2*\ensuremath{\pi},v,-2*\ensuremath{\pi},2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[v*cos(u),u,v*sin(u)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+S=[\cos{(u)}v,u,\sin{(u)}v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(trigreduce(S[3]/S[1])=tan(S[2]));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o7}\label{o7} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Screw(helicoid)",view=[50,60],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         enhanced3d=[sin(r*s),r,s],\\
+         apply(parametric\_surface,append(S,[u,-2*\ensuremath{\pi},2*\ensuremath{\pi},v,-2*\ensuremath{\pi},2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[v\ensuremath{^2},u,v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+S=[{{v}^{2}},u,v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(S[1]=S[3]\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Parabolic cylinder",view=[63,56],\\
+         xtics=5,ytics=1,ztics=1,\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-6,6,v,-6,6])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_8}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[u,v,u+v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+S=[u,v,v+u]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(S[3]=S[1]+S[2]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o13}\label{o13} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Plane",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         apply(parametric\_surface,append(S,[u,-2,2,v,-2,2])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_9}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Graph Parameterized Surfaces Using 3D Calc Plotter}
+
+
+\textbf{Reference}:
+\href{https://c3d.libretexts.org/CalcPlot3D/index.html}
+{CalcPlot3D}
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[v*cos(u),v\ensuremath{^2},v*sin(u)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+S=[\cos{(u)}v,{{v}^{2}},\sin{(u)}v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(S[2]=trigsimp(S[1]\ensuremath{^2}+S[3]\ensuremath{^2}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o16}\label{o16} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Paraboloid",view=[50,50],ytics=5,\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         apply(parametric\_surface,append(S,[u,-2*\ensuremath{\pi},2*\ensuremath{\pi},v,-6,6])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_10}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Area of a Parameterized Surface}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=IdVILLByihs&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=4}
+{Area of a Parameterized Surface}
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,u,v)\$
+\end{minipage}
+
+Determine the surface of a cylinder given by
+$\vec{r}(u,v)=\langle{3\,\cos(u),3\,\sin(u),v}\rangle$
+with $0\leq u\leq 2\,\pi$ and $0\leq v\leq 4$
+
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}u\,\mathrm{d}v$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[3*cos(u),3*sin(u),v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+S=[3\cos{(u)},3\sin{(u)},v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Cylinder",view=[65,54],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         apply(parametric\_surface,append(S,[u,0,2*\ensuremath{\pi},v,0,4])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:mycross(diff(S,u),diff(S,v)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+N=[3\cos{(u)},3\sin{(u)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+\mathit{|N|}=3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+n:trigsimp(normalize(N));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{n}\label{n}
+[\cos{(u)},\sin{(u)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(A:box(integrate(integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|,u,0,2*\ensuremath{\pi}),v,0,4)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+A=\left( 24\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,u,v)\$
+\end{minipage}
+
+Determine the surface area of a sphere given by
+$\vec{r}(u,v)=\langle{2\,\sin(u)\,\cos(v),2\,\sin(u)\,
+\sin(v),2\,\cos(u)}\rangle$ with $0\leq u\leq 2\,\pi$
+and $0\leq v\leq 2\,\pi$
+
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}u\,\mathrm{d}v$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[2*sin(u)*cos(v),2*sin(u)*sin(v),2*cos(u)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+S=[2\sin{(u)}\,\cos{(v)},2\sin{(u)}\,\sin{(v)},2\cos{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Sphere",view=[60,30],\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xyz,\\
+         apply(parametric\_surface,append(S,[u,0,\ensuremath{\pi},v,0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_12}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+N=[4{{\sin{(u)}}^{2}}\,\cos{(v)},4{{\sin{(u)}}^{2}}\,\sin{(v)},4\cos{(u)}\,\sin{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+\mathit{|N|}=4\sin{(u)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+n:trigsimp(normalize(N));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{n}\label{n}
+[\sin{(u)}\,\cos{(v)},\sin{(u)}\,\sin{(v)},\cos{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:'integrate('integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|,u,0,\ensuremath{\pi}),v,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(A=box(ev(A,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+8\ensuremath{\pi} \int_{0}^{\ensuremath{\pi} }{\left. \sin{(u)}du\right.}=\left( 16\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Integrals with Explicit Surface}
+
+
+For a surface $S$ given by $z=g(x,y)$ that is continuous
+and differentiable over a region $R$ in the $xy$-plane
+$$\iint_S f(x,y,z)\,\mathrm{d}s=\iint_R f(x,y,g(x,y))
+\sqrt{1+(g_x)^2+(g_y)^2}\,\mathrm{d}x\,\mathrm{d}y$$
+Notice: if $f(x,y,z)=1$, we have the surface area as
+discussed in the previous video.
+
+
+\subsection{}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=ppospL53wPc&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=5}
+{Surface Integrals with Explicit Surface Part 1}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,f,g)\$
+\end{minipage}
+
+A roof is given by the graph of $g(x,y)=25+0.5\,x+0.5\,y$
+over $0\leq x\leq 40$, $0\leq y\leq 20$. If the density of
+the roof is given by $f(x,y,z)=150-2\,z$, determine the
+mass of the roof.
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:25+\ensuremath{\frac{1}{2}}*x+\ensuremath{\frac{1}{2}}*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+g=\frac{y}{2}+\frac{x}{2}+25\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:150-2*z)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+f=150-2z\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $f\circ g$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(fog:subst([z=g],f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{fog}=150-2\left( \frac{y}{2}+\frac{x}{2}+25\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\sqrt{}}(1+diff(g,x)\ensuremath{^2}+diff(g,y)\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+\frac{\sqrt{3}}{\sqrt{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+M:'integrate('integrate(fog*\%,x,0,40),y,0,20)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M=box(ev(M,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\frac{\sqrt{3}\,\int_{0}^{20}{\left. \int_{0}^{40}{\left. 150-2\left( \frac{y}{2}+\frac{x}{2}+25\right) dx\right.}dy\right.}}{\sqrt{2}}=\left( 6.8586{{10}^{4}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=XntA5hj_HBg&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=6}
+{Surface Integrals with Explicit Surface Part 2}
+
+
+Integrate $f(x,y,z)=x\,y$ over the surface $z=4-2\,x-2\,y$
+in the first octant.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,f,g)\$
+\end{minipage}
+
+$$\iint_S f(x,y,z)\,\mathrm{d}s=\iint_R f(x,y,g(x,y))
+\sqrt{1+(g_x)^2+(g_y)^2}\,\mathrm{d}x\,\mathrm{d}y$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:4-2*x-2*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+g=-2y-2x+4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+f=xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $f\circ g$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(fog:subst([z=g],f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{fog}=xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\sqrt{}}(1+diff(g,x)\ensuremath{^2}+diff(g,y)\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+M:'integrate('integrate(fog*\%,y,0,2-x),x,0,2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M=box(ev(M,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+3\int_{0}^{2}{\left. x\,\int_{0}^{2-x}{\left. ydy\right.}dx\right.}=(2)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Area of a Function of Two Variables}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=aU5uB237-hU&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=7}
+{Ex: Surface Area of a Function of Two Variables (Surface Integral)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,r,\ensuremath{\theta})\$
+\end{minipage}
+
+$$\iint_S\mathrm{d}s=\iint_R\sqrt{1+(g_x)^2+(g_y)^2}\,
+\mathrm{d}x\,\mathrm{d}y$$
+
+
+Find the area of the surface of the paraboloid $z=x^2+y^2$
+that lies below the plane $z=16$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$\\
+\ensuremath{\xi}:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:x\ensuremath{^2}+y\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+g={{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\sqrt{}}(1+diff(g,x)\ensuremath{^2}+diff(g,y)\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o5}\label{o5} 
+\sqrt{4{{y}^{2}}+4{{x}^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(subst(map("=",\ensuremath{\zeta},Tr),\%));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+\sqrt{4{{r}^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+M:'integrate('integrate(r*\%,r,0,4),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M=box(ev(M,integrate,ratsimp)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+2\ensuremath{\pi} \int_{0}^{4}{\left. r\,\sqrt{4{{r}^{2}}+1}dr\right.}=\left( \frac{\left( {{65}^{\frac{3}{2}}}-1\right) \ensuremath{\pi} }{6}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(M=box(ev(M,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+2\ensuremath{\pi} \int_{0}^{4}{\left. r\,\sqrt{4{{r}^{2}}+1}dr\right.}=\left( 273.87\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Integrals with Parameterized Surface}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=Go42xzsTA3Q&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=8}
+{Surface Integrals with Parameterized Surface}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+Given a smooth surface given by $\vec{r}(u,v)=
+\langle{x(u,v),y(u,v),z(u,v)}\rangle$ and $f$ is a
+continuous function
+$$\iint_S f(x,y,x)\,\mathrm{d}s=\iint_R
+f(x(u,v),y(u,v),z(u,v))\,
+\lVert{\vec{r}_u\times\vec{r}_v}\rVert\,\mathrm{d}A$$
+
+
+\subsection{}
+
+
+Evaluate $\iint_S f(x,y,x)\,\mathrm{d}s$ using a parametric 
+surface given by $f(x,y,z)=x\,y$ and $S$ is $x^2+y^2=4$
+with $0\leq z\leq 8$ in the first octant
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+f=xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[2*cos(u),2*sin(u),v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+S=[2\cos{(u)},2\sin{(u)},v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(foS:subst(map("=",\ensuremath{\zeta},S),f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+\mathit{foS}=4\cos{(u)}\,\sin{(u)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:mycross(diff(S,u),diff(S,v)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+N=[2\cos{(u)},2\sin{(u)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\mathit{|N|}=2\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:trigsimp(normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+n=[\cos{(u)},\sin{(u)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|*foS,v,0,8),u,0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+64\int_{0}^{\frac{\ensuremath{\pi} }{2}}{\left. \cos{(u)}\,\sin{(u)}du\right.}=(32)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Evaluate $\iint_S f(x,y,x)\,\mathrm{d}s$ using a parametric 
+surface given by $f(x,y,z)=x^2+y^2$ and $S$ is the
+hemisphere $x^2+y^2+z^2=1$ above the $xy$-plane
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$\\
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x\ensuremath{^2}+y\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+f={{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[sin(u)*cos(v),sin(u)*sin(v),cos(u)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+S=[\sin{(u)}\,\cos{(v)},\sin{(u)}\,\sin{(v)},\cos{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(foS:trigsimp(subst(map("=",\ensuremath{\zeta},S),f)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\mathit{foS}={{\sin{(u)}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+N=[{{\sin{(u)}}^{2}}\,\cos{(v)},{{\sin{(u)}}^{2}}\,\sin{(v)},\cos{(u)}\,\sin{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\mathit{|N|}=\sin{(u)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:trigsimp(normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+n=[\sin{(u)}\,\cos{(v)},\sin{(u)}\,\sin{(v)},\cos{(u)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|*foS,u,0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}),v,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+2\ensuremath{\pi} \int_{0}^{\frac{\ensuremath{\pi} }{2}}{\left. {{\sin{(u)}}^{3}}du\right.}=\left( \frac{4\ensuremath{\pi} }{3}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Area of a Vector Valued Function Over a Region}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=854euvnegJM&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=10}
+{Double Integrals - Surface Area of a Vector Valued Function Over a Region}
+
+
+Find the surface area of the helicoid (spiral ramp) with
+vector equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,
+\sin{v},v}\rangle$ over the region $0\leq u\leq 1$ and
+$0\leq v\leq\pi$
+
+
+$$S=\iint_R\lVert{\vec{r}_u\times\vec{r}_v}\rVert\,
+\mathrm{d}A$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[u*cos(v),u*sin(v),v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+S=[u\,\cos{(v)},u\,\sin{(v)},v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+N=[\sin{(v)},-\cos{(v)},u]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{|N|}=\sqrt{{{u}^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:trigsimp(normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+n=\left[\frac{\sin{(v)}}{\sqrt{{{u}^{2}}+1}},-\frac{\cos{(v)}}{\sqrt{{{u}^{2}}+1}},\frac{u}{\sqrt{{{u}^{2}}+1}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|,u,0,1),v,0,\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\ensuremath{\pi} \int_{0}^{1}{\left. \sqrt{{{u}^{2}}+1}du\right.}=\left( \frac{\ensuremath{\pi} \left( \operatorname{asinh}(1)+\sqrt{2}\right) }{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\ensuremath{\pi} \int_{0}^{1}{\left. \sqrt{{{u}^{2}}+1}du\right.}=\left( 3.6059\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Area of a Parametric Surface}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=dzrEqu8DuKc&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=11}
+{Ex: Surface Area of a Parametric Surface (Surface Integral)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+Find the area of the surface of the cone with the vector
+equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,\sin{v},u}
+\rangle$ with $0\leq u\leq 2$ and $0\leq v\leq 2\,\pi$
+
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}A$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[u*cos(v),u*sin(v),u])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+S=[u\,\cos{(v)},u\,\sin{(v)},u]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+N=[-u\,\cos{(v)},-u\,\sin{(v)},u]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\backslash}|N\ensuremath{\backslash}|:trigsimp(norm(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{|N|}=\sqrt{2}u\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n:trigsimp(normalize(N)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+n=\left[-\frac{\cos{(v)}}{\sqrt{2}},-\frac{\sin{(v)}}{\sqrt{2}},\frac{1}{\sqrt{2}}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(\ensuremath{\backslash}|N\ensuremath{\backslash}|,u,0,2),v,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+{{2}^{\frac{3}{2}}}\ensuremath{\pi} \int_{0}^{2}{\left. udu\right.}=\left( {{2}^{\frac{5}{2}}}\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+{{2}^{\frac{3}{2}}}\ensuremath{\pi} \int_{0}^{2}{\left. udu\right.}=\left( 17.772\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Surface Integral of a Vector Field}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=y-gsqWf3Gms&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=12}
+{Surface Integral of a Vector Field - Part 1}
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=9H4Q-FEKwGw&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=13}
+{Surface Integral of a Vector Field - Part 2}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,r,\ensuremath{\theta})\$
+\end{minipage}
+
+\textbf{Oriented upward}
+$$\iint_S\vec{F}\cdot\vec{n}\,\mathrm{d}s=\iint_R\vec{F}
+\cdot\langle{-g_x(x,y),-g_y(x,y),1}\rangle\,\mathrm{d}A$$
+\textbf{Oriented downward}
+$$\iint_S\vec{F}\cdot\vec{n}\,\mathrm{d}s=\iint_R\vec{F}
+\cdot\langle{g_x(x,y),g_y(x,y),-1}\rangle\,\mathrm{d}A$$
+
+
+\subsection{}
+
+
+Determine the flux across the given surface. $\vec{F}=
+\langle{0,-1,-2}\rangle$ across the surface $z=6-x-y$ in
+the first octant. Use a downward orientation.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[0,-1,-2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+F=[0,-1,-2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:6-x-y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+g=-y-x+6\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Delta}:[diff(g,x),diff(g,y),-1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{\ensuremath{\Delta}}=[-1,-1,-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:solve(g=0,y);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+[y=6-x]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(F.\ensuremath{\Delta},y,0,6-x),x,0,6)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+3\int_{0}^{6}{\left. 6-xdx\right.}=(54)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Determine the flux across the given surface. $\vec{F}=
+\langle{x,y,z}\rangle$ across the surface $z=9-x^2-y^2$
+above the $xy$-plane with an unit normal vector oriented
+upward.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x,y,z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+F=[x,y,z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:9-x\ensuremath{^2}-y\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+g=-{{y}^{2}}-{{x}^{2}}+9\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoS:subst([z=g],F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{FoS}=[x,y,-{{y}^{2}}-{{x}^{2}}+9]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Delta}:[-diff(g,x),-diff(g,y),1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{\ensuremath{\Delta}}=[2x,2y,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+Calculate $xy$ trace
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:solve(g=0,y);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sol}\label{sol}
+[y=-\sqrt{9-{{x}^{2}}},y=\sqrt{9-{{x}^{2}}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:FoS.\ensuremath{\Delta};
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+{{y}^{2}}+{{x}^{2}}+9\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:2*'integrate('integrate(integrand,y,-\ensuremath{\sqrt{}}(9-x\ensuremath{^2}),\ensuremath{\sqrt{}}(9-x\ensuremath{^2})),x,0,3)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+2\int_{0}^{3}{\left. \int_{-\sqrt{9-{{x}^{2}}}}^{\sqrt{9-{{x}^{2}}}}{\left. {{y}^{2}}+{{x}^{2}}+9dy\right.}dx\right.}=\left( \frac{243\ensuremath{\pi} }{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Polar coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(subst(map("=",\ensuremath{\zeta},Tr),FoS.\ensuremath{\Delta}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+{{r}^{2}}+9\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand*r,r,0,3),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+2\ensuremath{\pi} \int_{0}^{3}{\left. r\,\left( {{r}^{2}}+9\right) dr\right.}=\left( \frac{243\ensuremath{\pi} }{2}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Evaluate a Surface Integral}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=qtEpKxxEML8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=15}
+{Ex: Evaluate a Surface Integral (Basic Explicit Surface - Plane Over Rectangle)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z)\$
+\end{minipage}
+
+Evaluate $\iint_S x^2\,z\,\mathrm{d}s$ where $S$ is the
+part of the plane $z=4+x+3\,y$ above the rectangle
+$[0,2]\times[0,3]$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x\ensuremath{^2}*z)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t1}\label{t1} 
+f={{x}^{2}}z\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:4+x+3*y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+g=3y+x+4\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(fog:subst([z=g],f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+\mathit{fog}={{x}^{2}}\,\left( 3y+x+4\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\sqrt{}}(diff(g,x)\ensuremath{^2}+diff(g,y)\ensuremath{^2}+1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o4}\label{o4} 
+\sqrt{11}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(fog*\%,x,0,2),y,0,3)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+\sqrt{11}\,\int_{0}^{3}{\left. \int_{0}^{2}{\left. {{x}^{2}}\,\left( 3y+x+4\right) dx\right.}dy\right.}=\left( 80\sqrt{11}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\sqrt{11}\,\int_{0}^{3}{\left. \int_{0}^{2}{\left. {{x}^{2}}\,\left( 3y+x+4\right) dx\right.}dy\right.}=\left( 265.33\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Evaluate a Surface Integral}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=p2uhYS0-nyI&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=16}
+{Ex: Evaluate a Surface Integral Using Polar Coordinates- Implicit Surface (Cone)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z)\$
+\end{minipage}
+
+Evaluate $\iint_S x^2+y^2-z\,\mathrm{d}s$ where $S$ is the
+part of the cone $z^2=x^2+y^2$ that lies between the
+planes $z=2$ and $z=3$.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f:x\ensuremath{^2}+y\ensuremath{^2}-z)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+f=-z+{{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:\ensuremath{\sqrt{}}(x\ensuremath{^2}+y\ensuremath{^2}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t3}\label{t3} 
+g=\sqrt{{{y}^{2}}+{{x}^{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(fog:subst([z=g],f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+\mathit{fog}=-\sqrt{{{y}^{2}}+{{x}^{2}}}+{{y}^{2}}+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rootscontract(\ensuremath{\sqrt{}}(diff(g,x)\ensuremath{^2}+diff(g,y)\ensuremath{^2}+1));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o5}\label{o5} 
+\sqrt{\frac{{{y}^{2}}}{{{y}^{2}}+{{x}^{2}}}+\frac{{{x}^{2}}}{{{y}^{2}}+{{x}^{2}}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+factor(fullratsimp(fog*\%));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o6}\label{o6} 
+-\sqrt{2}\,\left( \sqrt{{{y}^{2}}+{{x}^{2}}}-{{y}^{2}}-{{x}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Polar coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*cos(\ensuremath{\theta}),r*sin(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:factor(trigsimp(subst(map("=",\ensuremath{\zeta},Tr),\%th(5))));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+\sqrt{2}\,\left( r-1\right) r\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand*r,r,2,3),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{{2}^{\frac{3}{2}}}\ensuremath{\pi} \int_{2}^{3}{\left. \left( r-1\right) \,{{r}^{2}}dr\right.}=\left( \frac{119\ensuremath{\pi} }{3\sqrt{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{2}^{\frac{3}{2}}}\ensuremath{\pi} \int_{2}^{3}{\left. \left( r-1\right) \,{{r}^{2}}dr\right.}=\left( 88.117\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Cone",view=[75,26],zrange=[1,4],\\
+         proportional\_axes=xy,\\
+         x\_voxel=20,y\_voxel=20,z\_voxel=20,\\
+         implicit(z\ensuremath{^2}=x\ensuremath{^2}+y\ensuremath{^2},x,-4,4,y,-4,4,z,1,4),\\
+         color=red,surface\_hide=true,\\
+         implicit(z=2,x,-4,4,y,-4,4,z,0,4),\\
+         implicit(z=3,x,-4,4,y,-4,4,z,0,4))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t15}\label{t15} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_13}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Evaluate a Flux Integral with Surface Given Explicitly}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=ZymvRsODFv8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=17}
+{Ex: Evaluate a Flux Integral with Surface Given Explicitly}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z)\$
+\end{minipage}
+
+Find the flux of the vector field $\vec{F}=\langle{y,-z,x}
+\rangle$ across the part of the plane $z=3+4\,x+y$ above
+the rectangle $[0,5]\times[0,4]$ with upwards orientation.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[y,-z,x])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+F=[y,-z,x]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_14}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:3+4*x+y)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+g=y+4x+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Delta}:[-diff(g,x),-diff(g,y),1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\mathit{\ensuremath{\Delta}}=[-4,-1,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}=
+\iint_S\vec{F}\cdot\vec{N}\,\mathrm{d}s$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Fog:subst([z=g],F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{Fog}=[y,-y-4x-3,x]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(Fog.\ensuremath{\Delta},x,0,5),y,0,4)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\int_{0}^{4}{\left. \int_{0}^{5}{\left. -3y+5x+3dx\right.}dy\right.}=(190)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Evaluate a Flux Integral with Surface Given Parametrically}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=Rfw-LyQH75E&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=18}
+{Ex: Evaluate a Flux Integral with Surface Given Parametrically (helicoid)}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+Evaluate $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}$ where
+$\vec{F}=\langle{y,-x,z^3}\rangle$ and $S$ is the helicoid
+with vector equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,
+\sin{v},v}\rangle$ with $0\leq u\leq 2$ and $0\leq v
+\leq\pi$ with upward orientation.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[y,-x,z\ensuremath{^3}])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+F=[y,-x,{{z}^{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,0,5))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_15}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[u,v]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:[u*cos(v),u*sin(v),v])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+S=[u\,\cos{(v)},u\,\sin{(v)},v]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Helicoid",view=[60,30],ztics=5,\\
+         xu\_grid=50,yv\_grid=50,proportional\_axes=xy,\\
+         color=green,\\
+         apply(parametric\_surface,append(S,[u,0,2,v,0,\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_16}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Helicoid",view=[0,0],ztics=5,\\
+         xu\_grid=100,yv\_grid=100,proportional\_axes=xy,\\
+         color=green,\\
+         apply(parametric\_surface,append(S,[u,0,2,v,0,\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_17}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Calculate} $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}=
+\iint_S\vec{F}\cdot\vec{N}\,\mathrm{d}s$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoS:subst(map("=",\ensuremath{\zeta},S),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\mathit{FoS}=[u\,\sin{(v)},-u\,\cos{(v)},{{v}^{3}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+N=[\sin{(v)},-\cos{(v)},u]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(FoS.N);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+u\,{{v}^{3}}+u\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand,u,0,2),v,0,\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,expand)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\int_{0}^{\ensuremath{\pi} }{\left. \int_{0}^{2}{\left. u\,{{v}^{3}}+udu\right.}dv\right.}=\left( \frac{{{\ensuremath{\pi} }^{4}}}{2}+2\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\int_{0}^{\ensuremath{\pi} }{\left. \int_{0}^{2}{\left. u\,{{v}^{3}}+udu\right.}dv\right.}=\left( 54.988\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Using a Flux Integral to Determine a Mass Flow Rate}
+
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=9jFIxLSRZ-k&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=19}
+{Ex: Using a Flux Integral to Determine a Mass Flow Rate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y,z,u,v)\$
+\end{minipage}
+
+A fluid has density $800\,kg/m^3$ and flows with velocity
+$\vec{v}=x\,\hat{i}+y\,\hat{j}+z\,\hat{k}$ where $x$, $y$
+and $z$ are measured in meters and the components of
+$\vec{v}$ are measured in meters per second. Find the
+rate of flow outward through the part of the paraboloid
+$z=16-x^2-y^2$ that lies above the $xy$-plane.
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[x,y,z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t2}\label{t2} 
+F=[x,y,z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,-2,2))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t7}\label{t7} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_18}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Paraboloid",view=[60,30],ztics=5,\\
+         proportional\_axes=xy,surface\_hide=true,\\
+         x\_voxel=20,y\_voxel=20,enhanced3d=true,\\
+         implicit(z=16-x\ensuremath{^2}-y\ensuremath{^2},x,-4,4,y,-4,4,z,0,16))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_19}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Paraboloid",view=[0,0],ztics=5,\\
+         proportional\_axes=xy,surface\_hide=true,\\
+         x\_voxel=20,y\_voxel=20,enhanced3d=true,\\
+         implicit(z=16-x\ensuremath{^2}-y\ensuremath{^2},x,-4,4,y,-4,4,z,0,16))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Surface Integralsw_img/Surface Integralsw_20}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\rho}:800)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t10}\label{t10} 
+\mathit{\ensuremath{\rho}}=800\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(g:16-x\ensuremath{^2}-y\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t11}\label{t11} 
+g=-{{y}^{2}}-{{x}^{2}}+16\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(Fog:subst([z=g],F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+\mathit{Fog}=[x,y,-{{y}^{2}}-{{x}^{2}}+16]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Delta}:[-diff(g,x),-diff(g,y),1])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+\mathit{\ensuremath{\Delta}}=[2x,2y,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:\ensuremath{\rho}*(Fog.\ensuremath{\Delta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+800\left( {{y}^{2}}+{{x}^{2}}+16\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Polar coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$\\
+\ensuremath{\xi}:[r,\ensuremath{\theta}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Tr:[r*sin(\ensuremath{\theta}),r*cos(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:factor(trigsimp(subst(map("=",\ensuremath{\zeta},Tr),integrand)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+800\left( {{r}^{2}}+16\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand*r,r,0,4),\ensuremath{\theta},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,expand)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+1600\ensuremath{\pi} \int_{0}^{4}{\left. r\,\left( {{r}^{2}}+16\right) dr\right.}=\left( 307200\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate,numer)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+1600\ensuremath{\pi} \int_{0}^{4}{\left. r\,\left( {{r}^{2}}+16\right) dr\right.}=\left( 9.651{{10}^{5}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
