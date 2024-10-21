@@ -1,0 +1,1713 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Surface Integrals
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Surface Integrals},
+            pdfsubject={Calculus III},
+            pdfkeywords={Mathispower4u}}
+
+Based on Mathispower4u Playlist
+\href{https://www.youtube.com/playlist?list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g}
+{Mathispower4u Surface Integrals}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+set_draw_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,
+                  xaxis=true,xaxis_type=solid,xaxis_width=3,
+                  yaxis=true,yaxis_type=solid,yaxis_width=3,
+                  zaxis=true,zaxis_type=solid,zaxis_width=3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(express(u.u)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Parameterized Surfaces
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=0kKBPbmzwm8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=1}
+{Parameterized Surfaces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine a parameterization for the given surface.
+$2\,x-3\,y+z=6$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:2*x-3*y+z=6;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eq,z);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:subst(append(linsol,[x=u,y=v]),ζ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Plane",view=[60,30],ztics=5,
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-3,3,v,-3,3])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine a parameterization for the given surface.
+$x^2+(y-2)^2=4$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:x²+(y-2)²=4;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[2*cos(u),2*sin(u)+2,v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(subst(map("=",ζ,S),Eq)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Cylinder",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-5,5,v,-5,5])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine a parameterization for the given surface.
+$x^2+y^2+z^2=9$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,φ,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[φ,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:x²+y²+z²=9;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[3*sin(φ)*cos(θ),3*sin(φ)*sin(θ),3*cos(φ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(subst(map("=",ζ,S),Eq)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Sphere",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[φ,0,π,θ,0,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the rectangular equation given by
+$\vec{r}(u,v)=\langle{u,v,\sqrt{u^2+v^2}}\rangle$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[u,v,√(u²+v²)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+subst([u=x,v=y],S);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:z=last(%);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Cone",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-2,2,v,-2,2])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the rectangular equation given by
+$\vec{r}(u,v)=\langle{3\,u\,\sin(v),3\,u\,\cos(v),u^2}\rangle$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[3*u*sin(v),3*u*cos(v),u²])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigsimp(S[1]²+S[2]²)=9*S[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Paraboloid",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-2,2,v,0,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Write a Parameterized Surface Using Cartesian Coordinates
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+For each surface $\vec{r}(u,v)$, identify the best
+description
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reference}:
+\href{https://en.wikipedia.org/wiki/Quadric}{Quadric}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[v*cos(u),v,v*sin(u)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(S[1]²+S[3]²-S[2]²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Cone",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         enhanced3d=[sin(r*s),r,s],
+         apply(parametric_surface,append(S,[u,-2*π,2*π,v,-2*π,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[v*cos(u),u,v*sin(u)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(trigreduce(S[3]/S[1])=tan(S[2]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Screw(helicoid)",view=[50,60],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         enhanced3d=[sin(r*s),r,s],
+         apply(parametric_surface,append(S,[u,-2*π,2*π,v,-2*π,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[v²,u,v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(S[1]=S[3]²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Parabolic cylinder",view=[63,56],
+         xtics=5,ytics=1,ztics=1,
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-6,6,v,-6,6])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[u,v,u+v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(S[3]=S[1]+S[2]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Plane",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         apply(parametric_surface,append(S,[u,-2,2,v,-2,2])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Graph Parameterized Surfaces Using 3D Calc Plotter
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reference}:
+\href{https://c3d.libretexts.org/CalcPlot3D/index.html}
+{CalcPlot3D}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[v*cos(u),v²,v*sin(u)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(S[2]=trigsimp(S[1]²+S[3]²));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Paraboloid",view=[50,50],ytics=5,
+         xu_grid=50,yv_grid=50,proportional_axes=xyz,
+         apply(parametric_surface,append(S,[u,-2*π,2*π,v,-6,6])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Area of a Parameterized Surface
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=IdVILLByihs&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=4}
+{Area of a Parameterized Surface}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the surface of a cylinder given by
+$\vec{r}(u,v)=\langle{3\,\cos(u),3\,\sin(u),v}\rangle$
+with $0\leq u\leq 2\,\pi$ and $0\leq v\leq 4$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}u\,\mathrm{d}v$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[3*cos(u),3*sin(u),v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Cylinder",view=[65,54],
+         xu_grid=50,yv_grid=50,proportional_axes=xyz,
+         apply(parametric_surface,append(S,[u,0,2*π,v,0,4])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:mycross(diff(S,u),diff(S,v)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+n:trigsimp(normalize(N));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:box(integrate(integrate(\|N\|,u,0,2*π),v,0,4)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the surface area of a sphere given by
+$\vec{r}(u,v)=\langle{2\,\sin(u)\,\cos(v),2\,\sin(u)\,
+\sin(v),2\,\cos(u)}\rangle$ with $0\leq u\leq 2\,\pi$
+and $0\leq v\leq 2\,\pi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}u\,\mathrm{d}v$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[2*sin(u)*cos(v),2*sin(u)*sin(v),2*cos(u)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Sphere",view=[60,30],
+         xu_grid=50,yv_grid=50,proportional_axes=xyz,
+         apply(parametric_surface,append(S,[u,0,π,v,0,2*π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+n:trigsimp(normalize(N));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+A:'integrate('integrate(\|N\|,u,0,π),v,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A=box(ev(A,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Integrals with Explicit Surface
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+For a surface $S$ given by $z=g(x,y)$ that is continuous
+and differentiable over a region $R$ in the $xy$-plane
+$$\iint_S f(x,y,z)\,\mathrm{d}s=\iint_R f(x,y,g(x,y))
+\sqrt{1+(g_x)^2+(g_y)^2}\,\mathrm{d}x\,\mathrm{d}y$$
+Notice: if $f(x,y,z)=1$, we have the surface area as
+discussed in the previous video.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=ppospL53wPc&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=5}
+{Surface Integrals with Explicit Surface Part 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,f,g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+A roof is given by the graph of $g(x,y)=25+0.5\,x+0.5\,y$
+over $0\leq x\leq 40$, $0\leq y\leq 20$. If the density of
+the roof is given by $f(x,y,z)=150-2\,z$, determine the
+mass of the roof.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S f(x,y,z)\,\mathrm{d}s=\iint_R f(x,y,g(x,y))
+\sqrt{1+(g_x)^2+(g_y)^2}\,\mathrm{d}x\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:25+½*x+½*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:150-2*z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $f\circ g$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(fog:subst([z=g],f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+√(1+diff(g,x)²+diff(g,y)²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M:'integrate('integrate(fog*%,x,0,40),y,0,20)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(M=box(ev(M,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=XntA5hj_HBg&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=6}
+{Surface Integrals with Explicit Surface Part 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Integrate $f(x,y,z)=x\,y$ over the surface $z=4-2\,x-2\,y$
+in the first octant.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,f,g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S f(x,y,z)\,\mathrm{d}s=\iint_R f(x,y,g(x,y))
+\sqrt{1+(g_x)^2+(g_y)^2}\,\mathrm{d}x\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:4-2*x-2*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $f\circ g$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(fog:subst([z=g],f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+√(1+diff(g,x)²+diff(g,y)²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M:'integrate('integrate(fog*%,y,0,2-x),x,0,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(M=box(ev(M,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Area of a Function of Two Variables
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=aU5uB237-hU&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=7}
+{Ex: Surface Area of a Function of Two Variables (Surface Integral)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S\mathrm{d}s=\iint_R\sqrt{1+(g_x)^2+(g_y)^2}\,
+\mathrm{d}x\,\mathrm{d}y$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the area of the surface of the paraboloid $z=x^2+y^2$
+that lies below the plane $z=16$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Tr:[r*cos(θ),r*sin(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:x²+y²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+√(1+diff(g,x)²+diff(g,y)²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(subst(map("=",ζ,Tr),%));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+M:'integrate('integrate(r*%,r,0,4),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(M=box(ev(M,integrate,ratsimp)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(M=box(ev(M,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Integrals with Parameterized Surface
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=Go42xzsTA3Q&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=8}
+{Surface Integrals with Parameterized Surface}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Given a smooth surface given by $\vec{r}(u,v)=
+\langle{x(u,v),y(u,v),z(u,v)}\rangle$ and $f$ is a
+continuous function
+$$\iint_S f(x,y,x)\,\mathrm{d}s=\iint_R
+f(x(u,v),y(u,v),z(u,v))\,
+\lVert{\vec{r}_u\times\vec{r}_v}\rVert\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S f(x,y,x)\,\mathrm{d}s$ using a parametric 
+surface given by $f(x,y,z)=x\,y$ and $S$ is $x^2+y^2=4$
+with $0\leq z\leq 8$ in the first octant
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[2*cos(u),2*sin(u),v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(foS:subst(map("=",ζ,S),f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:mycross(diff(S,u),diff(S,v)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n:trigsimp(normalize(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(\|N\|*foS,v,0,8),u,0,½*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S f(x,y,x)\,\mathrm{d}s$ using a parametric 
+surface given by $f(x,y,z)=x^2+y^2$ and $S$ is the
+hemisphere $x^2+y^2+z^2=1$ above the $xy$-plane
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x²+y²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[sin(u)*cos(v),sin(u)*sin(v),cos(u)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(foS:trigsimp(subst(map("=",ζ,S),f)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n:trigsimp(normalize(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(\|N\|*foS,u,0,½*π),v,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Area of a Vector Valued Function Over a Region
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=854euvnegJM&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=10}
+{Double Integrals - Surface Area of a Vector Valued Function Over a Region}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the surface area of the helicoid (spiral ramp) with
+vector equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,
+\sin{v},v}\rangle$ over the region $0\leq u\leq 1$ and
+$0\leq v\leq\pi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$S=\iint_R\lVert{\vec{r}_u\times\vec{r}_v}\rVert\,
+\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[u*cos(v),u*sin(v),v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n:trigsimp(normalize(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(\|N\|,u,0,1),v,0,π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Area of a Parametric Surface
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=dzrEqu8DuKc&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=11}
+{Ex: Surface Area of a Parametric Surface (Surface Integral)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the area of the surface of the cone with the vector
+equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,\sin{v},u}
+\rangle$ with $0\leq u\leq 2$ and $0\leq v\leq 2\,\pi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\iint_S\mathrm{d}s=\iint_R\lVert{\vec{r}_u\times
+\vec{r}_v}\rVert\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[u*cos(v),u*sin(v),u])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\|N\|:trigsimp(norm(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(n:trigsimp(normalize(N)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(\|N\|,u,0,2),v,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Surface Integral of a Vector Field
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=y-gsqWf3Gms&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=12}
+{Surface Integral of a Vector Field - Part 1}
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=9H4Q-FEKwGw&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=13}
+{Surface Integral of a Vector Field - Part 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,r,θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Oriented upward}
+$$\iint_S\vec{F}\cdot\vec{n}\,\mathrm{d}s=\iint_R\vec{F}
+\cdot\langle{-g_x(x,y),-g_y(x,y),1}\rangle\,\mathrm{d}A$$
+\textbf{Oriented downward}
+$$\iint_S\vec{F}\cdot\vec{n}\,\mathrm{d}s=\iint_R\vec{F}
+\cdot\langle{g_x(x,y),g_y(x,y),-1}\rangle\,\mathrm{d}A$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the flux across the given surface. $\vec{F}=
+\langle{0,-1,-2}\rangle$ across the surface $z=6-x-y$ in
+the first octant. Use a downward orientation.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[0,-1,-2])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:6-x-y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Δ:[diff(g,x),diff(g,y),-1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:solve(g=0,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(F.Δ,y,0,6-x),x,0,6)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Determine the flux across the given surface. $\vec{F}=
+\langle{x,y,z}\rangle$ across the surface $z=9-x^2-y^2$
+above the $xy$-plane with an unit normal vector oriented
+upward.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x,y,z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:9-x²-y²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS:subst([z=g],F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Δ:[-diff(g,x),-diff(g,y),1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Calculate $xy$ trace
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:solve(g=0,y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:FoS.Δ;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:2*'integrate('integrate(integrand,y,-√(9-x²),√(9-x²)),x,0,3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Polar coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Tr:[r*cos(θ),r*sin(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:trigsimp(subst(map("=",ζ,Tr),FoS.Δ));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand*r,r,0,3),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Evaluate a Surface Integral
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=qtEpKxxEML8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=15}
+{Ex: Evaluate a Surface Integral (Basic Explicit Surface - Plane Over Rectangle)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S x^2\,z\,\mathrm{d}s$ where $S$ is the
+part of the plane $z=4+x+3\,y$ above the rectangle
+$[0,2]\times[0,3]$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x²*z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:4+x+3*y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(fog:subst([z=g],f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+√(diff(g,x)²+diff(g,y)²+1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(fog*%,x,0,2),y,0,3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Evaluate a Surface Integral
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=p2uhYS0-nyI&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=16}
+{Ex: Evaluate a Surface Integral Using Polar Coordinates- Implicit Surface (Cone)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S x^2+y^2-z\,\mathrm{d}s$ where $S$ is the
+part of the cone $z^2=x^2+y^2$ that lies between the
+planes $z=2$ and $z=3$.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(f:x²+y²-z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:√(x²+y²))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(fog:subst([z=g],f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rootscontract(√(diff(g,x)²+diff(g,y)²+1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(fullratsimp(fog*%));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Polar coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Tr:[r*cos(θ),r*sin(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:factor(trigsimp(subst(map("=",ζ,Tr),%th(5))));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand*r,r,2,3),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Cone",view=[75,26],zrange=[1,4],
+         proportional_axes=xy,
+         x_voxel=20,y_voxel=20,z_voxel=20,
+         implicit(z²=x²+y²,x,-4,4,y,-4,4,z,1,4),
+         color=red,surface_hide=true,
+         implicit(z=2,x,-4,4,y,-4,4,z,0,4),
+         implicit(z=3,x,-4,4,y,-4,4,z,0,4))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Evaluate a Flux Integral with Surface Given Explicitly
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=ZymvRsODFv8&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=17}
+{Ex: Evaluate a Flux Integral with Surface Given Explicitly}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the flux of the vector field $\vec{F}=\langle{y,-z,x}
+\rangle$ across the part of the plane $z=3+4\,x+y$ above
+the rectangle $[0,5]\times[0,4]$ with upwards orientation.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[y,-z,x])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:3+4*x+y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Δ:[-diff(g,x),-diff(g,y),1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}=
+\iint_S\vec{F}\cdot\vec{N}\,\mathrm{d}s$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Fog:subst([z=g],F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(Fog.Δ,x,0,5),y,0,4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Evaluate a Flux Integral with Surface Given Parametrically
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=Rfw-LyQH75E&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=18}
+{Ex: Evaluate a Flux Integral with Surface Given Parametrically (helicoid)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Evaluate $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}$ where
+$\vec{F}=\langle{y,-x,z^3}\rangle$ and $S$ is the helicoid
+with vector equation $\vec{r}(u,v)=\langle{u\,\cos{v},u\,
+\sin{v},v}\rangle$ with $0\leq u\leq 2$ and $0\leq v
+\leq\pi$ with upward orientation.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[y,-x,z³])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,0,5))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[u,v]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(S:[u*cos(v),u*sin(v),v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Helicoid",view=[60,30],ztics=5,
+         xu_grid=50,yv_grid=50,proportional_axes=xy,
+         color=green,
+         apply(parametric_surface,append(S,[u,0,2,v,0,π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Helicoid",view=[0,0],ztics=5,
+         xu_grid=100,yv_grid=100,proportional_axes=xy,
+         color=green,
+         apply(parametric_surface,append(S,[u,0,2,v,0,π])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\iint_S\vec{F}\cdot\mathrm{d}\vec{s}=
+\iint_S\vec{F}\cdot\vec{N}\,\mathrm{d}s$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(FoS:subst(map("=",ζ,S),F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(N:trigsimp(mycross(diff(S,u),diff(S,v))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:trigsimp(FoS.N);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand,u,0,2),v,0,π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,expand)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using a Flux Integral to Determine a Mass Flow Rate
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Mathispower4u Video
+\href{https://www.youtube.com/watch?v=9jFIxLSRZ-k&list=PLROOIV7hGpZhcw1Be4MdwWSftaosv7--g&index=19}
+{Ex: Using a Flux Integral to Determine a Mass Flow Rate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y,z,u,v)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+A fluid has density $800\,kg/m^3$ and flows with velocity
+$\vec{v}=x\,\hat{i}+y\,\hat{j}+z\,\hat{k}$ where $x$, $y$
+and $z$ are measured in meters and the components of
+$\vec{v}$ are measured in meters per second. Find the
+rate of flow outward through the part of the paraboloid
+$z=16-x^2-y^2$ that lies above the $xy$-plane.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y,z]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:[x,y,z])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{3D Direction field}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */
+coord:setify(makelist(k,k,-2,2))$
+points3d:listify(cartesian_product(coord,coord,coord))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* compute vectors at the given points  */
+define(vf3d(x,y,z),vector(ζ,F))$
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d([head_length=0.1,color=blue,head_angle=25,unit_vectors=true],vect3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Paraboloid",view=[60,30],ztics=5,
+         proportional_axes=xy,surface_hide=true,
+         x_voxel=20,y_voxel=20,enhanced3d=true,
+         implicit(z=16-x²-y²,x,-4,4,y,-4,4,z,0,16))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxdraw3d(title="Paraboloid",view=[0,0],ztics=5,
+         proportional_axes=xy,surface_hide=true,
+         x_voxel=20,y_voxel=20,enhanced3d=true,
+         implicit(z=16-x²-y²,x,-4,4,y,-4,4,z,0,16))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ρ:800)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(g:16-x²-y²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Fog:subst([z=g],F))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Δ:[-diff(g,x),-diff(g,y),1])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:ρ*(Fog.Δ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Polar coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+ξ:[r,θ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Tr:[r*sin(θ),r*cos(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+integrand:factor(trigsimp(subst(map("=",ζ,Tr),integrand)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+I:'integrate('integrate(integrand*r,r,0,4),θ,0,2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,expand)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(I=box(ev(I,integrate,numer)))$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
