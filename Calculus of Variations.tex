@@ -1,0 +1,2154 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Calculus of Variations}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Calculus of Variations},
+            pdfsubject={Calculus of Variations},
+            pdfkeywords={Maths For All}}
+
+Based on Maths For All Playlist
+\href{https://www.youtube.com/playlist?list=PLUnrYe_C6P_oWd9vCHteGNC6kwdKJgXra}
+{Calculus of Variations}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(odes)\$ load(contrib\_ode)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optmiz,'version)=false then load(optmiz)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Straight line}
+
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:\ensuremath{\sqrt{}}(1+'diff(y,x)\ensuremath{^2});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_y:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{{P}_{y}}=\frac{{{y}_{x}}}{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_y:diff(L,y))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{F}_{y}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+\frac{1}{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}={{k}_{0}}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t20}\label{t20} 
+\frac{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}\,\left( {{y}_{xx}}\right) }{{{\left( {{y}_{x}}\right) }^{4}}+2{{\left( {{y}_{x}}\right) }^{2}}+1}=0\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t21}\label{t21} 
+\frac{{{y}_{x}}}{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:reverse(subst([k[0]=E],bb[1]))\$\\
+bb[3]:reverse(subst([k[1]=P],bb[3]))\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[1,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+E=\frac{1}{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t25}\label{t25} 
+P=\frac{{{y}_{x}}}{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+[sol]:solve(bb[2],'diff(y,x,2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o26}\label{o26} 
+[{{y}_{xx}}=0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(sol,y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\mathit{\%{}k2}x+\mathit{\%{}k1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o28}\label{o28} 
+\mathit{constcoeff}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bc2(odesol,x=x\_0,y=y\_0,x=x\_1,y=y\_1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+y=\frac{x\,\left( {{y}_{0}}-{{y}_{1}}\right) }{{{x}_{0}}-{{x}_{1}}}-\frac{{{x}_{1}}{{y}_{0}}-{{x}_{0}}{{y}_{1}}}{{{x}_{0}}-{{x}_{1}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Brachistochrone problem}
+
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:\ensuremath{\sqrt{}}(1+'diff(y,x)\ensuremath{^2})/\ensuremath{\sqrt{}}(2*g*y);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\frac{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}{\sqrt{2}\,\sqrt{gy}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_y:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+{{P}_{y}}=\frac{{{y}_{x}}}{\sqrt{2}\,\sqrt{gy}\,\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_y:diff(L,y))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+{{F}_{y}}=-\frac{g\,\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}{{{2}^{\frac{3}{2}}}\,{{(gy)}^{\frac{3}{2}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+\frac{\sqrt{gy}}{\sqrt{2}gy\,\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}={{k}_{0}}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t38}\label{t38} 
+\frac{2y\,\left( {{y}_{xx}}\right) -{{\left( {{y}_{x}}\right) }^{4}}-{{\left( {{y}_{x}}\right) }^{2}}}{\sqrt{gy}\,\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}\,\left( {{2}^{\frac{3}{2}}}y\,{{\left( {{y}_{x}}\right) }^{2}}+{{2}^{\frac{3}{2}}}y\right) }=-\frac{\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}{{{2}^{\frac{3}{2}}}y\,\sqrt{gy}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:reverse(subst([k[0]=E],bb[1]));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+E=\frac{\sqrt{gy}}{\sqrt{2}gy\,\sqrt{{{\left( {{y}_{x}}\right) }^{2}}+1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+[sol]:solve(bb[2],'diff(y,x,2));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o40}\label{o40} 
+\left[{{y}_{xx}}=-\frac{{{\left( {{y}_{x}}\right) }^{2}}+1}{2y}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(sol,y,x)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o42}\label{o42} 
+\mathit{freeofx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,odesol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\frac{{{{}e}^{-2\mathit{\%{}k1}}}\,\left( {{{}e}^{\mathit{\%{}k1}}}\,\sqrt{y}\,\operatorname{atan}\left( \frac{{{{}e}^{-\frac{\mathit{\%{}k1}}{2}}}\,\sqrt{1-{{{}e}^{\mathit{\%{}k1}}}y}}{\sqrt{y}}\right) +{{{}e}^{\frac{3\mathit{\%{}k1}}{2}}}y\,\sqrt{1-{{{}e}^{\mathit{\%{}k1}}}y}\right) }{\sqrt{y}}=x+\mathit{\%{}k2}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t44}\label{t44} 
+-\frac{{{{}e}^{-2\mathit{\%{}k1}}}\,\left( {{{}e}^{\mathit{\%{}k1}}}\,\sqrt{y}\,\operatorname{atan}\left( \frac{{{{}e}^{-\frac{\mathit{\%{}k1}}{2}}}\,\sqrt{1-{{{}e}^{\mathit{\%{}k1}}}y}}{\sqrt{y}}\right) +{{{}e}^{\frac{3\mathit{\%{}k1}}{2}}}y\,\sqrt{1-{{{}e}^{\mathit{\%{}k1}}}y}\right) }{\sqrt{y}}=x+\mathit{\%{}k2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Optimal control}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:ham(['diff(v,t,1)=f,'diff(x,t,1)=v])\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:subst([aux[1]=aux\_1,aux[2]=aux\_2],bb);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{bb}\label{bb}
+[{{\mathit{aux}}_{2}}v+{{\mathit{aux}}_{1}}f,{{{{\mathit{aux}}_{1}}}_{t}}=-{{\mathit{aux}}_{2}},{{{{\mathit{aux}}_{2}}}_{t}}=0,{{\mathit{aux}}_{2}}={{c}_{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+{{\mathit{aux}}_{2}}v+{{\mathit{aux}}_{1}}f\mbox{}\]
+\[\tag{\%{}t52}\label{t52} 
+{{{{\mathit{aux}}_{1}}}_{t}}=-{{\mathit{aux}}_{2}}\mbox{}\]
+\[\tag{\%{}t53}\label{t53} 
+{{{{\mathit{aux}}_{2}}}_{t}}=0\mbox{}\]
+\[\tag{\%{}t54}\label{t54} 
+{{\mathit{aux}}_{2}}={{c}_{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(aux\_1(t),[t=0],a)\$\\
+atvalue(aux\_2(t),[t=0],b)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+printprops(all,atvalue)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+{{\mathit{aux}}_{1}}(0)=a,\,{{\mathit{aux}}_{2}}(0)=b\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+convert(part(bb,[2,3]),[aux\_1,aux\_2],t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o58}\label{o58} 
+[{{{{\mathit{aux}}_{1}}(t)}_{t}}=-{{\mathit{aux}}_{2}}(t),{{{{\mathit{aux}}_{2}}(t)}_{t}}=0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+convert([aux\_1,aux\_2],[aux\_1,aux\_2],t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o59}\label{o59} 
+[{{\mathit{aux}}_{1}}(t),{{\mathit{aux}}_{2}}(t)]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+desol:desolve(\%th(2),\%th(1));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{desol}\label{desol}
+[{{\mathit{aux}}_{1}}(t)=a-bt,{{\mathit{aux}}_{2}}(t)=b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+convert(bb[1],[aux\_1,aux\_2],t);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o61}\label{o61} 
+{{\mathit{aux}}_{2}}(t)v+f\,{{\mathit{aux}}_{1}}(t)\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(\%,desol);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o62}\label{o62} 
+bv+f\,\left( a-bt\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Calculus of Variations: Functionals}
+
+
+Based on NPTEL-NOC IITM Video
+\href{https://youtu.be/waXAjx-4kHU?t=1500}
+{Calculus of Variations: Functionals}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f(x,y):=x*y\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\phi}(x,y):=x\ensuremath{^2}+y\ensuremath{^2}\$ b:1\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+stapoints(f(x,y),[],[\ensuremath{\phi}(x,y)-b],\ensuremath{\zeta})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+{{\mathit{stapts}}_{1}}=\left[x=\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t6}\label{t6} 
+\mathit{objsub}=-\frac{1}{2}\mbox{}\]
+\[\tag{\%{}t7}\label{t7} 
+\mathit{gradsub}=[0,0,0]\mbox{}\]
+\[\tag{\%{}t8}\label{t8} 
+{{\mathit{stapts}}_{2}}=\left[x=-\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t9}\label{t9} 
+\mathit{objsub}=-\frac{1}{2}\mbox{}\]
+\[\tag{\%{}t10}\label{t10} 
+\mathit{gradsub}=[0,0,0]\mbox{}\]
+\[\tag{\%{}t11}\label{t11} 
+{{\mathit{stapts}}_{3}}=\left[x=\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t12}\label{t12} 
+\mathit{objsub}=\frac{1}{2}\mbox{}\]
+\[\tag{\%{}t13}\label{t13} 
+\mathit{gradsub}=[0,0,0]\mbox{}\]
+\[\tag{\%{}t14}\label{t14} 
+{{\mathit{stapts}}_{4}}=\left[x=-\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t15}\label{t15} 
+\mathit{objsub}=\frac{1}{2}\mbox{}\]
+\[\tag{\%{}t16}\label{t16} 
+\mathit{gradsub}=[0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,stapts)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\left[x=\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t18}\label{t18} 
+\left[x=-\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+\left[x=\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+\left[x=-\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+makelist(at(f(x,y),stapts[i]),i,1,length(stapts));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o21}\label{o21} 
+\left[-\frac{1}{2},-\frac{1}{2},\frac{1}{2},\frac{1}{2}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+makelist(at(\ensuremath{\phi}(x,y),stapts[i]),i,1,length(stapts));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+[1,1,1,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lagrangian;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+{{\mathit{eqmult}}_{1}}\,\left( {{y}^{2}}+{{x}^{2}}-1\right) +xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+grad;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o24}\label{o24} 
+[y+2{{\mathit{eqmult}}_{1}}x,2{{\mathit{eqmult}}_{1}}y+x,{{y}^{2}}+{{x}^{2}}-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+decslkmults;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o25}\label{o25} 
+[x,y,{{\mathit{eqmult}}_{1}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradient(decslkmults);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o26}\label{o26} 
+[y+2{{\mathit{eqmult}}_{1}}x,2{{\mathit{eqmult}}_{1}}y+x,{{y}^{2}}+{{x}^{2}}-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+G:list\_matrix\_entries(jacobian([f(x,y)],\ensuremath{\zeta}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{G}\label{G}
+[y,x]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:list\_matrix\_entries(jacobian([lagrangian],decslkmults));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+[y+2{{\mathit{eqmult}}_{1}}x,2{{\mathit{eqmult}}_{1}}y+x,{{y}^{2}}+{{x}^{2}}-1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sol:algsys(grad,decslkmults)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,sol)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+\left[x=\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t31}\label{t31} 
+\left[x=-\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t32}\label{t32} 
+\left[x=\frac{1}{\sqrt{2}},y=\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}\]
+\[\tag{\%{}t33}\label{t33} 
+\left[x=-\frac{1}{\sqrt{2}},y=-\frac{1}{\sqrt{2}},{{\mathit{eqmult}}_{1}}=-\frac{1}{2}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Examples}
+
+
+Based on Bsc Maths Aligarh Video
+\href{https://youtu.be/6JvM_mr35N4?t=600}
+{Calculus of Variations}
+
+
+\subsection{}
+
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(x+y^\prime)\,y^\prime\,\mathrm{d}x$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:(x+'diff(y,x))*'diff(y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\left( {{y}_{x}}\right) \,\left( {{y}_{x}}+x\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+P=2\left( {{y}_{x}}\right) +x\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:diff(L,x))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+F=\left( {{y}_{x}}\right) \,\left( {{y}_{xx}}+1\right) +\left( {{y}_{x}}+x\right) \,\left( {{y}_{xx}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+2\left( {{y}_{xx}}\right) +1=0\mbox{}\]
+\[\tag{\%{}t10}\label{t10} 
+2\left( {{y}_{x}}\right) +x={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(bb[1],y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=-\frac{{{x}^{2}}}{4}+\mathit{\%{}k2}x+\mathit{\%{}k1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+\mathit{variationofparameters}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([x\_1,y\_1,x\_2,y\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[x\_1=0,y\_1=0,x\_2=10,y\_2=10]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:bc2(odesol,x=x\_1,y=y\_1,x=x\_2,y=y\_2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=-\frac{{{x}^{2}}}{4}+\frac{\left( -4{{y}_{2}}+4{{y}_{1}}-{{{{x}_{2}}}^{2}}+{{{{x}_{1}}}^{2}}\right) x}{4{{x}_{1}}-4{{x}_{2}}}-\frac{{{x}_{1}}\left( -4{{y}_{2}}-{{{{x}_{2}}}^{2}}\right) +4{{x}_{2}}{{y}_{1}}+{{{{x}_{1}}}^{2}}{{x}_{2}}}{4{{x}_{1}}-4{{x}_{2}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2],odesol,eval,diff,expand,factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o16}\label{o16} 
+\frac{4{{y}_{2}}-4{{y}_{1}}+{{{{x}_{2}}}^{2}}-{{{{x}_{1}}}^{2}}}{2\left( {{x}_{2}}-{{x}_{1}}\right) }={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([y,diff(y,x)],[x,x\_1,x\_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Calculus of Variations_img/Calculus of Variations_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}\dfrac{{y^\prime}^2}{x^3}\,\mathrm{d}x$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:'diff(y,x)\ensuremath{^2}/x\ensuremath{^3};
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\frac{{{\left( {{y}_{x}}\right) }^{2}}}{{{x}^{3}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+P=\frac{2\left( {{y}_{x}}\right) }{{{x}^{3}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:diff(L,x))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+F=\frac{2\left( {{y}_{x}}\right) \,\left( {{y}_{xx}}\right) }{{{x}^{3}}}-\frac{3{{\left( {{y}_{x}}\right) }^{2}}}{{{x}^{4}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+\frac{2x\,\left( {{y}_{xx}}\right) -6\left( {{y}_{x}}\right) }{{{x}^{4}}}=0\mbox{}\]
+\[\tag{\%{}t10}\label{t10} 
+\frac{2\left( {{y}_{x}}\right) }{{{x}^{3}}}={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(bb[1],y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\mathit{\%{}k2}\,{{x}^{4}}-\frac{\mathit{\%{}k1}}{4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+\mathit{exact}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([x\_1,y\_1,x\_2,y\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[x\_1=0,y\_1=0,x\_2=10,y\_2=10]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:bc2(odesol,x=x\_1,y=y\_1,x=x\_2,y=y\_2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\frac{\left( {{y}_{1}}-{{y}_{2}}\right) {{x}^{4}}}{{{{{x}_{1}}}^{4}}-{{{{x}_{2}}}^{4}}}-\frac{4{{{{x}_{2}}}^{4}}{{y}_{1}}-4{{{{x}_{1}}}^{4}}{{y}_{2}}}{4\left( {{{{x}_{1}}}^{4}}-{{{{x}_{2}}}^{4}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2],odesol,eval,diff;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o16}\label{o16} 
+\frac{8\left( {{y}_{1}}-{{y}_{2}}\right) }{{{{{x}_{1}}}^{4}}-{{{{x}_{2}}}^{4}}}={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([y,diff(y,x)],[x,x\_1,x\_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Calculus of Variations_img/Calculus of Variations_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\subsection{}
+
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(1+x^2\,y^\prime)y^\prime\,\mathrm{d}x$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:(1+x\ensuremath{^2}*'diff(y,x))*'diff(y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\left( {{y}_{x}}\right) \,\left( {{x}^{2}}\,\left( {{y}_{x}}\right) +1\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+P=2{{x}^{2}}\,\left( {{y}_{x}}\right) +1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:fullratsimp(diff(L,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+F=\left( 2{{x}^{2}}\,\left( {{y}_{x}}\right) +1\right) \,\left( {{y}_{xx}}\right) +2x\,{{\left( {{y}_{x}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+2{{x}^{2}}\,\left( {{y}_{xx}}\right) +4x\,\left( {{y}_{x}}\right) =0\mbox{}\]
+\[\tag{\%{}t10}\label{t10} 
+2{{x}^{2}}\,\left( {{y}_{x}}\right) +1={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(bb[1],y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\frac{\mathit{\%{}k2}}{x}+\mathit{\%{}k1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+\mathit{exact}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([x\_1,y\_1,x\_2,y\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[x\_1=1,y\_1=1,x\_2=10,y\_2=10]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:bc2(odesol,x=x\_1,y=y\_1,x=x\_2,y=y\_2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\frac{{{x}_{1}}{{y}_{1}}-{{x}_{2}}{{y}_{2}}}{{{x}_{1}}-{{x}_{2}}}-\frac{{{x}_{1}}{{x}_{2}}{{y}_{1}}-{{x}_{1}}{{x}_{2}}{{y}_{2}}}{\left( {{x}_{1}}-{{x}_{2}}\right) x}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[2],odesol,eval,diff,expand,factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o16}\label{o16} 
+\frac{2{{x}_{1}}{{x}_{2}}{{y}_{2}}-2{{x}_{1}}{{x}_{2}}{{y}_{1}}+{{x}_{2}}-{{x}_{1}}}{{{x}_{2}}-{{x}_{1}}}={{k}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([y,diff(y,x)],[x,x\_1,x\_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t17}\label{t17} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Calculus of Variations_img/Calculus of Variations_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+\pagebreak
+
+
+\subsection{}
+
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(y^2+{y^\prime}^2-2\,y\,\sin(x))\,\mathrm{d}x$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels,x,y)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(y,x)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:y\ensuremath{^2}+'diff(y,x)\ensuremath{^2}-2*y*sin(x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+{{\left( {{y}_{x}}\right) }^{2}}+{{y}^{2}}-2\sin{(x)}y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P:diff(L,'diff(y,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t4}\label{t4} 
+P=2\left( {{y}_{x}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:fullratsimp(diff(L,x)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+F=2\left( {{y}_{x}}\right) \,\left( {{y}_{xx}}\right) +\left( 2y-2\sin{(x)}\right) \,\left( {{y}_{x}}\right) -2\cos{(x)}y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,y,x)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,bb:fullratsimp(bb))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+2\left( {{y}_{xx}}\right) =2y-2\sin{(x)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:ode2(bb[1],y,x);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\frac{\sin{(x)}}{2}+\mathit{\%{}k1}\,{{{}e}^{x}}+\mathit{\%{}k2}\,{{{}e}^{-x}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+method;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+\mathit{variationofparameters}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([x\_1,y\_1,x\_2,y\_2],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[x\_1=0,y\_1=0,x\_2=10,y\_2=10]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+odesol:bc2(odesol,x=x\_1,y=y\_1,x=x\_2,y=y\_2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{odesol}\label{odesol}
+y=\frac{\sin{(x)}}{2}-\frac{\left( -{{{}e}^{{{x}_{2}}}}\sin{\left( {{x}_{2}}\right) }+{{{}e}^{{{x}_{1}}}}\sin{\left( {{x}_{1}}\right) }+2{{{}e}^{{{x}_{2}}}}{{y}_{2}}-2{{{}e}^{{{x}_{1}}}}{{y}_{1}}\right) {{{}e}^{x}}}{2{{{}e}^{2{{x}_{1}}}}-2{{{}e}^{2{{x}_{2}}}}}+\frac{\left( {{{}e}^{2{{x}_{1}}}}\left( 2{{{}e}^{{{x}_{2}}}}{{y}_{2}}-{{{}e}^{{{x}_{2}}}}\sin{\left( {{x}_{2}}\right) }\right) +{{{}e}^{2{{x}_{2}}+{{x}_{1}}}}\sin{\left( {{x}_{1}}\right) }-2{{{}e}^{2{{x}_{2}}+{{x}_{1}}}}{{y}_{1}}\right) {{{}e}^{-x}}}{2{{{}e}^{2{{x}_{1}}}}-2{{{}e}^{2{{x}_{2}}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Graphics}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([y,diff(y,x)],[x,x\_1,x\_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Calculus of Variations_img/Calculus of Variations_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}

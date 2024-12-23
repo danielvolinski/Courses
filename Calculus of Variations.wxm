@@ -1,0 +1,891 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Calculus of Variations
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Calculus of Variations},
+            pdfsubject={Calculus of Variations},
+            pdfkeywords={Maths For All}}
+
+Based on Maths For All Playlist
+\href{https://www.youtube.com/playlist?list=PLUnrYe_C6P_oWd9vCHteGNC6kwdKJgXra}
+{Calculus of Variations}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(odes)$ load(contrib_ode)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('optvar,'version)=false then load(optvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('optmiz,'version)=false then load(optmiz)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Straight line
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L:√(1+'diff(y,x)²);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_y:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_y:diff(L,y))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:reverse(subst([k[0]=E],bb[1]))$
+bb[3]:reverse(subst([k[1]=P],bb[3]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,part(bb,[1,3]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[sol]:solve(bb[2],'diff(y,x,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(sol,y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bc2(odesol,x=x_0,y=y_0,x=x_1,y=y_1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Brachistochrone problem
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+L:√(1+'diff(y,x)²)/√(2*g*y);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P_y:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F_y:diff(L,y))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Conservation Laws}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[1]:reverse(subst([k[0]=E],bb[1]));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Equations of Motion}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+[sol]:solve(bb[2],'diff(y,x,2));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(sol,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,odesol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Optimal control
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:ham(['diff(v,t,1)=f,'diff(x,t,1)=v])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:subst([aux[1]=aux_1,aux[2]=aux_2],bb);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+atvalue(aux_1(t),[t=0],a)$
+atvalue(aux_2(t),[t=0],b)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+printprops(all,atvalue)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+convert(part(bb,[2,3]),[aux_1,aux_2],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+convert([aux_1,aux_2],[aux_1,aux_2],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+desol:desolve(%th(2),%th(1));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+convert(bb[1],[aux_1,aux_2],t);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(%,desol);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Calculus of Variations: Functionals
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on NPTEL-NOC IITM Video
+\href{https://youtu.be/waXAjx-4kHU?t=1500}
+{Calculus of Variations: Functionals}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+f(x,y):=x*y$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+φ(x,y):=x²+y²$ b:1$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+stapoints(f(x,y),[],[φ(x,y)-b],ζ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,stapts)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(at(f(x,y),stapts[i]),i,1,length(stapts));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+makelist(at(φ(x,y),stapts[i]),i,1,length(stapts));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lagrangian;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+grad;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+decslkmults;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradient(decslkmults);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+G:list_matrix_entries(jacobian([f(x,y)],ζ));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+J:list_matrix_entries(jacobian([lagrangian],decslkmults));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sol:algsys(grad,decslkmults)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,sol)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Examples
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Bsc Maths Aligarh Video
+\href{https://youtu.be/6JvM_mr35N4?t=600}
+{Calculus of Variations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(x+y^\prime)\,y^\prime\,\mathrm{d}x$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L:(x+'diff(y,x))*'diff(y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:diff(L,x))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(bb[1],y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([x_1,y_1,x_2,y_2],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[x_1=0,y_1=0,x_2=10,y_2=10]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:bc2(odesol,x=x_1,y=y_1,x=x_2,y=y_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],odesol,eval,diff,expand,factor;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([y,diff(y,x)],[x,x_1,x_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}\dfrac{{y^\prime}^2}{x^3}\,\mathrm{d}x$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L:'diff(y,x)²/x³;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:diff(L,x))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(bb[1],y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([x_1,y_1,x_2,y_2],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[x_1=0,y_1=0,x_2=10,y_2=10]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:bc2(odesol,x=x_1,y=y_1,x=x_2,y=y_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],odesol,eval,diff;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([y,diff(y,x)],[x,x_1,x_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(1+x^2\,y^\prime)y^\prime\,\mathrm{d}x$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L:(1+x²*'diff(y,x))*'diff(y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:fullratsimp(diff(L,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(bb[1],y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([x_1,y_1,x_2,y_2],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[x_1=1,y_1=1,x_2=10,y_2=10]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:bc2(odesol,x=x_1,y=y_1,x=x_2,y=y_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb[2],odesol,eval,diff,expand,factor;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([y,diff(y,x)],[x,x_1,x_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: subsect start ]
+
+   [wxMaxima: subsect end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Find the extremals of the following functionals:
+$$\int_{x_0}^{x_1}(y^2+{y^prime}^2-2\,y\,\sin(x))\,\mathrm{d}x$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,x,y)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ζ:[x,y]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lagrangian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+L:y²+'diff(y,x)²-2*y*sin(x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Momentum Conjugate}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(P:diff(L,'diff(y,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generalized Forces}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(F:fullratsimp(diff(L,x)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Euler-Lagrange Equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+aa:el(L,y,x)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+bb:ev(aa,eval,diff)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,bb:fullratsimp(bb))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:ode2(bb[1],y,x);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+method;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare([x_1,y_1,x_2,y_2],constant)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[x_1=0,y_1=0,x_2=10,y_2=10]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+odesol:bc2(odesol,x=x_1,y=y_1,x=x_2,y=y_2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Graphics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([y,diff(y,x)],[x,x_1,x_2],[ylabel,""],
+         [legend,"y","y'"]),odesol,params$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
