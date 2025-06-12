@@ -1,0 +1,1131 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Flux across a hemisphere}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Flux example},
+            pdfsubject={Multivariable Calculus},
+            pdfkeywords={Dr. Bevin Maultsby}}
+
+Based on Dr. Bevin Maultsby Playlist
+\href{https://www.youtube.com/watch?v=Qw7jyJZK2Gc&list=PLBEl4BT8wUgOqJCBijQxClMIuumgtMinc&index=108}
+{Flux across a hemisphere, with and without the Divergence Theorem}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+set\_draw\_defaults(xtics=1,ytics=1,ztics=1,xyplane=0,nticks=100,\\
+                  xaxis=true,xaxis\_type=dots,xaxis\_width=3,\\
+                  yaxis=true,yaxis\_type=dots,yaxis\_width=3,\\
+                  zaxis=true,zaxis\_type=dots,zaxis\_width=3,\\
+                  background\_color=light\_gray)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(u.u))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+Let $M$ be the surface $x^2+y^2+z^2=9$. Using the outward-pointing
+normal, find the flux through $M$ for the vector field
+$\vec{F}(x,y,z)=\langle{y,x,z}\rangle$.
+
+
+\textbf{Define the space} $\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Vector field} $\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F:[y,x,z])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t19}\label{t19} 
+F=[y,x,z]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{3D Direction field}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* vector origins are {(x,y,z)| x,y=1,...,5}  */\\
+coord:setify(makelist(k,k,-3,3))\$\\
+points3d:listify(cartesian\_product(coord,coord,coord))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* compute vectors at the given points  */\\
+define(vf3d(x,y,z),vector(\ensuremath{\zeta},F))\$\\
+vect3:makelist(vf3d(k[1],k[2],k[3]),k,points3d)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d([head\_length=0.1,color=blue,head\_angle=25,unit\_vectors=true],vect3)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Flux across a hemisphere_img/Flux across a hemisphere_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Calculate} $\nabla\times\vec{F}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(curlF:ev(express(curl(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{curlF}=[0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Work form} $\alpha=F^\flat\in\mathcal{A}^1(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:F.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+\mathit{\ensuremath{\alpha}}=z\,\mathit{dz}+x\,\mathit{dy}+y\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\alpha}:ext\_diff(\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+\mathit{d\ensuremath{\alpha}}=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\nabla\cdot\vec{F}\in\mathbb{R}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(divF:ev(express(div(F)),diff))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t28}\label{t28} 
+\mathit{divF}=1\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\beta}:F[1]*cartan\_basis[2]\ensuremath{\sim }cartan\_basis[3]+\\
+           F[2]*cartan\_basis[3]\ensuremath{\sim }cartan\_basis[1]+\\
+           F[3]*cartan\_basis[1]\ensuremath{\sim }cartan\_basis[2])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t29}\label{t29} 
+\mathit{\ensuremath{\beta}}=y\,\mathit{dy}\,\mathit{dz}-x\,\mathit{dx}\,\mathit{dz}+z\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\epsilon}[i,j,k]:=\ensuremath{\frac{1}{2}}*(i-j)*(j-k)*(k-i)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(p:edit(\ensuremath{\frac{1}{2}}*sum(sum(sum(\ensuremath{\epsilon}[i,j,k]*\\
+           F[i]*cartan\_basis[j]\ensuremath{\sim }cartan\_basis[k],\\
+           i,1,dim),j,1,dim),k,1,dim)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+p=y\,\mathit{dy}\,\mathit{dz}-x\,\mathit{dx}\,\mathit{dz}+z\,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(p=\ensuremath{\beta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\mathrm{d}\beta\in\mathcal{A}^3(\mathbb{R}^3)$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\beta}:ext\_diff(\ensuremath{\beta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+\mathit{d\ensuremath{\beta}}=\mathit{dx}\,\mathit{dy}\,\mathit{dz}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Surface} $\vec{S}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S:3*[cos(u)*sin(v),sin(u)*sin(v),cos(v)])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t34}\label{t34} 
+S=[3\cos{(u)}\,\sin{(v)},3\sin{(u)}\,\sin{(v)},3\cos{(v)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Surface",\\
+         xu\_grid=100,yv\_grid=100,view=[60,30],\\
+         proportional\_axes=xyz,surface\_hide=true,\\
+         color=green,\\
+         apply(parametric\_surface,append(S,[u,0,2*\ensuremath{\pi},v,0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t35}\label{t35} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Flux across a hemisphere_img/Flux across a hemisphere_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_u:diff(S,u))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+{{S}_{u}}=[-3\sin{(u)}\,\sin{(v)},3\cos{(u)}\,\sin{(v)},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(S\_v:diff(S,v))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t37}\label{t37} 
+{{S}_{v}}=[3\cos{(u)}\,\cos{(v)},3\sin{(u)}\,\cos{(v)},-3\sin{(v)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normal} $n_S\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n\_S:trigsimp(mycross(S\_v,S\_u)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t38}\label{t38} 
+{{n}_{S}}=[9\cos{(u)}\,{{\sin{(v)}}^{2}},9\sin{(u)}\,{{\sin{(v)}}^{2}},9\cos{(v)}\,\sin{(v)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(n\_S=3*sin(v)*S);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\vec{F}\circ\vec{S}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoS:subst(map("=",\ensuremath{\zeta},S),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{FoS}=[3\sin{(u)}\,\sin{(v)},3\cos{(u)}\,\sin{(v)},3\cos{(v)}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\alpha\circ\vec{S}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}oS:subst(map("=",\ensuremath{\zeta},S),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t41}\label{t41} 
+\mathit{\ensuremath{\alpha}oS}=3\cos{(v)}\,\mathit{dz}+3\cos{(u)}\,\sin{(v)}\,\mathit{dy}+3\sin{(u)}\,\sin{(v)}\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(n\_S|\ensuremath{\alpha}oS);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+\left( 54\cos{(u)}\,\sin{(u)}-27\right) \,{{\sin{(v)}}^{3}}+27\sin{(v)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(FoS.n\_S);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+\left( 54\cos{(u)}\,\sin{(u)}-27\right) \,{{\sin{(v)}}^{3}}+27\sin{(v)}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Flux integral}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:'integrate('integrate(integrand,v,0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}),u,0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t45}\label{t45} 
+\int_{0}^{2\ensuremath{\pi} }{\left. \int_{0}^{\frac{\ensuremath{\pi} }{2}}{\left. \left( 54\cos{(u)}\,\sin{(u)}-27\right) \,{{\sin{(v)}}^{3}}+27\sin{(v)}dv\right.}du\right.}=\left( 18\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Using the Divergence theorem}
+$$\iiint_E\nabla\cdot\vec{F}\,\mathrm{d}V=
+\iint_{\partial E}\vec{F}\cdot\mathrm{d}\vec{S}=
+\iint_S\vec{F}\cdot\mathrm{d}\vec{S}+
+\iint_L\vec{F}\cdot\mathrm{d}\vec{S}$$
+
+
+\textbf{Surface} $\vec{L}\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L:[\ensuremath{\rho}*cos(\ensuremath{\theta}),\ensuremath{\rho}*sin(\ensuremath{\theta}),0])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+L=[\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxdraw3d(title="Surface",\\
+         xu\_grid=100,yv\_grid=100,view=[60,30],\\
+         proportional\_axes=xyz,surface\_hide=false,\\
+         color=green,\\
+         apply(parametric\_surface,append(S,[u,0,2*\ensuremath{\pi},v,0,\ensuremath{\frac{1}{2}}*\ensuremath{\pi}])),\\
+         color=red,line\_width=5,\\
+         apply(parametric\_surface,append(L,[\ensuremath{\rho},0,3,\ensuremath{\theta},0,2*\ensuremath{\pi}])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t47}\label{t47} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Flux across a hemisphere_img/Flux across a hemisphere_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L\_\ensuremath{\rho}:diff(L,\ensuremath{\rho}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t48}\label{t48} 
+{{L}_{\mathit{\ensuremath{\rho}}}}=[\cos{\left( \mathit{\ensuremath{\theta}}\right) },\sin{\left( \mathit{\ensuremath{\theta}}\right) },0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(L\_\ensuremath{\theta}:diff(L,\ensuremath{\theta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t49}\label{t49} 
+{{L}_{\mathit{\ensuremath{\theta}}}}=[-\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normal} $n_L\in\mathbb{R}^3$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(n\_L:trigsimp(mycross(L\_\ensuremath{\theta},L\_\ensuremath{\rho})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t50}\label{t50} 
+{{n}_{L}}=[0,0,-\mathit{\ensuremath{\rho}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\vec{F}\circ\vec{L}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(FoL:subst(map("=",\ensuremath{\zeta},L),F))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+\mathit{FoL}=[\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}},0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $\alpha\circ\vec{L}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}oL:subst(map("=",\ensuremath{\zeta},L),\ensuremath{\alpha}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t52}\label{t52} 
+\mathit{\ensuremath{\alpha}oL}=\mathit{dx}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}+\mathit{dy}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Integrand}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(n\_L|\ensuremath{\alpha}oL);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+integrand:trigsimp(FoL.n\_L);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{integrand}\label{integrand}
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Spherical coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}\ensuremath{\rho})\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[\ensuremath{\rho},\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(E:[\ensuremath{\rho}*sin(\ensuremath{\theta})*cos(\ensuremath{\phi}),\ensuremath{\rho}*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),\ensuremath{\rho}*cos(\ensuremath{\theta})])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t60}\label{t60} 
+E=[\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\cos{\left( \mathit{\ensuremath{\phi}}\right) },\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}\,\sin{\left( \mathit{\ensuremath{\phi}}\right) },\cos{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(append([E],\ensuremath{\xi}))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sf;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o62}\label{o62} 
+[1,\mathit{\ensuremath{\rho}},\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mathit{\ensuremath{\rho}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sfprod;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o63}\label{o63} 
+\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\mathit{\ensuremath{\rho}}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dimension;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o64}\label{o64} 
+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J:trigsimp(determinant(jacobian(E,\ensuremath{\xi}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t65}\label{t65} 
+J=\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\mathit{\ensuremath{\rho}}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+trigsimp(diff(E,\ensuremath{\phi})|(diff(E,\ensuremath{\theta})|(diff(E,\ensuremath{\rho})|d\ensuremath{\beta})));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o66}\label{o66} 
+\sin{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\mathit{\ensuremath{\rho}}}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate} $$\iiint_E\nabla\cdot\vec{F}\,\mathrm{d}V$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i67) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+I:\ensuremath{\frac{1}{2}}*'integrate('integrate('integrate(divF*J,\ensuremath{\rho},0,3),\ensuremath{\theta},0,\ensuremath{\pi}),\ensuremath{\phi},0,2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(I=box(ev(I,integrate)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t68}\label{t68} 
+\ensuremath{\pi} \int_{0}^{\ensuremath{\pi} }{\left. \sin{\left( \mathit{\ensuremath{\theta}}\right) }d\mathit{\ensuremath{\theta}}\right.}\,\int_{0}^{3}{\left. {{\mathit{\ensuremath{\rho}}}^{2}}d\mathit{\ensuremath{\rho}}\right.}=\left( 18\ensuremath{\pi} \right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
