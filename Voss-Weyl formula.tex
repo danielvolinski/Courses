@@ -1,0 +1,851 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Voss-Weyl formula}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Voss-Weyl formula},
+            pdfsubject={Tensor Calculus},
+            pdfkeywords={Tensor Calculus}}
+
+Based on Tensor Calculus Video
+\href{https://www.youtube.com/watch?v=UsZL6N7WoTk}
+{Video 49 - Voss Weyl Formula}
+
+Based on Tensor Calculus Video
+\href{https://www.youtube.com/watch?v=gDg9JnmbG1s}
+{Video 50 - Voss Weyl Examples}
+
+Based on Pavel Grinfeld Lecture
+\href{https://www.youtube.com/watch?v=BD2AiFk651E}
+{Tensor Calculus Lecture 7d: The Voss-Weyl Formula}
+
+Based on WikiPedia Article
+\href{https://en.wikipedia.org/wiki/Divergence#General_coordinates}
+{Divergence}
+
+Based on WikiPedia Article
+\href{https://en.wikipedia.org/wiki/Laplace_operator#N_dimensions}
+{Laplacian}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+\pagebreak
+
+
+\section{Using tensor packages}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('itensor,'version)=false then load(itensor)\$\\
+if get('ctensor,'version)=false then load(ctensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(Z)\$
+\end{minipage}
+
+$$\dfrac{1}{\sqrt{Z}}\,\dfrac{\partial}{\partial\,{Z^i}}\left(\sqrt{Z}\,{A^i}\right)$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(sublis([\%1=m,\%2=n],rename(expand(idiff(\ensuremath{\sqrt{}}(determinant(Z))*A([],[i]),i)/\ensuremath{\sqrt{}}(determinant(Z))))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t5}\label{t5} 
+{{A}^{m}}\,{{\mathit{\Gamma}}_{\mathit{n m}}^{n}}+{{A}_{\mathit{,m}}^{m}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$${\nabla_i}{A^i}$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(sublis([\%1=n,\%2=m],rename(covdiff(A([],[i]),i))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t6}\label{t6} 
+{{A}^{m}}\,{{\mathit{\Gamma}}_{\mathit{m n}}^{n}}+{{A}_{\mathit{,n}}^{n}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq1:ic\_convert(Q1=\%)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+$$\dfrac{1}{\sqrt{Z}}\dfrac{\partial}{\partial{Z^i}}\left(\sqrt{Z}{Z^{i j}}\dfrac{\partial f}{\partial {Z^j}}\right)$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(sublis([\%1=a,\%2=b,\%3=c],rename(expand(idiff(\ensuremath{\sqrt{}}(determinant(Z))*Z([],[i,j])*idiff(f([],[]),j),i)/\ensuremath{\sqrt{}}(determinant(Z))))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t8}\label{t8} 
+{{f}_{\mathit{,b}}}\,{{Z}^{\mathit{a b}}}\,{{\mathit{\Gamma}}_{\mathit{c a}}^{c}}+{{f}_{\mathit{,b}}}\,{{Z}_{\mathit{,a}}^{\mathit{a b}}}+{{f}_{\mathit{,a b}}}\,{{Z}^{\mathit{a b}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+$${\nabla_i}{\nabla^i}{f}={\nabla_i}{Z^{i j}}{\nabla_j}{f}$$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ishow(sublis([\%1=a,\%2=b,\%3=c],rename(expand(covdiff(Z([],[i,j])*covdiff(f([],[]),j),i)))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+{{f}_{\mathit{,b}}}\,{{Z}^{\mathit{a b}}}\,{{\mathit{\Gamma}}_{\mathit{a c}}^{c}}+{{f}_{\mathit{,b}}}\,{{Z}_{\mathit{,a}}^{\mathit{a b}}}+{{f}_{\mathit{,a b}}}\,{{Z}^{\mathit{a b}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq2:ic\_convert(Q2=\%)\$
+\end{minipage}
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:ct\_coords:[r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+R:[r*sin(\ensuremath{\theta})*cos(\ensuremath{\phi}),r*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),r*cos(\ensuremath{\theta})]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ct\_coordsys(append(R,[\ensuremath{\xi}]),all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:trigsimp(lg)\$\\
+ug:trigsimp(ug)\$\\
+gdet:trigsimp(gdet)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sf:makelist(\ensuremath{\sqrt{}}(lg[i,i]),i,1,dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{sf}\label{sf}
+[1,r,r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\sqrt{}}(gdet);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o23}\label{o23} 
+{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Divergence}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[A\_1,A\_2,A\_3]\$\\
+declare(A,scalar)\$\\
+depends(A,\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Q3:ev(Eq1,expand);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Q3}\label{Q3}
+\frac{{{A}_{2}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{2{{A}_{1}}}{r}+{{{{A}_{3}}}_{\mathit{\ensuremath{\phi}}}}+{{{{A}_{2}}}_{\mathit{\ensuremath{\theta}}}}+{{{{A}_{1}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Normalized}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[A\_r,A\_\ensuremath{\theta},A\_\ensuremath{\phi}]\$\\
+declare(A,scalar)\$\\
+depends(A,\ensuremath{\xi})\$\\
+ldisplay(A:A/sf)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+A=\left[{{A}_{r}},\frac{{{A}_{\mathit{\ensuremath{\theta}}}}}{r},\frac{{{A}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq1,expand);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\frac{{{A}_{\mathit{\ensuremath{\theta}}}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\phi}}}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\theta}}}}}_{\mathit{\ensuremath{\theta}}}}}{r}+\frac{2{{A}_{r}}}{r}+{{{{A}_{r}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Laplacian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(f,\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(Eq2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+\frac{\left( {{f}_{\mathit{\ensuremath{\theta}}}}\right) \,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{f}_{\mathit{\ensuremath{\phi}}\mathit{\ensuremath{\phi}}}}}{{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}+\frac{2\left( {{f}_{r}}\right) }{r}+\frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{{{r}^{2}}}+{{f}_{rr}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{Using vect and diff\_form packages}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(allbut(\ensuremath{\xi},dim,R,Q1,Q2,Q3))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$\\
+if get('diff\_form,'version)=false then load(diff\_form)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+inv\_i1(\_pform):=block([a\_],a\_:makelist(coeff(\_pform,basis[i]),i,1,dim),\\
+       list\_matrix\_entries(a\_ . sqrt(diag(norm\_table))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+scalefactors(append([R],\ensuremath{\xi}))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sf;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o10}\label{o10} 
+[1,r,r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+sfprod;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o11}\label{o11} 
+{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dimension;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o12}\label{o12} 
+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Divergence, Normalized}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[A\_r,A\_\ensuremath{\theta},A\_\ensuremath{\phi}]\$\\
+declare(A,scalar)\$\\
+depends(A,\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(div(A)),diff,expand);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o16}\label{o16} 
+\frac{{{A}_{\mathit{\ensuremath{\theta}}}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\phi}}}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\theta}}}}}_{\mathit{\ensuremath{\theta}}}}}{r}+\frac{2{{A}_{r}}}{r}+{{{{A}_{r}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o17}\label{o17} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fstar\_with\_clf(\ensuremath{\xi},R,nest2([h\_st,d,h\_st,vtof1],A));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o18}\label{o18} 
+\frac{{{A}_{\mathit{\ensuremath{\theta}}}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\phi}}}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{{{A}_{\mathit{\ensuremath{\theta}}}}}_{\mathit{\ensuremath{\theta}}}}}{r}+\frac{2{{A}_{r}}}{r}+{{{{A}_{r}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q1);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o19}\label{o19} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Divergence, non-Normalized}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[A\_1,A\_2,A\_3]\$\\
+declare(A,scalar)\$\\
+depends(A,\ensuremath{\xi})\$\\
+ldisplay(A:A*sf)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+A=[{{A}_{1}},{{A}_{2}}r,{{A}_{3}}r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(div(A)),diff,expand);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o24}\label{o24} 
+\frac{{{A}_{2}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{2{{A}_{1}}}{r}+{{{{A}_{3}}}_{\mathit{\ensuremath{\phi}}}}+{{{{A}_{2}}}_{\mathit{\ensuremath{\theta}}}}+{{{{A}_{1}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q3);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o25}\label{o25} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fstar\_with\_clf(\ensuremath{\xi},R,nest2([h\_st,d,h\_st,vtof1],A));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o26}\label{o26} 
+\frac{{{A}_{2}}\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{2{{A}_{1}}}{r}+{{{{A}_{3}}}_{\mathit{\ensuremath{\phi}}}}+{{{{A}_{2}}}_{\mathit{\ensuremath{\theta}}}}+{{{{A}_{1}}}_{r}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q3);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o27}\label{o27} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Laplacian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(f,\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ev(express(laplacian(f)),diff,expand);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o29}\label{o29} 
+\frac{\left( {{f}_{\mathit{\ensuremath{\theta}}}}\right) \,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{f}_{\mathit{\ensuremath{\phi}}\mathit{\ensuremath{\phi}}}}}{{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}+\frac{2\left( {{f}_{r}}\right) }{r}+\frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{{{r}^{2}}}+{{f}_{rr}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o30}\label{o30} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fstar\_with\_clf(\ensuremath{\xi},R,nest2([h\_st,d,h\_st,d],f));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o31}\label{o31} 
+\frac{\left( {{f}_{\mathit{\ensuremath{\theta}}}}\right) \,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{{{r}^{2}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}+\frac{{{f}_{\mathit{\ensuremath{\phi}}\mathit{\ensuremath{\phi}}}}}{{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}+\frac{2\left( {{f}_{r}}\right) }{r}+\frac{{{f}_{\mathit{\ensuremath{\theta}}\mathit{\ensuremath{\theta}}}}}{{{r}^{2}}}+{{f}_{rr}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(\%=Q2);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}

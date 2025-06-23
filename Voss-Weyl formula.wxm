@@ -1,0 +1,342 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Voss-Weyl formula
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Voss-Weyl formula},
+            pdfsubject={Tensor Calculus},
+            pdfkeywords={Tensor Calculus}}
+
+Based on Tensor Calculus Video
+\href{https://www.youtube.com/watch?v=UsZL6N7WoTk}
+{Video 49 - Voss Weyl Formula}
+
+Based on Tensor Calculus Video
+\href{https://www.youtube.com/watch?v=gDg9JnmbG1s}
+{Video 50 - Voss Weyl Examples}
+
+Based on Pavel Grinfeld Lecture
+\href{https://www.youtube.com/watch?v=BD2AiFk651E}
+{Tensor Calculus Lecture 7d: The Voss-Weyl Formula}
+
+Based on WikiPedia Article
+\href{https://en.wikipedia.org/wiki/Divergence#General_coordinates}
+{Divergence}
+
+Based on WikiPedia Article
+\href{https://en.wikipedia.org/wiki/Laplace_operator#N_dimensions}
+{Laplacian}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using tensor packages
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(Z)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\dfrac{1}{\sqrt{Z}}\,\dfrac{\partial}{\partial\,{Z^i}}\left(\sqrt{Z}\,{A^i}\right)$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(sublis([%1=m,%2=n],rename(expand(idiff(√(determinant(Z))*A([],[i]),i)/√(determinant(Z))))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$${\nabla_i}{A^i}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(sublis([%1=n,%2=m],rename(covdiff(A([],[i]),i))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq1:ic_convert(Q1=%)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$$\dfrac{1}{\sqrt{Z}}\dfrac{\partial}{\partial{Z^i}}\left(\sqrt{Z}{Z^{i j}}\dfrac{\partial f}{\partial {Z^j}}\right)$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(sublis([%1=a,%2=b,%3=c],rename(expand(idiff(√(determinant(Z))*Z([],[i,j])*idiff(f([],[]),j),i)/√(determinant(Z))))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$${\nabla_i}{\nabla^i}{f}={\nabla_i}{Z^{i j}}{\nabla_j}{f}$$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(sublis([%1=a,%2=b,%3=c],rename(expand(covdiff(Z([],[i,j])*covdiff(f([],[]),j),i)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq2:ic_convert(Q2=%)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+R:[r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ)]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ct_coordsys(append(R,[ξ]),all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:trigsimp(lg)$
+ug:trigsimp(ug)$
+gdet:trigsimp(gdet)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf:makelist(√(lg[i,i]),i,1,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+√(gdet);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Divergence}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[A_1,A_2,A_3]$
+declare(A,scalar)$
+depends(A,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Q3:ev(Eq1,expand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Normalized}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[A_r,A_θ,A_φ]$
+declare(A,scalar)$
+depends(A,ξ)$
+ldisplay(A:A/sf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Eq1,expand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Laplacian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Eq2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using vect and diff_form packages
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(allbut(ξ,dim,R,Q1,Q2,Q3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+if get('diff_form,'version)=false then load(diff_form)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+inv_i1(_pform):=block([a_],a_:makelist(coeff(_pform,basis[i]),i,1,dim),
+       list_matrix_entries(a_ . sqrt(diag(norm_table))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([R],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sf;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+sfprod;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dimension;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Divergence, Normalized}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[A_r,A_θ,A_φ]$
+declare(A,scalar)$
+depends(A,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(div(A)),diff,expand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fstar_with_clf(ξ,R,nest2([h_st,d,h_st,vtof1],A));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Divergence, non-Normalized}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[A_1,A_2,A_3]$
+declare(A,scalar)$
+depends(A,ξ)$
+ldisplay(A:A*sf)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(div(A)),diff,expand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fstar_with_clf(ξ,R,nest2([h_st,d,h_st,vtof1],A));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q3);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Laplacian}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(f,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(express(laplacian(f)),diff,expand);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fstar_with_clf(ξ,R,nest2([h_st,d,h_st,d],f));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(%=Q2);
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
