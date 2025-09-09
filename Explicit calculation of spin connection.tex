@@ -1,0 +1,1156 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Explicit calculation\\\\of spin connection}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Spin connection},
+            pdfsubject={General Relativity},
+            pdfkeywords={StackExchange}}
+
+Based on StackExchange Article
+\href{https://physics.stackexchange.com/questions/530257/explicit-calculation-of-spin-connection-through-cartans-first-structure-equatio}
+{Explicit calculation of spin connection through Cartan's first structure equation}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('vect,'version)=false then load(vect)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('format,'version)=false then load(format)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+norm(u):=block(ratsimp(radcan(\ensuremath{\sqrt{}}(u.u))))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+normalize(v):=block(v/norm(v))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+angle(u,v):=block([junk:radcan(\ensuremath{\sqrt{}}((u.u)*(v.v)))],acos(u.v/junk))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+\pagebreak
+
+
+\section{Jesse wrote:}
+
+
+Given the metric
+\begin{equation}
+\mathrm{d}s^2 = F(r)^2\,\mathrm{d}r^2 +
+r^2\,\mathrm{d}\theta^2 +
+r^2\sin^2(\theta)\,\mathrm{d}\phi^2,
+\notag
+\end{equation}
+
+I'm trying to find the corresponding spin connections
+$\omega^a_{\ b}$ using the first structure equation:
+
+\begin{equation}
+\mathrm{d}e + \omega e = 0
+\notag
+\end{equation}
+
+I found the vielbeins $e$ and their exterior derivatives $\mathrm{d}e$:
+
+\begin{equation}
+\mathrm{d}e^1 = 0, \quad
+\mathrm{d}e^2 =\mathrm{d}r\mathrm{d}\theta, \quad
+\mathrm{d}e^3 = \sin(\theta)\mathrm{d}r\mathrm{d}\phi +
+r\cos(\theta)\mathrm{d}\theta \mathrm{d}\phi,
+\notag
+\end{equation}
+
+but I am stuck on actually working out the $\omega$.
+I read through Zee's 'GR in a nutshell', and he does the
+same calculation but just says: "In general, write
+ 
+\begin{equation}
+\omega^a_{\,b} = \omega^a_{\,bc}e^c = \omega^a_{\,b\mu}dx^\mu
+\notag
+\end{equation}
+
+Plug this into the first structure equation and match terms.
+How do I actually go about calculating $\omega^1_{\, 2}$,
+$\omega^1_{\, 3}$, and $\omega^2_{\, 3}$ at this point?
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\xi})\$
+\end{minipage}
+
+\textbf{Line Element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(F,r)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(F\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=line\_element:F\ensuremath{^2}*del(r)\ensuremath{^2}+r\ensuremath{^2}*del(\ensuremath{\theta})\ensuremath{^2}+r\ensuremath{^2}*sin(\ensuremath{\theta})\ensuremath{^2}*del(\ensuremath{\phi})\ensuremath{^2})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{\mathit{ds}}^{2}}={{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\phi}}\right) }^{2}}+{{r}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}+{{F}^{2}}\,{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Covariant Metric Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:zeromatrix(dim,dim)\$\\
+for i thru dim do\\
+  lg[i,i]:factor(coeff(expand(line\_element),del(\ensuremath{\xi}[i])\ensuremath{^2}))\$\\
+for j thru dim do for k thru dim do\\
+  if j\ensuremath{\neq}k then lg[j,k]:factor(expand(ratsimp(\ensuremath{\frac{1}{2}}*coeff(coeff(expand(line\_element),del(\ensuremath{\xi}[j])),del(\ensuremath{\xi}[k])))))\$\\
+ldisplay(lg)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t24}\label{t24} 
+\mathit{lg}=\begin{pmatrix}{{F}^{2}} & 0 & 0\\
+0 & {{r}^{2}} & 0\\
+0 & 0 & {{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Contravariant Metric Tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ug:invert(lg))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{ug}=\begin{pmatrix}\frac{1}{{{F}^{2}}} & 0 & 0\\
+0 & \frac{1}{{{r}^{2}}} & 0\\
+0 & 0 & \frac{1}{{{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=diff(\ensuremath{\xi}).lg.transpose(diff(\ensuremath{\xi})))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t26}\label{t26} 
+{{\mathit{ds}}^{2}}={{r}^{2}}\,{{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\phi}}\right) }^{2}}+{{r}^{2}}\,{{\operatorname{del}\left( \mathit{\ensuremath{\theta}}\right) }^{2}}+{{F}^{2}}\,{{\operatorname{del}(r)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Define the frame} $e$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+e[r]:\ensuremath{\sqrt{}}(ug)[1]\$\\
+e[\ensuremath{\theta}]:\ensuremath{\sqrt{}}(ug)[2]\$\\
+e[\ensuremath{\phi}]:\ensuremath{\sqrt{}}(ug)[3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(e:apply('matrix,[e[r],e[\ensuremath{\theta}],e[\ensuremath{\phi}]]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+e=\begin{pmatrix}\frac{1}{F} & 0 & 0\\
+0 & \frac{1}{r} & 0\\
+0 & 0 & \frac{1}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Initialize cartan package}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_basis;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+[\mathit{dr},\mathit{d\ensuremath{\theta}},\mathit{d\ensuremath{\phi}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_coords;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+[r,\mathit{\ensuremath{\theta}},\mathit{\ensuremath{\phi}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cartan\_dim;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o34}\label{o34} 
+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+extdim;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o35}\label{o35} 
+3\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Define the coframe} $\omega$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(\ensuremath{\omega})\$\\
+\ensuremath{\omega}[r]:list\_matrix\_entries(\ensuremath{\sqrt{}}(lg).cartan\_basis)[1]\$\\
+\ensuremath{\omega}[\ensuremath{\theta}]:list\_matrix\_entries(\ensuremath{\sqrt{}}(lg).cartan\_basis)[2]\$\\
+\ensuremath{\omega}[\ensuremath{\phi}]:list\_matrix\_entries(\ensuremath{\sqrt{}}(lg).cartan\_basis)[3]\$\\
+ldisplay(\ensuremath{\omega}:[\ensuremath{\omega}[r],\ensuremath{\omega}[\ensuremath{\theta}],\ensuremath{\omega}[\ensuremath{\phi}]])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{\ensuremath{\omega}}=[F\,\mathit{dr},r\,\mathit{d\ensuremath{\theta}},r\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Verify} $\langle\underline{\omega}^{\color{red} a}
+\mid \underline{e}_{\color{red} b}\rangle=
+\delta^{\color{red} a}_{\color{red} b}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+genmatrix(lambda([i,j],e[\ensuremath{\xi}[i]]|\ensuremath{\omega}[\ensuremath{\xi}[j]]),cartan\_dim,cartan\_dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o41}\label{o41} 
+\begin{pmatrix}1 & 0 & 0\\
+0 & 1 & 0\\
+0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Calculate the external derivative of the coframe} $\mathrm{d}\omega$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\omega}:ext\_diff(\ensuremath{\omega}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+\mathit{d\ensuremath{\omega}}=[0,\mathit{dr}\,\mathit{d\ensuremath{\theta}},\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\section{JamalS wrote:}
+
+
+As you have, the first step is to identify:
+
+\begin{equation}
+e^r = F(r)\,\mathrm{d}r,
+e^\theta = r\,\mathrm{d}\theta,
+e^\phi = r\sin\theta\,\mathrm{d}\phi
+\notag
+\end{equation}
+
+The trick is to then take the derivatives but re-express
+them in terms of $e$ again. Thus,
+
+\begin{equation}
+\mathrm{d}e^r = 0,\quad
+\mathrm{d}e^\theta = -\mathrm{d\theta} \wedge
+\mathrm{d}r = -\frac{1}{rF(r)}e^\theta \wedge e^r
+\notag
+\end{equation}
+
+and,
+
+\begin{equation}
+\mathrm{de^\phi} = -\sin\theta \mathrm{d\phi} \wedge
+\mathrm{d}r - r\cos\theta \mathrm{d}\phi \wedge
+\mathrm{d}\theta = -\frac{1}{rF(r)} e^\phi \wedge
+e^r - \frac{\cot \theta}{r^2} e^\phi \wedge e^\theta.
+\notag
+\end{equation}
+
+Now let's take an example of using Cartan's first equation.
+We have $\mathrm{d}e^a + \omega^a_b \wedge e^b = 0$
+and if we choose $a=\theta$ the equations read,
+
+\begin{equation}
+\frac{1}{rF(r)}e^\theta \wedge e^r = \omega^\theta_r
+\wedge e^r + \omega^\theta_\theta \wedge e^\theta +
+\omega^\theta_\phi \wedge e^\phi.
+\notag
+\end{equation}
+
+We have $\omega^\theta_\theta = 0$ by anti-symmetry.
+We can identify now $\omega^\theta_r = -\omega^r_\theta =
+\frac{1}{rF(r)}e^\theta$. Notice the last term we could
+choose $\omega^\theta_\phi = 0$ however Cartan's equations
+are a system of equations, so we are not free to make this
+choice yet without considering the other equations. We can
+at best say $\omega^\theta_\phi$ is proportional to
+$\mathrm{d}\phi$ to ensure $\omega^\theta_\phi \wedge
+e^\phi = 0$. As it turns out, we don't have
+$\omega^\theta_\phi = 0$ because of the $a=\phi$ equation,
+which will give you $\omega^\theta_\phi = -r^{-2}\cot\theta
+\, e^\phi$.
+
+I hope this elucidates how to use Cartan's structure
+equation. Computing the Ricci tensor is then much simpler,
+as rather than solving for components you're just plugging
+in and computing.
+
+
+\textbf{Generic Connection 1-form} $\Theta$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+A:[a\_1,a\_2,a\_3]\$\\
+B:[b\_1,b\_2,b\_3]\$\\
+C:[c\_1,c\_2,c\_3]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(\ensuremath{\Theta})\$\\
+\ensuremath{\Theta}:zeromatrix(dim,dim)\$\\
+\ensuremath{\Theta}[1,2]:-\ensuremath{\Theta}[2,1]:A.cartan\_basis\$\\
+\ensuremath{\Theta}[1,3]:-\ensuremath{\Theta}[3,1]:B.cartan\_basis\$\\
+\ensuremath{\Theta}[2,3]:-\ensuremath{\Theta}[3,2]:C.cartan\_basis\$\\
+ldisplay(\ensuremath{\Theta})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t51}\label{t51} 
+\mathit{\ensuremath{\Theta}}=\begin{pmatrix}0 & -{{a}_{3}}\mathit{d\ensuremath{\phi}}-{{a}_{2}}\mathit{d\ensuremath{\theta}}-{{a}_{1}}\mathit{dr} & -{{b}_{3}}\mathit{d\ensuremath{\phi}}-{{b}_{2}}\mathit{d\ensuremath{\theta}}-{{b}_{1}}\mathit{dr}\\
+{{a}_{3}}\mathit{d\ensuremath{\phi}}+{{a}_{2}}\mathit{d\ensuremath{\theta}}+{{a}_{1}}\mathit{dr} & 0 & -{{c}_{3}}\mathit{d\ensuremath{\phi}}-{{c}_{2}}\mathit{d\ensuremath{\theta}}-{{c}_{1}}\mathit{dr}\\
+{{b}_{3}}\mathit{d\ensuremath{\phi}}+{{b}_{2}}\mathit{d\ensuremath{\theta}}+{{b}_{1}}\mathit{dr} & {{c}_{3}}\mathit{d\ensuremath{\phi}}+{{c}_{2}}\mathit{d\ensuremath{\theta}}+{{c}_{1}}\mathit{dr} & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Change matrix multiplication operator}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrix\_element\_mult:"\ensuremath{\sim }"\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\lambda}:list\_matrix\_entries(expand(\ensuremath{\Theta}.\ensuremath{\omega}))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i54) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,\ensuremath{\lambda})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+-{{b}_{2}}r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }-{{b}_{1}}r\,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }+{{a}_{3}}r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}-{{a}_{1}}r\,\mathit{dr}\,\mathit{d\ensuremath{\theta}}\mbox{}\]
+\[\tag{\%{}t55}\label{t55} 
+-{{c}_{2}}r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }-{{c}_{1}}r\,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }-F\,{{a}_{3}}\mathit{dr}\,\mathit{d\ensuremath{\phi}}-F\,{{a}_{2}}\mathit{dr}\,\mathit{d\ensuremath{\theta}}\mbox{}\]
+\[\tag{\%{}t56}\label{t56} 
+-{{c}_{3}}r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}-F\,{{b}_{3}}\mathit{dr}\,\mathit{d\ensuremath{\phi}}+{{c}_{1}}r\,\mathit{dr}\,\mathit{d\ensuremath{\theta}}-F\,{{b}_{2}}\mathit{dr}\,\mathit{d\ensuremath{\theta}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Restore matrix multiplication operator}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrix\_element\_mult:"*"\$
+\end{minipage}
+
+\textbf{Cartan's First structural equation}
+$\mathrm{d}\omega^{\color{red} i}=
+\Theta_{\color{blue} j}^{\color{red} i}
+\wedge\omega^{\color{blue} j}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eq:zeromatrix(dim,dim)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do for j thru dim do\\
+Eq[i,j]:format(coeff(coeff(d\ensuremath{\omega},cartan\_basis[i]),cartan\_basis[j])=\\
+coeff(coeff(-\ensuremath{\lambda},cartan\_basis[i]),cartan\_basis[j]),\%list)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eqs:apply('append,list\_matrix\_entries(Eq))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(Eqs,append(A,B,C));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\mbox{}\\\mbox{solve: dependent equations eliminated: (1 27 26 25 2 3 13 14 15 10 17 19 16 11 12 20 21 18)}\mbox{}\]
+\[\tag{linsol}\label{linsol}
+\left[{{a}_{1}}=0,{{a}_{2}}=\frac{1}{F},{{a}_{3}}=0,{{b}_{1}}=0,{{b}_{2}}=0,{{b}_{3}}=\frac{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{F},{{c}_{1}}=0,{{c}_{2}}=0,{{c}_{3}}=\cos{\left( \mathit{\ensuremath{\theta}}\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\lambda}:at(\ensuremath{\lambda},linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t62}\label{t62} 
+\mathit{\ensuremath{\lambda}}=[0,-\mathit{dr}\,\mathit{d\ensuremath{\theta}},-\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }-r\,\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+is(d\ensuremath{\omega}=-\ensuremath{\lambda});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o63}\label{o63} 
+\mbox{true}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Update Connection 1-form} $\Theta$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Theta}:at(\ensuremath{\Theta},linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t64}\label{t64} 
+\mathit{\ensuremath{\Theta}}=\begin{pmatrix}0 & -\frac{\mathit{d\ensuremath{\theta}}}{F} & -\frac{\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{F}\\
+\frac{\mathit{d\ensuremath{\theta}}}{F} & 0 & -\mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\\
+\frac{\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{F} & \mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) } & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Update Connection 2-form} $\mathrm{d}\Theta$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\Theta}:expand(matrixmap(edit,ext\_diff(\ensuremath{\Theta}))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t65}\label{t65} 
+\mathit{d\ensuremath{\Theta}}=\begin{pmatrix}0 & \frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\theta}}}{{{F}^{2}}} & \frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}}-\frac{\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{F}\\
+-\frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\theta}}}{{{F}^{2}}} & 0 & \mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }\\
+\frac{\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\cos{\left( \mathit{\ensuremath{\theta}}\right) }}{F}-\frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}} & -\mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) } & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Update coefficients}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(A:at(A,linsol))\$\\
+ldisplay(B:at(B,linsol))\$\\
+ldisplay(C:at(C,linsol))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t66}\label{t66} 
+A=\left[0,\frac{1}{F},0\right]\mbox{}\]
+\[\tag{\%{}t67}\label{t67} 
+B=\left[0,0,\frac{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{F}\right]\mbox{}\]
+\[\tag{\%{}t68}\label{t68} 
+C=\left[0,0,\cos{\left( \mathit{\ensuremath{\theta}}\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Change matrix multiplication operator}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i69) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrix\_element\_mult:"\ensuremath{\sim }"\$
+\end{minipage}
+
+\textbf{Cartan's Second structural equation}:
+$\Omega_{\color{red} j}^{\color{red} i}=
+\mathrm{d}\Theta_{\color{red} j}^{\color{red} i}+
+\Theta_{\color{blue} k}^{\color{red} i}\wedge
+\Theta_{\color{red} j}^{\color{blue} k}$
+
+
+\textbf{Curvature 2-form} $\Omega$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i70) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Omega}:matrixmap(edit,d\ensuremath{\Theta}+\ensuremath{\Theta}.\ensuremath{\Theta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t70}\label{t70} 
+\mathit{\ensuremath{\Omega}}=\begin{pmatrix}0 & \frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\theta}}}{{{F}^{2}}} & \frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}}\\
+-\frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\theta}}}{{{F}^{2}}} & 0 & \mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\left( \sin{\left( \mathit{\ensuremath{\theta}}\right) }-\frac{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}}\right) \\
+-\frac{\left( {{F}_{r}}\right) \,\mathit{dr}\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}} & \mathit{d\ensuremath{\theta}}\,\mathit{d\ensuremath{\phi}}\,\left( \frac{\sin{\left( \mathit{\ensuremath{\theta}}\right) }}{{{F}^{2}}}-\sin{\left( \mathit{\ensuremath{\theta}}\right) }\right)  & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Restore matrix multiplication operator}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i71) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+matrix\_element\_mult:"*"\$
+\end{minipage}
+
+\textbf{Forms in terms of the coframe} $\sigma$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i72) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Eqs:makelist(\ensuremath{\sigma}[\ensuremath{\xi}[i]]=\ensuremath{\omega}[\ensuremath{\xi}[i]],i,1,cartan\_dim);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Eqs}\label{Eqs}
+[{{\mathit{\ensuremath{\sigma}}}_{r}}=F\,\mathit{dr},{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}=r\,\mathit{d\ensuremath{\theta}},{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}=r\,\mathit{d\ensuremath{\phi}}\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i73) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsol:linsolve(Eqs,cartan\_basis);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{linsol}\label{linsol}
+\left[\mathit{dr}=\frac{{{\mathit{\ensuremath{\sigma}}}_{r}}}{F},\mathit{d\ensuremath{\theta}}=\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}}{r},\mathit{d\ensuremath{\phi}}=\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Connection 1-form} $\Theta$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i74) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Theta}:ev(\ensuremath{\Theta},linsol,fullratsimp))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t74}\label{t74} 
+\mathit{\ensuremath{\Theta}}=\begin{pmatrix}0 & -\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}}{Fr} & -\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{Fr}\\
+\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}}{Fr} & 0 & -\frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }}\\
+\frac{{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{Fr} & \frac{\cos{\left( \mathit{\ensuremath{\theta}}\right) }\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{r\,\sin{\left( \mathit{\ensuremath{\theta}}\right) }} & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Curvature 2-form} $\Omega$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i75) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\Omega}:ev(\ensuremath{\Omega},linsol,fullratsimp))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t75}\label{t75} 
+\mathit{\ensuremath{\Omega}}=\begin{pmatrix}0 & \frac{\left( {{F}_{r}}\right) \,{{\mathit{\ensuremath{\sigma}}}_{r}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}}{{{F}^{3}}r} & \frac{\left( {{F}_{r}}\right) \,{{\mathit{\ensuremath{\sigma}}}_{r}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{{{F}^{3}}r}\\
+-\frac{\left( {{F}_{r}}\right) \,{{\mathit{\ensuremath{\sigma}}}_{r}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}}{{{F}^{3}}r} & 0 & \frac{\left( {{F}^{2}}-1\right) \,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{{{F}^{2}}\,{{r}^{2}}}\\
+-\frac{\left( {{F}_{r}}\right) \,{{\mathit{\ensuremath{\sigma}}}_{r}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{{{F}^{3}}r} & -\frac{\left( {{F}^{2}}-1\right) \,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\theta}}}}\,{{\mathit{\ensuremath{\sigma}}}_{\mathit{\ensuremath{\phi}}}}}{{{F}^{2}}\,{{r}^{2}}} & 0\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i79) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(0\ensuremath{\leq}r)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+forget(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+forget(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+\pagebreak
+
+
+\section{Bence Racskó wrote:}
+
+
+There is also an explicit procedure that is often better
+if the vielbein is simple.
+
+We have
+\begin{equation}
+\mathrm{d}e^a=-\frac{1}{2}C^a_{bc}e^b\wedge e^c,
+\notag
+\end{equation}
+
+where the $C^a_{bc}$ are the vielbein commutators.
+We can invert the first structure equation explicitly as
+\begin{equation}
+\begin{split}
+0=\mathrm de^a+\omega^a_{\ b}\wedge e^b=
+-\frac{1}{2}C^a_{bc}e^b\wedge e^c+
+\omega^a_{c\ b}e^c\wedge e^b \\
+\frac{1}{2}C^a_{bc}e^b\wedge e^c=
+\frac{1}{2}\left( \omega^a_{b\ c}-\omega^a_{c\ b}
+\right)e^b\wedge e^c,
+\end{split}
+\notag
+\end{equation}
+
+so
+\begin{equation}
+C^a_{bc}=\omega^a_{b\ c}-\omega^a_{c\ b}.
+\notag
+\end{equation}
+
+Lowering the index, we get
+\begin{equation}
+\begin{split}
+C_{a,bc}=\omega_{b,ac}-\omega_{c,ab} \\
+C_{b,ca}=\omega_{c,ba}-\omega_{a,bc} \\
+-C_{c,ab}=-\omega_{a,cb}+\omega_{b,ca},
+\end{split}
+\notag
+\end{equation}
+
+now sum these up:
+\begin{equation}
+\begin{split}
+C_{a,bc}+C_{b,ca}-C_{c,ab}=2\omega_{c,ba} \\
+\omega_{c,ab}=\frac{1}{2}\left(C_{c,ab}-C_{a,bc}-C_{b,ca}\right) \\
+\omega_{ab}=\frac{1}{2}\left(C_{c,ab}-C_{a,bc}-C_{b,ca}\right)e^c.
+\end{split}
+\notag
+\end{equation}
+
+If the veilbein is simple, then the $\mathrm de^a=
+-\frac{1}{2}C^a_{bc}e^b\wedge e^c$ will only involve a
+few terms at most, and the spin connection is very easy
+to calculate from this.
+
+
+\section{JamalS wrote:}
+
+
+Looks like both our methods are relatively equal in terms
+of simplicity - if the vielbein is simple, as you said,
+in the first method solving the linear system is also
+trivial.
+
+
+\section{Bence Racskó wrote:}
+
+
+But I guess this is highly subjective. For vielbeins like
+the natural FLRW or Schwarzschild vielbeins, I find this
+method simpler and easier. But that's me.
+
+\end{document}

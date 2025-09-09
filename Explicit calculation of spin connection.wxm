@@ -1,0 +1,661 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Explicit calculation of spin connection
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Spin connection},
+            pdfsubject={General Relativity},
+            pdfkeywords={StackExchange}}
+
+Based on StackExchange Article
+\href{https://physics.stackexchange.com/questions/530257/explicit-calculation-of-spin-connection-through-cartans-first-structure-equatio}
+{Explicit calculation of spin connection through Cartan's first structure equation}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('format,'version)=false then load(format)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+norm(u):=block(ratsimp(radcan(√(u.u))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+normalize(v):=block(v/norm(v))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+angle(u,v):=block([junk:radcan(√((u.u)*(v.v)))],acos(u.v/junk))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+mycross(va,vb):=[va[2]*vb[3]-va[3]*vb[2],va[3]*vb[1]-va[1]*vb[3],va[1]*vb[2]-va[2]*vb[1]]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Jesse wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Given the metric
+\begin{equation}
+\mathrm{d}s^2 = F(r)^2\,\mathrm{d}r^2 +
+r^2\,\mathrm{d}\theta^2 +
+r^2\sin^2(\theta)\,\mathrm{d}\phi^2,
+\notag
+\end{equation}
+
+I'm trying to find the corresponding spin connections
+$\omega^a_{\ b}$ using the first structure equation:
+
+\begin{equation}
+\mathrm{d}e + \omega e = 0
+\notag
+\end{equation}
+
+I found the vielbeins $e$ and their exterior derivatives $\mathrm{d}e$:
+
+\begin{equation}
+\mathrm{d}e^1 = 0, \quad
+\mathrm{d}e^2 =\mathrm{d}r\mathrm{d}\theta, \quad
+\mathrm{d}e^3 = \sin(\theta)\mathrm{d}r\mathrm{d}\phi +
+r\cos(\theta)\mathrm{d}\theta \mathrm{d}\phi,
+\notag
+\end{equation}
+
+but I am stuck on actually working out the $\omega$.
+I read through Zee's 'GR in a nutshell', and he does the
+same calculation but just says: "In general, write
+ 
+\begin{equation}
+\omega^a_{\,b} = \omega^a_{\,bc}e^c = \omega^a_{\,b\mu}dx^\mu
+\notag
+\end{equation}
+
+Plug this into the first structure equation and match terms.
+How do I actually go about calculating $\omega^1_{\, 2}$,
+$\omega^1_{\, 3}$, and $\omega^2_{\, 3}$ at this point?
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line Element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends(F,r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(F>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:F²*del(r)²+r²*del(θ)²+r²*sin(θ)²*del(φ)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:zeromatrix(dim,dim)$
+for i thru dim do
+  lg[i,i]:factor(coeff(expand(line_element),del(ξ[i])²))$
+for j thru dim do for k thru dim do
+  if j≠k then lg[j,k]:factor(expand(ratsimp(½*coeff(coeff(expand(line_element),del(ξ[j])),del(ξ[k])))))$
+ldisplay(lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ug:invert(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the frame} $e$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e[r]:√(ug)[1]$
+e[θ]:√(ug)[2]$
+e[φ]:√(ug)[3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(e:apply('matrix,[e[r],e[θ],e[φ]]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the coframe} $\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(ω)$
+ω[r]:list_matrix_entries(√(lg).cartan_basis)[1]$
+ω[θ]:list_matrix_entries(√(lg).cartan_basis)[2]$
+ω[φ]:list_matrix_entries(√(lg).cartan_basis)[3]$
+ldisplay(ω:[ω[r],ω[θ],ω[φ]])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify} $\langle\underline{\omega}^{\color{red} a}
+\mid \underline{e}_{\color{red} b}\rangle=
+\delta^{\color{red} a}_{\color{red} b}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+genmatrix(lambda([i,j],e[ξ[i]]|ω[ξ[j]]),cartan_dim,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate the external derivative of the coframe} $\mathrm{d}\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+JamalS wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+As you have, the first step is to identify:
+
+\begin{equation}
+e^r = F(r)\,\mathrm{d}r,
+e^\theta = r\,\mathrm{d}\theta,
+e^\phi = r\sin\theta\,\mathrm{d}\phi
+\notag
+\end{equation}
+
+The trick is to then take the derivatives but re-express
+them in terms of $e$ again. Thus,
+
+\begin{equation}
+\mathrm{d}e^r = 0,\quad
+\mathrm{d}e^\theta = -\mathrm{d\theta} \wedge
+\mathrm{d}r = -\frac{1}{rF(r)}e^\theta \wedge e^r
+\notag
+\end{equation}
+
+and,
+
+\begin{equation}
+\mathrm{de^\phi} = -\sin\theta \mathrm{d\phi} \wedge
+\mathrm{d}r - r\cos\theta \mathrm{d}\phi \wedge
+\mathrm{d}\theta = -\frac{1}{rF(r)} e^\phi \wedge
+e^r - \frac{\cot \theta}{r^2} e^\phi \wedge e^\theta.
+\notag
+\end{equation}
+
+Now let's take an example of using Cartan's first equation.
+We have $\mathrm{d}e^a + \omega^a_b \wedge e^b = 0$
+and if we choose $a=\theta$ the equations read,
+
+\begin{equation}
+\frac{1}{rF(r)}e^\theta \wedge e^r = \omega^\theta_r
+\wedge e^r + \omega^\theta_\theta \wedge e^\theta +
+\omega^\theta_\phi \wedge e^\phi.
+\notag
+\end{equation}
+
+We have $\omega^\theta_\theta = 0$ by anti-symmetry.
+We can identify now $\omega^\theta_r = -\omega^r_\theta =
+\frac{1}{rF(r)}e^\theta$. Notice the last term we could
+choose $\omega^\theta_\phi = 0$ however Cartan's equations
+are a system of equations, so we are not free to make this
+choice yet without considering the other equations. We can
+at best say $\omega^\theta_\phi$ is proportional to
+$\mathrm{d}\phi$ to ensure $\omega^\theta_\phi \wedge
+e^\phi = 0$. As it turns out, we don't have
+$\omega^\theta_\phi = 0$ because of the $a=\phi$ equation,
+which will give you $\omega^\theta_\phi = -r^{-2}\cot\theta
+\, e^\phi$.
+
+I hope this elucidates how to use Cartan's structure
+equation. Computing the Ricci tensor is then much simpler,
+as rather than solving for components you're just plugging
+in and computing.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generic Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[a_1,a_2,a_3]$
+B:[b_1,b_2,b_3]$
+C:[c_1,c_2,c_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(Θ)$
+Θ:zeromatrix(dim,dim)$
+Θ[1,2]:-Θ[2,1]:A.cartan_basis$
+Θ[1,3]:-Θ[3,1]:B.cartan_basis$
+Θ[2,3]:-Θ[3,2]:C.cartan_basis$
+ldisplay(Θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+λ:list_matrix_entries(expand(Θ.ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,λ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's First structural equation}
+$\mathrm{d}\omega^{\color{red} i}=
+\Theta_{\color{blue} j}^{\color{red} i}
+\wedge\omega^{\color{blue} j}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:zeromatrix(dim,dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j thru dim do
+Eq[i,j]:format(coeff(coeff(dω,cartan_basis[i]),cartan_basis[j])=
+coeff(coeff(-λ,cartan_basis[i]),cartan_basis[j]),%list)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eqs:apply('append,list_matrix_entries(Eq))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eqs,append(A,B,C));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(λ:at(λ,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(dω=-λ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:at(Θ,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update Connection 2-form} $\mathrm{d}\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:expand(matrixmap(edit,ext_diff(Θ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update coefficients}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A:at(A,linsol))$
+ldisplay(B:at(B,linsol))$
+ldisplay(C:at(C,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's Second structural equation}:
+$\Omega_{\color{red} j}^{\color{red} i}=
+\mathrm{d}\Theta_{\color{red} j}^{\color{red} i}+
+\Theta_{\color{blue} k}^{\color{red} i}\wedge
+\Theta_{\color{red} j}^{\color{blue} k}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Ω:matrixmap(edit,dΘ+Θ.Θ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Forms in terms of the coframe} $\sigma$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Eqs:makelist(σ[ξ[i]]=ω[ξ[i]],i,1,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eqs,cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:ev(Θ,linsol,fullratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Ω:ev(Ω,linsol,fullratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Bence Racskó wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+There is also an explicit procedure that is often better
+if the vielbein is simple.
+
+We have
+\begin{equation}
+\mathrm{d}e^a=-\frac{1}{2}C^a_{bc}e^b\wedge e^c,
+\notag
+\end{equation}
+
+where the $C^a_{bc}$ are the vielbein commutators.
+We can invert the first structure equation explicitly as
+\begin{equation}
+\begin{split}
+0=\mathrm de^a+\omega^a_{\ b}\wedge e^b=
+-\frac{1}{2}C^a_{bc}e^b\wedge e^c+
+\omega^a_{c\ b}e^c\wedge e^b \\
+\frac{1}{2}C^a_{bc}e^b\wedge e^c=
+\frac{1}{2}\left( \omega^a_{b\ c}-\omega^a_{c\ b}
+\right)e^b\wedge e^c,
+\end{split}
+\notag
+\end{equation}
+
+so
+\begin{equation}
+C^a_{bc}=\omega^a_{b\ c}-\omega^a_{c\ b}.
+\notag
+\end{equation}
+
+Lowering the index, we get
+\begin{equation}
+\begin{split}
+C_{a,bc}=\omega_{b,ac}-\omega_{c,ab} \\
+C_{b,ca}=\omega_{c,ba}-\omega_{a,bc} \\
+-C_{c,ab}=-\omega_{a,cb}+\omega_{b,ca},
+\end{split}
+\notag
+\end{equation}
+
+now sum these up:
+\begin{equation}
+\begin{split}
+C_{a,bc}+C_{b,ca}-C_{c,ab}=2\omega_{c,ba} \\
+\omega_{c,ab}=\frac{1}{2}\left(C_{c,ab}-C_{a,bc}-C_{b,ca}\right) \\
+\omega_{ab}=\frac{1}{2}\left(C_{c,ab}-C_{a,bc}-C_{b,ca}\right)e^c.
+\end{split}
+\notag
+\end{equation}
+
+If the veilbein is simple, then the $\mathrm de^a=
+-\frac{1}{2}C^a_{bc}e^b\wedge e^c$ will only involve a
+few terms at most, and the spin connection is very easy
+to calculate from this.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: section start ]
+JamalS wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Looks like both our methods are relatively equal in terms
+of simplicity - if the vielbein is simple, as you said,
+in the first method solving the linear system is also
+trivial.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: section start ]
+Bence Racskó wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+But I guess this is highly subjective. For vielbeins like
+the natural FLRW or Schwarzschild vielbeins, I find this
+method simpler and easier. But that's me.
+
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
