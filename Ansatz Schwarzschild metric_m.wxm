@@ -1,0 +1,1072 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Ansatz Schwarzschild metric
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={The Cartan formalism},
+            pdfsubject={General Rlativity},
+            pdfkeywords={Ruth Gregory}}
+
+Based on Arindam Kumar Chatterjee Video
+\href{https://www.youtube.com/watch?v=ql1P63zXnFc}
+{Lecture 4 The Cartan formalism Application to spherically symmetric spacetimes}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ctrgsimp:true$
+ratchristof:true$
+ratriemann:true$
+rateinstein:true$
+ratweyl:true$
+ratfac:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Coordinate metric
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+iframe_flag:false$
+cframe_flag:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_ctensor()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line Element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([A,B,C],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(A>0,B>0,C>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:A²*del(t)²-B²*del(r)²-C²*del(θ)²-C²*sin(θ)²*del(φ)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:zeromatrix(dim,dim)$
+for i thru dim do
+  lg[i,i]:factor(coeff(expand(line_element),del(ξ[i])²))$
+for j thru dim do for k thru dim do
+  if j≠k then lg[j,k]:factor(expand(ratsimp(½*coeff(coeff(expand(line_element),del(ξ[j])),del(ξ[k])))))$
+ishow(g([μ,ν],[])=lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Sets up the package for further calculations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([],[μ,ν])=ug:invert(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the first kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if lcs[i,j,k]≠0 then
+    ishow(Γ([ξ[i],ξ[j],ξ[k]],[])=lcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the second kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if mcs[i,j,k]≠0 then
+    ishow(Γ([ξ[i],ξ[j]],[ξ[k]])=mcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+lriemann(false)$
+uriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if riem[a,b,c,d]≠0 then
+        ishow(R([ξ[a],ξ[b],ξ[c]],[ξ[d]])=riem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if lriem[a,b,c,d]≠0 then
+        ishow(R([ξ[d],ξ[a],ξ[b],ξ[c]],[])=lriem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+uricci(false)$
+for i thru dim do for j:i thru dim do
+  if ric[i,j]≠0 then
+    ishow(R([ξ[i],ξ[j]])=ric[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar curvature}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kretschmann invariant}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+rinvariant();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+leinstein(false)$
+for i thru dim do for j:i thru dim do
+  if lein[i,j]≠0 then 
+    ishow(G([ξ[i]],[ξ[j]])=ein[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_real_time();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_run_time();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Tetrad metric
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Causes computations to be performed relative to a moving
+frame as opposed to a holonomic metric
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+iframe_flag:true$
+cframe_flag:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+init_ctensor()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line Element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([A,B,C],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(A>0,B>0,C>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:A²*del(t)²-B²*del(r)²-C²*del(θ)²-C²*sin(θ)²*del(φ)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+If cframe_flag is true, the function expects that the
+values of fri (the inverse frame matrix) and lfg
+(the frame metric) are defined. From these, the frame
+matrix fr and the inverse frame metric ufg are computed.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The covariant frame metric}\\
+\textbf{The covariant frame metric lfg (background metric)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lfg:matrix([1,0,0,0],[0,-1,0,0],[0,0,-1,0],[0,0,0,-1]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The frame field inverse stored as a matrix}\\
+\textbf{The inverse frame matrix fri (coframe) (coframe covectors)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+fri:matrix([A,0,0,0],[0,B,0,0],[0,0,C,0],[0,0,0,C*sin(θ)]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Sets up the package for further calculations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([μ,ν],[])=lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The inverse frame metric}\\
+\textbf{The inverse frame metric ufg}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ufg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The frame field stored as a matrix}\\
+\textbf{The frame matrix fr (frame vectors)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(fr)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(g([],[μ,ν])=ug:invert(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the first kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if lcs[i,j,k]≠0 then
+    ishow('Γ([ξ[i],ξ[j],ξ[k]],[])=lcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the second kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+for i thru dim do for j:i thru dim do for k thru dim do
+  if mcs[i,j,k]≠0 then
+    ishow('Γ([ξ[i],ξ[j]],[ξ[k]])=mcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor all up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+uriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if uriem[a,b,c,d]≠0 then
+        ishow('R([],[ξ[a],ξ[b],ξ[c],ξ[d]])=uriem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if riem[a,b,c,d]≠0 then
+        ishow('R(["  ",ξ[b],ξ[c],ξ[d]],[ξ[a]])=riem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor all down}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if lriem[a,b,c,d]≠0 then
+        ishow('R([ξ[d],ξ[a],ξ[b],ξ[c]],[])=lriem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+for i thru dim do for j:i thru dim do
+  if ric[i,j]≠0 then
+    ishow('R([ξ[i],ξ[j]])=ric[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor all up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+uric:zeromatrix(dim,dim)$
+uricci(false)$
+for i thru dim do for j:i thru dim do
+  if uric[i,j]≠0 then
+    ishow('R([],[ξ[i],ξ[j]])=uric[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar curvature}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scurvature();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kretschmann invariant}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+rinvariant();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+for i thru dim do for j:i thru dim do
+  if ein[i,j]≠0 then 
+    ishow('G([ξ[i]],[ξ[j]])=ein[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor all down}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lein:zeromatrix(dim,dim)$
+leinstein(false)$
+for i thru dim do for j:i thru dim do
+  if lein[i,j]≠0 then 
+    ishow('G([ξ[i],ξ[j]],[])=lein[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+deindex;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+Based on Wikipedia Article
+\href{https://en.wikipedia.org/wiki/Spin_connection}
+{Spin connection}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify} $\mathrm{g}_{\mu\,\nu}=
+e_\mu^{\hphantom{\mu}a}\,e_\nu^{\hphantom{\nu}b}\,
+\eta_{a\,b}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels,I,O,M)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+decsym(g,2,0,[sym(all)],[])$
+decsym(g,0,2,[],[sym(all)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+metricconvert:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:O([μ,ν])=I([μ],[a])*I([ν],[b])*M([a,b]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Ver:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+O:zeromatrix(dim,dim)$
+I:fri$
+M:lfg$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Ver)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(O)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(O=lg);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Raise coordinate index}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(I,O)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:O([],[μ,a])=g([],[μ,ν])*I([ν],[a]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Raise:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+O:zeromatrix(dim,dim)$
+I:fri$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Raise)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(O)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Save for later}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Raised:O$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Lower tetrad index}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(I,O,M)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:O([ν,a],[])=M([a,b])*I([ν],[b]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Lower:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+O:zeromatrix(dim,dim)$
+I:fri$
+M:lfg$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(Lower)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(O)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Spin Connection 1}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(I,J,ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:ω([μ],[a,b])=I([ν],[a])*ichr2([σ,μ],[ν])*
+    J([],[σ,b])+I([ν],[a])*idiff(J([],[ν,b]),μ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SC1:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(ω)$
+array(ω,dim,dim,dim)$
+I:fri$
+J:Raised$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(SC1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Spin Connection 2}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(I,J,ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:ω([μ],[a,b])=I([ν],[a])*ichr2([σ,μ],[ν])*
+    J([],[σ,b])-J([],[ν,b])*idiff(I([ν],[a]),μ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SC2:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(ω)$
+array(ω,dim,dim,dim)$
+I:fri$
+J:Raised$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(SC2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(Θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Eq:Θ([],[a,b])=ω([μ],[a,b])*dξ([],[μ]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+indices(Eq);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+SC3:ic_convert(Eq)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Use Cartan package
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(allbut(ξ,dim,ω,Θ,SC3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('format,'version)=false then load(format)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([A,B,C],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(A>0,B>0,C>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize Cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Θ:zeromatrix(dim,dim)$
+dξ:cartan_basis$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ev(SC3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Exterior derivative of Connection 1-form} $\mathrm{d}\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:fullratsimp(trigsimp(matrixmap(edit,ext_diff(Θ)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Ω:fullratsimp(matrixmap(edit,dΘ+Θ.Θ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"."$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([matrix_element_mult:"~"],
+    Ω:fullratsimp(matrixmap(edit,dΘ+Θ.Θ)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j:i thru dim do
+if Ω[i,j]≠0 then ldisplay('Ω[ξ[i],ξ[j]]=fullratsimp(Ω[i,j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_real_time();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_run_time();
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$

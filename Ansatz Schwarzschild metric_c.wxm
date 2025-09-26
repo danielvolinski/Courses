@@ -1,0 +1,540 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Ansatz Schwarzschild metric
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Cartan formalism},
+            pdfsubject={Gravitational Physics},
+            pdfkeywords={Ruth Gregory}}
+
+Based on Narcos Alpha Playlist
+\href{https://www.youtube.com/playlist?list=PLhS8YPbZkfgIxU3dwrqsj30E9FJqNAMOj}
+{PSI 18/19 - Gravitational Physics Review}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('format,'version)=false then load(format)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line Element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([A,B,C],r)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(A>0,B>0,C>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:A²*del(t)²-B²*del(r)²-C²*del(θ)²-C²*sin(θ)²*del(φ)²)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:zeromatrix(dim,dim)$
+for i thru dim do
+  lg[i,i]:factor(coeff(expand(line_element),del(ξ[i])²))$
+for j thru dim do for k thru dim do
+  if j≠k then lg[j,k]:factor(expand(ratsimp(½*coeff(coeff(expand(line_element),del(ξ[j])),del(ξ[k])))))$
+ldisplay(lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ug:invert(lg))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=diff(ξ).lg.transpose(diff(ξ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the frame} $e$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+e[t]:√(ug)[1]$
+e[r]:√(-ug)[2]$
+e[θ]:√(-ug)[3]$
+e[φ]:√(-ug)[4]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(e:apply('matrix,[e[t],e[r],e[θ],e[φ]]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_basis;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_coords;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cartan_dim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+extdim;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Define the coframe} $\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(ω)$
+ω[t]:list_matrix_entries(√(lg).cartan_basis)[1]$
+ω[r]:list_matrix_entries(√(-lg).cartan_basis)[2]$
+ω[θ]:list_matrix_entries(√(-lg).cartan_basis)[3]$
+ω[φ]:list_matrix_entries(√(-lg).cartan_basis)[4]$
+ldisplay(ω:[ω[t],ω[r],ω[θ],ω[φ]])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify} $\langle\underline{\omega}^{\color{red} a}
+\mid \underline{e}_{\color{red} b}\rangle=
+\delta^{\color{red} a}_{\color{red} b}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+genmatrix(lambda([i,j],e[ξ[i]]|ω[ξ[j]]),cartan_dim,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate the external derivative of the coframe}
+$\mathrm{d}\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:ext_diff(ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generic Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A_a:[a_1,a_2,a_3,a_4]$
+A_b:[b_1,b_2,b_3,b_4]$
+A_c:[c_1,c_2,c_3,c_4]$
+A_d:[d_1,d_2,d_3,d_4]$
+A_e:[e_1,e_2,e_3,e_4]$
+A_f:[f_1,f_2,f_3,f_4]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(Θ)$
+Θ:zeromatrix(dim,dim)$
+Θ[1,2]:-Θ[2,1]:A_a.cartan_basis$
+Θ[1,3]:-Θ[3,1]:A_b.cartan_basis$
+Θ[1,4]:-Θ[4,1]:A_c.cartan_basis$
+Θ[2,3]:-Θ[3,2]:A_d.cartan_basis$
+Θ[2,4]:-Θ[4,2]:A_e.cartan_basis$
+Θ[3,4]:-Θ[4,3]:A_f.cartan_basis$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\lambda^{\color{red}a}=\Theta_{\color{blue}b}^{\color{red}a}
+\wedge\omega^{\color{blue}b}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+λ:list_matrix_entries(expand(Θ.ω))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's First structural equation}
+$\mathrm{d}\omega^{\color{red} i}=
+\Theta_{\color{blue} j}^{\color{red} i}
+\wedge\omega^{\color{blue} j}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:zeromatrix(dim,dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j thru dim do
+Eq[i,j]:format(coeff(coeff(dω,cartan_basis[i]),cartan_basis[j])=
+coeff(coeff(-λ,cartan_basis[i]),cartan_basis[j]),%list)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eqs:apply('append,list_matrix_entries(Eq))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eqs,append(A_a,A_b,A_c,A_d,A_e,A_f))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(λ:at(λ,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(dω=-λ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:at(Θ,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Exterior derivative of Connection 1-form} $\mathrm{d}\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dΘ:fullratsimp(trigsimp(matrixmap(edit,ext_diff(Θ)))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update coefficients}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A_a:at(A_a,linsol))$
+ldisplay(A_b:at(A_b,linsol))$
+ldisplay(A_c:at(A_c,linsol))$
+ldisplay(A_d:at(A_d,linsol))$
+ldisplay(A_e:at(A_e,linsol))$
+ldisplay(A_f:at(A_f,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Change matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"~"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's Second structural equation}:
+$\Omega_{\color{red} j}^{\color{red} i}=
+\mathrm{d}\Theta_{\color{red} j}^{\color{red} i}+
+\Theta_{\color{blue} k}^{\color{red} i}\wedge
+\Theta_{\color{red} j}^{\color{blue} k}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Ω:fullratsimp(matrixmap(edit,dΘ+Θ.Θ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j:i thru dim do
+if Ω[i,j]≠0 then ldisplay('Ω[ξ[i],ξ[j]]=fullratsimp(Ω[i,j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Restore matrix multiplication operator}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matrix_element_mult:"*"$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann tensor} $R$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(R)$
+array(R,dim,dim,dim,dim)$
+for α thru dim do for β thru dim do
+for γ thru dim do for δ thru dim do
+R[α,β,γ,δ]:e[ξ[δ]]|(e[ξ[γ]]|Ω[α,β])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for α thru dim do for β:α thru dim do
+for γ thru α do for δ thru β do
+if R[α,β,γ,δ]≠0 then
+  ldisplay('R[ξ[α],ξ[β],ξ[γ],ξ[δ]]=fullratsimp(R[α,β,γ,δ]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Forms in terms of the coframe} $\sigma$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eqs:makelist(σ[ξ[i]]=ω[ξ[i]],i,1,cartan_dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eqs,cartan_basis);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:ev(Θ,linsol,fullratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Ω:ev(Ω,linsol,fullratsimp)$
+ldisplay(Ω)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j:i thru dim do
+if Ω[i,j]≠0 then ldisplay('Ω[ξ[i],ξ[j]]=fullratsimp(Ω[i,j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Schwarzschild gauge}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:√((r-2*m)/r)$
+B:√(r/(r-2*m))$
+C:r$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line Element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:ev(line_element))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Connection 1-form} $\Theta$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:ev(Θ,diff,eval,fullratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Ω:ev(Ω,diff,eval,fullratsimp))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_real_time();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+elapsed_run_time();
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
