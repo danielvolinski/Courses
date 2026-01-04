@@ -1,0 +1,476 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Maxima's Christoffel
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\href{https://maxima.sourceforge.io/ext/list_archives/2007/msg03964.html}
+{[Fwd: Maxima's christoffel]}
+
+\href{https://drmyronevans.wordpress.com/2007/09/10/maxima-computing-christoffel-symbols/}
+{computing christoffel symbols}
+
+\href{https://github.com/pygae/galgebra/issues/26}
+{Christoffel symbols of the first kind ill calculated}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ctrgsimp:true$
+ratchristof:true$
+ratriemann:true$
+rateinstein:true$
+ratweyl:true$
+ratfac:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Thomas Widlar wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+I have compared Maxima's internal calculation (on the left)
+to our explicit calculation (on the right) which is attached. 
+Our Gamma subscripts are in reverse order of Maxima's mcs 
+which also have +1 added to each  subcript. The values agree 
+in all but five cases (marked XXX below) where Maxima mcs
+has  zero and our Gamma has an expression. With Sean
+Carroll and Dr. Evans having checked them carefully by
+hand and our calculating them explicitly with Maxima, we
+have some confidence in the Gammas.
+
+However it could be that Viktor's solution is not the same
+problem  as ours due to a difference in coordinate order
+or the metric specification. Does anything stand out to you?
+
+I have found ctensor.mac and the christof(dis) function.
+I will try to figure out what is going on.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+Viktor Toth's program.
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+depends([a,b],[t,r])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:ident(4)$
+lg[1,1]:-exp(2*a)$
+lg[2,2]:exp(2*b)$
+lg[3,3]:r²$
+lg[4,4]:r²*sin(θ)²$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow('g([μ,ν],[])=lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Contravariant Metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow('g([],[μ,ν])=ug)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The determinant of the metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(√(-gdet));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the first kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(lcs)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j:i thru dim do for k thru dim do
+  if lcs[i,j,k]≠0 then
+    ishow('Γ([ξ[i],ξ[j],ξ[k]],[])=lcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(lcs,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(lcs,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(lcs,3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(lcs,4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν,1])=Γ_11:genmatrix(lambda([μ,ν],lcs[μ,ν,1]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν,2])=Γ_21:genmatrix(lambda([μ,ν],lcs[μ,ν,2]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν,3])=Γ_31:genmatrix(lambda([μ,ν],lcs[μ,ν,3]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν,4])=Γ_41:genmatrix(lambda([μ,ν],lcs[μ,ν,4]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the second kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(mcs)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j:i thru dim do for k thru dim do
+  if mcs[i,j,k]≠0 then
+    ishow('Γ([ξ[i],ξ[j]],[ξ[k]])=mcs[i,j,k])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(mcs,1)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(mcs,2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(mcs,3)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cdisplay(mcs,4)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν],[1])=Γ_12:genmatrix(lambda([μ,ν],mcs[μ,ν,1]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν],[2])=Γ_22:genmatrix(lambda([μ,ν],mcs[μ,ν,2]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν],[3])=Γ_32:genmatrix(lambda([μ,ν],mcs[μ,ν,3]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(Γ([μ,ν],[4])=Γ_42:genmatrix(lambda([μ,ν],mcs[μ,ν,4]),dim,dim))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if riem[a,b,c,d]≠0 then
+        ishow('R(["  ",ξ[a],ξ[b],ξ[c]],[ξ[d]])=riem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if lriem[a,b,c,d]≠0 then
+        ishow('R([ξ[d],ξ[a],ξ[b],ξ[c]],[])=lriem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+uriemann(false)$
+for a thru dim do for b thru dim do
+  for c thru (if symmetricp(lg,dim) then b else dim) do
+    for d thru (if symmetricp(lg,dim) then a else dim) do
+      if riem[a,b,c,d]≠0 then
+        ishow('R([],[ξ[a],ξ[b],ξ[c],ξ[d]])=uriem[a,b,c,d])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+for i thru dim do for j:i thru dim do
+  if ric[i,j]≠0 then
+    ishow('R([ξ[i],ξ[j]])=ric[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(efe[1]-efe[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+uric:zeromatrix(dim,dim)$
+uricci(false)$
+for i thru dim do for j:i thru dim do
+  if uric[i,j]≠0 then
+    ishow('R([],[ξ[i],ξ[j]])=uric[i,j])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(uric,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(efe[1]-efe[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Scalar curvature}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(radcan(scurvature()));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Kretschmann invariant}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(radcan(rinvariant()));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein Tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+for i thru dim do for j:i thru dim do
+  if ein[i,j]≠0 then 
+    ishow('G([ξ[i]],[ξ[j]])=fullratsimp(ein[i,j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(ein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(efe[1]-efe[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lein:zeromatrix(dim,dim)$
+leinstein(false)$
+for i thru dim do for j:i thru dim do
+  if lein[i,j]≠0 then 
+    ishow('G([ξ[i],ξ[j]],[])=fullratsimp(lein[i,j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Returns a list of the unique differential equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+map(ldisp,efe:findde(lein,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+factor(efe[1]-efe[3]);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+expand(solve(%,diff(a,r)));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Weyl Conformal tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+weyl(false)$
+for i thru dim do
+  for j from (if symmetricp(lg,dim) then i+1 else 1) thru dim do
+    for k from (if symmetricp(lg,dim) then i else 1) thru dim do
+      for l from (if symmetricp(lg,dim) then k+1 else 1) thru (if (symmetricp(lg,dim) and k=i) then j else dim) do
+        if weyl[i,j,k,l]≠0 then
+          ishow('W([ξ[i],ξ[j],ξ[k],ξ[l]],[])=weyl[i,j,k,l])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Viktor T. Toth wrote:
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+The routine christof() only displays UNIQUE values of the
+Christoffel symbols, which are defined to be symmetric in
+the first two indices in Maxima. So when, for instance,
+mcs[4,2,4] is not displayed, it's not because it's zero,
+but because it has the same value as mcs[2,4,4], which was
+already displayed. You can verify this by explicitly
+checking the value of mcs[4,2,4], and so on.
+
+I verified and in this particular case, apart from the
+differences in index ordering, Maxima with ctensor yields
+the same results as Maple 11's built-in tensor package.
+
+Viktor
+   [wxMaxima: comment end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
