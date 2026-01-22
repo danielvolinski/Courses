@@ -1,0 +1,938 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Horse saddle}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\hypersetup{pdfauthor={Daniel Volinski},
+            pdftitle={Two Dimensional Spaces and Line Elements},
+            pdfsubject={General Relativity},
+            pdfkeywords={Physics Unsimplified}}
+
+Based on Physics Unsimplified Video
+\href{https://youtu.be/mc-Y4CmE7R4?list=PLZuoshe2qaJpSUP8NphzPPXKPo26rdZrZ&t=2955}
+{2. Two Dimensional Spaces and Line Elements}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('optvar,'version)=false then load(optvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(s,mainvar)\$
+\end{minipage}
+
+\textbf{Settings}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+z:y\ensuremath{^2}-x\ensuremath{^2}\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+d\ensuremath{\zeta}:diff(\ensuremath{\zeta})\$
+\end{minipage}
+
+\textbf{Line element}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(ds\ensuremath{^2}=ratsimp(d\ensuremath{\zeta}.d\ensuremath{\zeta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t14}\label{t14} 
+{{\mathit{ds}}^{2}}=-8xy\,\operatorname{del}(x)\,\operatorname{del}(y)+\left( 4{{y}^{2}}+1\right) \,{{\operatorname{del}(y)}^{2}}+\left( 4{{x}^{2}}+1\right) \,{{\operatorname{del}(x)}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Reduce coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:reverse(rest(reverse(\ensuremath{\zeta})))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(\ensuremath{\zeta},s)\$
+\end{minipage}
+
+\textbf{Lagrangian}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+L:subst([del(x)='diff(x,s),del(y)='diff(y,s)],ratsimp(d\ensuremath{\zeta}.d\ensuremath{\zeta}));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{L}\label{L}
+\left( 4{{y}^{2}}+1\right) \,{{\left( {{y}_{s}}\right) }^{2}}-8x\,\left( {{x}_{s}}\right) y\,\left( {{y}_{s}}\right) +\left( 4{{x}^{2}}+1\right) \,{{\left( {{x}_{s}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Momentum Conjugate}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_x:ev(diff(L,'diff(x,s))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+{{P}_{x}}=2\left( 4{{x}^{2}}+1\right) \,\left( {{x}_{s}}\right) -8xy\,\left( {{y}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_x=P\_x,diff(x,s)),factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o19}\label{o19} 
+\left[{{x}_{s}}=\frac{8xy\,\left( {{y}_{s}}\right) +{{p}_{x}}}{2\left( 4{{x}^{2}}+1\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(P\_y:ev(diff(L,'diff(y,s))))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t20}\label{t20} 
+{{P}_{y}}=2\left( 4{{y}^{2}}+1\right) \,\left( {{y}_{s}}\right) -8x\,\left( {{x}_{s}}\right) y\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+linsolve(p\_y=P\_y,diff(y,s)),factor;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o21}\label{o21} 
+\left[{{y}_{s}}=\frac{8x\,\left( {{x}_{s}}\right) y+{{p}_{y}}}{2\left( 4{{y}^{2}}+1\right) }\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Generalized Forces}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_x:diff(L,x))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{{F}_{x}}=8x\,{{\left( {{x}_{s}}\right) }^{2}}-8\left( {{x}_{s}}\right) y\,\left( {{y}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(F\_y:diff(L,y))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+{{F}_{y}}=8y\,{{\left( {{y}_{s}}\right) }^{2}}-8x\,\left( {{x}_{s}}\right) \,\left( {{y}_{s}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Euler-Lagrange Equations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+aa:el(L,\ensuremath{\zeta},s)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:rhs(bb[1])=lhs(bb[1])\$\\
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$
+\end{minipage}
+
+\textbf{Conservation Laws}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+radcan(bb[1]);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o32}\label{o32} 
+E=\left( 4{{y}^{2}}+1\right) \,{{\left( {{y}_{s}}\right) }^{2}}-8x\,\left( {{x}_{s}}\right) y\,\left( {{y}_{s}}\right) +\left( 4{{x}^{2}}+1\right) \,{{\left( {{x}_{s}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+\textbf{Equations of Motion}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,part(bb,[2,3]))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t33}\label{t33} 
+-8xy\,\left( {{y}_{ss}}\right) -8x\,{{\left( {{y}_{s}}\right) }^{2}}+2\left( 4{{x}^{2}}+1\right) \,\left( {{x}_{ss}}\right) +8x\,{{\left( {{x}_{s}}\right) }^{2}}=0\mbox{}\]
+\[\tag{\%{}t34}\label{t34} 
+2\left( 4{{y}^{2}}+1\right) \,\left( {{y}_{ss}}\right) +8y\,{{\left( {{y}_{s}}\right) }^{2}}-8x\,\left( {{x}_{ss}}\right) y-8{{\left( {{x}_{s}}\right) }^{2}}y=0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+geodesic:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,geodesic:fullratsimp(geodesic))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t36}\label{t36} 
+{{x}_{ss}}=\frac{4x\,{{\left( {{y}_{s}}\right) }^{2}}-4x\,{{\left( {{x}_{s}}\right) }^{2}}}{4{{y}^{2}}+4{{x}^{2}}+1}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t37}\label{t37} 
+{{y}_{ss}}=-\frac{4y\,{{\left( {{y}_{s}}\right) }^{2}}-4{{\left( {{x}_{s}}\right) }^{2}}y}{4{{y}^{2}}+4{{x}^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Check Conservation of Energy}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+radcan(rhs(bb[1]));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o38}\label{o38} 
+\left( 4{{y}^{2}}+1\right) \,{{\left( {{y}_{s}}\right) }^{2}}-8x\,\left( {{x}_{s}}\right) y\,\left( {{y}_{s}}\right) +\left( 4{{x}^{2}}+1\right) \,{{\left( {{x}_{s}}\right) }^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+subst(geodesic,diff(rhs(bb[1]),s)),fullratsimp;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o39}\label{o39} 
+0\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Analytical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[x\_0=1,Vx\_0=1,y\_0=1,Vy\_0=1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare([x\_0,Vx\_0,y\_0,Vy\_0],constant)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+atvalue(x(s),[s=0],x\_0)\$\\
+atvalue(diff(x(s),s),[s=0],Vx\_0)\$\\
+atvalue(y(s),[s=0],y\_0)\$\\
+atvalue(diff(y(s),s),[s=0],Vy\_0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+desolve(convert(geodesic,\ensuremath{\zeta},s),convert(\ensuremath{\zeta},\ensuremath{\zeta},s));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o46}\label{o46} 
+[\operatorname{x}(s)=\operatorname{ilt}((4\operatorname{laplace}\left( \frac{\operatorname{x}(s)\,{{\left( {{\operatorname{y}(s)}_{s}}\right) }^{2}}}{4{{\operatorname{y}(s)}^{2}}+4{{\operatorname{x}(s)}^{2}}+1},s,\mathit{g644}\right) -4\operatorname{laplace}\left( \frac{\operatorname{x}(s)\,{{\left( {{\operatorname{x}(s)}_{s}}\right) }^{2}}}{4{{\operatorname{y}(s)}^{2}}+4{{\operatorname{x}(s)}^{2}}+1},s,\mathit{g644}\right) +{{x}_{0}}\mathit{g644}+{{\mathit{Vx}}_{0}})/{{\mathit{g644}}^{2}},\mathit{g644},s),\operatorname{y}(s)=\operatorname{ilt}((-4\operatorname{laplace}\left( \frac{\operatorname{y}(s)\,{{\left( {{\operatorname{y}(s)}_{s}}\right) }^{2}}}{4{{\operatorname{y}(s)}^{2}}+4{{\operatorname{x}(s)}^{2}}+1},s,\mathit{g644}\right) +4\operatorname{laplace}\left( \frac{\operatorname{y}(s)\,{{\left( {{\operatorname{x}(s)}_{s}}\right) }^{2}}}{4{{\operatorname{y}(s)}^{2}}+4{{\operatorname{x}(s)}^{2}}+1},s,\mathit{g644}\right) +{{y}_{0}}\mathit{g644}+{{\mathit{Vy}}_{0}})/{{\mathit{g644}}^{2}},\mathit{g644},s)]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Z:[X,Y]\$\\
+depends(Z,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(x,s,X)\$\\
+gradef(y,s,Y)\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb:ev(aa,eval,diff)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:subst([k[0]=-E],-bb[1])\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+bb[1]:rhs(bb[1])=lhs(bb[1])\$\\
+bb[2]:lhs(bb[2])-rhs(bb[2])=0\$\\
+bb[3]:lhs(bb[3])-rhs(bb[3])=0\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+geodesic:linsolve(part(bb,[2,3]),diff(\ensuremath{\zeta},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map(ldisp,geodesic:fullratsimp(geodesic))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t57}\label{t57} 
+{{X}_{s}}=\frac{\left( 4{{Y}^{2}}-4{{X}^{2}}\right) x}{4{{y}^{2}}+4{{x}^{2}}+1}\mbox{}\]
+\[\displaystyle
+\]
+\[\tag{\%{}t58}\label{t58} 
+{{Y}_{s}}=-\frac{\left( 4{{Y}^{2}}-4{{X}^{2}}\right) y}{4{{y}^{2}}+4{{x}^{2}}+1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+\textbf{Numerical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:append(\ensuremath{\zeta},Z)\$ldisplay(funcs)\$\\
+initial:[500,-400,-3,2]\$ldisplay(initial)\$\\
+odes:append(Z,map(rhs,geodesic))\$ldisplay(odes)\$\\
+interval:[s,0,200]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t60}\label{t60} 
+\mathit{funcs}=[x,y,X,Y]\mbox{}\]
+\[\tag{\%{}t62}\label{t62} 
+\mathit{initial}=[500,-400,-3,2]\mbox{}\]
+\[\tag{\%{}t64}\label{t64} 
+\mathit{odes}=\left[X,Y,\frac{\left( 4{{Y}^{2}}-4{{X}^{2}}\right) x}{4{{y}^{2}}+4{{x}^{2}}+1},-\frac{\left( 4{{Y}^{2}}-4{{X}^{2}}\right) y}{4{{y}^{2}}+4{{x}^{2}}+1}\right]\mbox{}\]
+\[\tag{\%{}t66}\label{t66} 
+\mathit{interval}=[s,0,200]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i67) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-12,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:$1078$
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:$1078$
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:$1$
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$4.46{{10}^{-14}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.3342{{10}^{-13}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$0.10883$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.39993$
+\mbox{}\\------------------------------------------------------
+ 
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"x","y"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t68}\label{t68} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Horse Saddle_img/Horse Saddle_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i69) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"dx/ds","dy/ds"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t69}\label{t69} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Horse Saddle_img/Horse Saddle_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i70) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,4])),rksol)],
+          [discrete,[part(initial,[1,3])]]],[axes,solid],
+         [title,"Phase Space for x"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"x"],[ylabel,"dx/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t70}\label{t70} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Horse Saddle_img/Horse Saddle_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i71) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,5])),rksol)],
+          [discrete,[part(initial,[2,4])]]],[axes,solid],
+         [title,"Phase Space for y"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"y"],[ylabel,"dy/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t71}\label{t71} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Horse Saddle_img/Horse Saddle_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i72) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw3d(\\
+  title = "Horse saddle Geodesic",\\
+  file\_name = "Horse\_saddle\_Geodesic",\\
+  terminal = 'pngcairo,\\
+  xu\_grid = 100, yv\_grid = 100,\\
+  xrange = [-500,500], yrange = [-500,500],\\
+  xlabel = "x", ylabel = "y", zlabel = "z",\\
+  dimensions = wxplot\_size,\\
+  view = [27,140],\\
+  
+  color = cyan,\\
+  explicit(z,x,-500,500,y,-500,500),\\
+  
+  color = blue,\\
+  point\_size = 1,\\
+  point\_type = -1,\\
+  points\_joined = true,\\
+  points(makelist([k[2],k[3],k[3]\ensuremath{^2}-k[2]\ensuremath{^2}],k,rksol)),\\
+
+  color = red,\\
+  point\_size = 2,\\
+  point\_type = filled\_circle,\\
+  points\_joined = false,\\
+  points([[initial[1],initial[2],initial[2]\ensuremath{^2}-initial[1]\ensuremath{^2}]])
+)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i73) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+show\_image("Horse\_saddle\_Geodesic.png")\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t73}\label{t73} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Horse Saddle_img/Horse Saddle_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
