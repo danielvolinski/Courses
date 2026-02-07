@@ -1,0 +1,813 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Kerr metric}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\href{https://github.com/pygae/galgebra/issues/26}
+{Christoffel symbols of the first kind ill calculated}
+
+\href{https://nbviewer.org/github/utensil/julia-playground/blob/master/py/galgebra_gr_metrics.ipynb}
+{galgebra\_gr\_metrics}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o3}\label{o3} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('itensor,'version)=false then load(itensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('ctensor,'version)=false then load(ctensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(s,mainvar)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+unorder()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+orderless(M)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:ct\_coords:[t,r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(ct\_coords)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(G\ensuremath{>}0,M\ensuremath{>}0,c\ensuremath{>}0)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+a : (J/(M*c))\$\\
+rs : (2*G*M/(c**2))\$\\
+sigm : (r**2 + (J/(M*c))**2 * cos(\ensuremath{\theta})**2)\$\\
+delt : (r**2 - t * (2*G*M/(c**2)) + (J/(M*c))**2)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lg:matrix(
+  [(1-rs*r/(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2)),0,0,(2*G*M/(c**2))*r*(J/(M*c))*sin(\ensuremath{\theta})**2/(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2)],
+  [0,-1*((r**2-t*(2*G*M/(c**2))+(J/(M*c))**2)/(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2)),0,0],
+  [0,0,-1*(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2),0],
+  [(2*G*M/(c**2))*r*(J/(M*c))*sin(\ensuremath{\theta})**2/(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2),0,0,-1*(r**2+(J/(M*c))**2+(rs*r*(J/(M*c))**2/(r**2+(J/(M*c))**2*cos(\ensuremath{\theta})**2))*sin(\ensuremath{\theta}))*sin(\ensuremath{\theta})])\$
+\end{minipage}
+
+\pagebreak
+\textbf{Sets up the package for further calculations}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cmetric()\$
+\end{minipage}
+
+\textbf{Christoffel Symbol}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+christof(false)\$
+\end{minipage}
+
+\textbf{Riemann tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lriemann(false)\$
+\end{minipage}
+
+\textbf{Ricci tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ric:zeromatrix(dim,dim)\$\\
+ricci(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+uric:zeromatrix(dim,dim)\$\\
+uricci(false)\$
+\end{minipage}
+
+\textbf{Einstein tensor}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ein:zeromatrix(dim,dim)\$\\
+einstein(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+lein:zeromatrix(dim,dim)\$\\
+leinstein(false)\$
+\end{minipage}
+
+\textbf{Geodesic}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\textbf{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cv\_coords:[T,R,\ensuremath{\Theta},\ensuremath{\Phi}]\$\\
+depends(cv\_coords,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(t,s,T)\$\\
+gradef(r,s,R)\$\\
+gradef(\ensuremath{\theta},s,\ensuremath{\Theta})\$\\
+gradef(\ensuremath{\phi},s,\ensuremath{\Phi})\$
+\end{minipage}
+
+\textbf{Geodesic}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do geod[i]:fullratsimp(geod[i])\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+geodsol:linsolve(listarray(geod),diff(\ensuremath{\xi},s,2))\$
+\end{minipage}
+\pagebreak
+
+
+\textbf{Numerical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i55) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:append(ct\_coords,cv\_coords)\$ldisplay(funcs)\$\\
+initial:[0,15,\ensuremath{\pi}/2,\ensuremath{\pi}/4,2.0,-6.0,-0.1,-0.1]\$ldisplay(initial)\$\\
+odes:append(cv\_coords,map(rhs,geodsol))\$\\
+interval:[s,0,4]\$ldisplay(interval)\$\\
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{initial}\label{initial}
+\mathit{funcs}=[t,r,\mathit{\ensuremath{\theta}},\mathit{\ensuremath{\phi}},T,R,\mathit{\ensuremath{\Theta}},\mathit{\ensuremath{\Phi}}]\mbox{}\]
+\[\tag{odes}\label{odes}
+\mathit{initial}=\left[0,15,\frac{\ensuremath{\pi} }{2},\frac{\ensuremath{\pi} }{4},2.0,-6.0,-0.1,-0.1\right]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+%%% OUTPUT:
+\[\displaystyle
+\tag{params}\label{params}
+\mathit{interval}=[s,0,4]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i56) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[M=1,G=1,J=1,c=1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i57) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-12,report=true),params\$
+\end{minipage}
+
+
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:$2818$
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:$2818$
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:$1$
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$4.2185{{10}^{-13}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$5.585{{10}^{-13}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$3.4801{{10}^{-4}}$
+\mbox{}\\Maximum\,integration\,step\,taken:$0.0054785$
+\mbox{}\\------------------------------------------------------
+
+
+\pagebreak
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i58) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"t","r","\ensuremath{\theta}","\ensuremath{\phi}"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t59}\label{t59} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+ 
+
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,6])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,7])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,8])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,9])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"dt/ds","dr/ds","d\ensuremath{\theta}/ds","d\ensuremath{\phi}/ds"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t60}\label{t60} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,6])),rksol)],
+          [discrete,[part(initial,[1,5])]]],[axes,solid],
+         [title,"Phase Space for t"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"t"],[ylabel,"dt/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t61}\label{t61} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,7])),rksol)],
+          [discrete,[part(initial,[2,6])]]],[axes,solid],
+         [title,"Phase Space for r"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"r"],[ylabel,"dr/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t62}\label{t62} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,8])),rksol)],
+          [discrete,[part(initial,[3,7])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}"],[ylabel,"d\ensuremath{\theta}/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t63}\label{t63} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\pagebreak
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[5,9])),rksol)],
+          [discrete,[part(initial,[4,8])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\phi}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\phi}"],[ylabel,"d\ensuremath{\phi}/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t64}\label{t64} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\pagebreak
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw3d(title = "Kerr metric Geodesic",\\
+       proportional\_axes = xyz, axis\_3d = false,\\
+       xlabel = "", ylabel = "", zlabel = "",\\
+       dimensions = wxplot\_size,\\
+       view = [80,185],\\
+       file\_name = "Kerr\_metric\_Geodesic",\\
+       terminal = 'pngcairo,
+       
+       transform = [r*sin(\ensuremath{\theta})*cos(\ensuremath{\phi}),r*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),r*cos(\ensuremath{\theta}),r,\ensuremath{\theta},\ensuremath{\phi}],
+    
+       color = blue,
+       point\_size = 1,
+       point\_type = -1,
+       points\_joined = true,
+       points(map(lambda([u],part(u,[3,4,5])),rksol)),
+       
+       color = red,
+       point\_size = 1,
+       point\_type = circle,
+       points\_joined = false,
+       points([part(initial,[2,3,4])]),
+       
+       color = black,
+       point\_size = 2,
+       point\_type = filled\_circle,
+       points([[0,0,0]])),params\$
+\end{minipage}
+%%% OUTPUT:
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+show\_image("Kerr\_metric\_Geodesic.png")\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i69) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(0\ensuremath{\leq}r)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+forget(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+forget(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t66}\label{t66} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Kerr Metric_img/Kerr Metric_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%
+\end{document}

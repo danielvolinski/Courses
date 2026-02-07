@@ -1,0 +1,430 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Kerr metric
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\href{https://github.com/pygae/galgebra/issues/26}
+{Christoffel symbols of the first kind ill calculated}
+
+\href{https://nbviewer.org/github/utensil/julia-playground/blob/master/py/galgebra_gr_metrics.ipynb}
+{galgebra\_gr\_metrics}
+
+Written by Daniel Volinski at \href{mailto:danielvolinski@yahoo.es}{danielvolinski@yahoo.es}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(s,mainvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+unorder()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+orderless(M)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ξ:ct_coords:[t,r,θ,φ]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(G>0,M>0,c>0)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+a : (J/(M*c))$
+rs : (2*G*M/(c**2))$
+sigm : (r**2 + (J/(M*c))**2 * cos(θ)**2)$
+delt : (r**2 - t * (2*G*M/(c**2)) + (J/(M*c))**2)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:matrix(
+  [(1-rs*r/(r**2+(J/(M*c))**2*cos(θ)**2)),0,0,(2*G*M/(c**2))*r*(J/(M*c))*sin(θ)**2/(r**2+(J/(M*c))**2*cos(θ)**2)],
+  [0,-1*((r**2-t*(2*G*M/(c**2))+(J/(M*c))**2)/(r**2+(J/(M*c))**2*cos(θ)**2)),0,0],
+  [0,0,-1*(r**2+(J/(M*c))**2*cos(θ)**2),0],
+  [(2*G*M/(c**2))*r*(J/(M*c))*sin(θ)**2/(r**2+(J/(M*c))**2*cos(θ)**2),0,0,-1*(r**2+(J/(M*c))**2+(rs*r*(J/(M*c))**2/(r**2+(J/(M*c))**2*cos(θ)**2))*sin(θ))*sin(θ)])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Sets up the package for further calculations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Riemann tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lriemann(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Ricci tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+uric:zeromatrix(dim,dim)$
+uricci(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Einstein tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+lein:zeromatrix(dim,dim)$
+leinstein(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Geodesic}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reduce Order}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cv_coords:[T,R,Θ,Φ]$
+depends(cv_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradef(t,s,T)$
+gradef(r,s,R)$
+gradef(θ,s,Θ)$
+gradef(φ,s,Φ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Geodesic}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do geod[i]:fullratsimp(geod[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+geodsol:linsolve(listarray(geod),diff(ξ,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:append(ct_coords,cv_coords)$ldisplay(funcs)$
+initial:[0,15,π/2,π/4,2.0,-6.0,-0.1,-0.1]$ldisplay(initial)$
+odes:append(cv_coords,map(rhs,geodsol))$
+interval:[s,0,4]$ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[M=1,G=1,J=1,c=1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute_tolerance=1E-12,report=true),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([s],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"t","r","θ","φ"],
+         [gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,6])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,7])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,8])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,9])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"dt/ds","dr/ds","dθ/ds","dφ/ds"],
+         [gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[2,6])),rksol)],
+          [discrete,[part(initial,[1,5])]]],[axes,solid],
+         [title,"Phase Space for t"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"t"],[ylabel,"dt/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[3,7])),rksol)],
+          [discrete,[part(initial,[2,6])]]],[axes,solid],
+         [title,"Phase Space for r"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"r"],[ylabel,"dr/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,8])),rksol)],
+          [discrete,[part(initial,[3,7])]]],[axes,solid],
+         [title,"Phase Space for θ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"θ"],[ylabel,"dθ/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[5,9])),rksol)],
+          [discrete,[part(initial,[4,8])]]],[axes,solid],
+         [title,"Phase Space for φ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"φ"],[ylabel,"dφ/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: input   start ] */
+draw3d(title = "Kerr metric Geodesic",
+       proportional_axes = xyz, axis_3d = false,
+       xlabel = "", ylabel = "", zlabel = "",
+       dimensions = wxplot_size,
+       view = [80,185],
+       file_name = "Kerr_metric_Geodesic",
+       terminal = 'pngcairo,
+       
+       transform = [r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ),r,θ,φ],
+    
+       color = blue,
+       point_size = 1,
+       point_type = -1,
+       points_joined = true,
+       points(map(lambda([u],part(u,[3,4,5])),rksol)),
+       
+       color = red,
+       point_size = 1,
+       point_type = circle,
+       points_joined = false,
+       points([part(initial,[2,3,4])]),
+       
+       color = black,
+       point_size = 2,
+       point_type = filled_circle,
+       points([[0,0,0]])),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+show_image("Kerr_metric_Geodesic.png")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+h(l1,l2,[l3]):=if length(l1)=length(l2) and length(l3)=0
+  then kdelta(l1,l2)
+  else apply(g,append([l1,l2],l3))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(h([i],[j]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(h([i,j],[k],l))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+matchdeclare(l1,listp)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+defrule(r1,m(l1,[]),(i1:idummy(),
+      g([l1[1],l1[2]],[])*q([i1],[])*e([],[i1])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+defrule(r2,m([],l1),(i1:idummy(),
+      w([],[l1[1],l1[2]])*e([i1],[])*q([],[i1])))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(m([i,n],[])*m([],[i,m]))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ishow(subst([%1=α,%2=β,%3=γ],rename(applyb1(%,r1,r2))))$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
