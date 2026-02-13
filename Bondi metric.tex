@@ -1,0 +1,67 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{physics}
+\usepackage{mathrsfs}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true, citecolor=blue, linkcolor=blue, urlcolor=blue}
+
+\title{The Bondi Metric in General Relativity}
+\author{}
+\date{}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+The Bondi–Sachs metric, commonly referred to as the Bondi metric, provides a framework for describing asymptotically flat spacetimes using coordinates adapted to outgoing null geodesics. It was instrumental in proving that gravitational waves carry energy and in defining the Bondi mass and the BMS symmetry group. This document summarises its form, gauge conditions, physical significance, and clarifies a common naming ambiguity.
+\end{abstract}
+
+\section{Introduction}
+The Bondi–Sachs metric \cite{bondi1962, sachs1962} is a solution of Einstein's field equations expressed in coordinates that follow outgoing null rays. It is the foundation for the modern understanding of gravitational radiation and asymptotic symmetries.
+
+\section{The metric form}
+In coordinates \(x^a = (u, r, x^A)\) (with \(A,B = 1,2\) labelling angular coordinates), the Bondi–Sachs line element is
+\begin{equation}
+\label{eq:metric}
+ds^2 = -\frac{V}{r} e^{2\beta} du^2 - 2e^{2\beta} du\,dr + r^2 h_{AB}\bigl(dx^A - U^A du\bigr)\bigl(dx^B - U^B du\bigr),
+\end{equation}
+where the functions \(\beta\), \(V\), \(U^A\) and the 2–metric \(h_{AB}\) depend on all four coordinates, subject to the determinant condition \(\det[h_{AB}] = \mathfrak{q}(x^A)\) (the determinant of the unit sphere metric).
+
+\subsection{Coordinate interpretation}
+\begin{itemize}
+    \item \textbf{\(u\) (retarded time):} labels outgoing null hypersurfaces; constant \(u\) surfaces are null.
+    \item \textbf{\(r\) (areal radius):} affine parameter along the null generators, chosen so that the area of the transverse 2–surface is \(4\pi r^2\).
+    \item \textbf{\(x^A\):} angular coordinates that are constant along each null ray.
+\end{itemize}
+
+\section{Gauge conditions}
+The Bondi–Sachs form is achieved by imposing three coordinate (gauge) conditions that use the full available freedom:
+\begin{align}
+    g_{rr} &= 0, \label{cond1} \\
+    g_{rA} &= 0, \label{cond2} \\
+    \partial_r \det\!\bigl(r^{-2} g_{AB}\bigr) &= 0. \label{cond3}
+\end{align}
+Condition \eqref{cond1} makes \(\partial_r\) tangent to the null geodesics, \eqref{cond2} ensures angular coordinates are carried along these rays, and \eqref{cond3} implements the areal (luminosity) distance interpretation. These conditions do not restrict the physical generality; any spacetime can be cast locally into this form.
+
+\section{Physical significance}
+\subsection{Gravitational radiation and mass loss}
+By expanding the metric functions in powers of \(1/r\) and imposing asymptotic flatness, Bondi and collaborators showed that the \emph{Bondi mass} \(M(u)\) decreases whenever the \emph{news function} is non‑zero. The news encodes the outgoing gravitational radiation; its square integrated over angles gives the flux of energy carried away by waves.
+
+\subsection{Asymptotic symmetries (BMS group)}
+The asymptotic analysis of the Bondi–Sachs metric revealed that the symmetry group of an isolated radiating system at null infinity is not the Poincaré group, but an infinite‑dimensional extension known as the Bondi–Metzner–Sachs (BMS) group. This discovery has deep implications for the understanding of gravitational memory and soft theorems.
+
+\section{Naming clarification}
+It is important to distinguish the Bondi–Sachs metric from the \textbf{Lema\^itre–Tolman–Bondi (LTB)} metric:
+\begin{itemize}
+    \item \textbf{Bondi–Sachs:} describes radiating systems without symmetry, uses null coordinates, and is the subject of this note.
+    \item \textbf{LTB:} a spherically symmetric solution for pressureless dust (non‑radiating); a completely different metric.
+\end{itemize}
+
+\begin{thebibliography}{2}
+\bibitem{bondi1962} H. Bondi, M. G. J. van der Burg, and A. W. K. Metzner, \textit{Gravitational waves in general relativity VII. Waves from axi‑symmetric isolated systems}, Proc. R. Soc. Lond. A \textbf{269}, 21 (1962).
+\bibitem{sachs1962} R. K. Sachs, \textit{Gravitational waves in general relativity VIII. Waves in asymptotically flat space‑time}, Proc. R. Soc. Lond. A \textbf{270}, 103 (1962).
+\end{thebibliography}
+
+\end{document}

@@ -1,0 +1,887 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Bondi Metric (DeepSeek)}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+\begin{verbatim}
+/* =====================================================================
+   Bondi–Sachs Metric Configuration for Maxima/ctensor
+   Coordinates:
+\end{verbatim}
+$$(u, r, x^A) = [u, r, \theta, \phi]$$
+\begin{verbatim}
+   Metric Form:
+\end{verbatim}
+   $$ds^2 = - (V/r)\ exp(2b) du^2 - 2 \exp(2b) du dr 
+          + r^2 h_AB (dx^A - U^A du)(dx^B - U^B du)$$
+\begin{verbatim}
+   ===================================================================== */
+\end{verbatim}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('draw,'version)=false then load(draw)\$
+\end{minipage}
+%%% OUTPUT:
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot\_size:[1024,768]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('itensor,'version)=false then load(itensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+imetric(g)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('ctensor,'version)=false then load(ctensor)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(trigsimp,evfun)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+declare(s,mainvar)\$
+\end{minipage}
+
+\section{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+assume(0\ensuremath{\leq}r)\$\\
+assume(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+assume(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+assume(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 3. Declare coordinates explicitly 
+      (avoid interactive csetup() for batch scripts) */
+\ensuremath{\xi}:ct\_coords:[u,r,\ensuremath{\theta},\ensuremath{\phi}]\$\\
+dim:length(ct\_coords)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 2. Declare functional dependencies for metric variables
+      All functions depend on (u, r, \ensuremath{\theta}, \ensuremath{\phi}) in general */\\
+depends([V, b], \ensuremath{\xi})\$\\
+depends([U\_\ensuremath{\theta}, U\_\ensuremath{\phi}], \ensuremath{\xi})\$\\
+depends([h\_\ensuremath{\theta}\ensuremath{\theta}, h\_\ensuremath{\theta}\ensuremath{\phi}, h\_\ensuremath{\phi}\ensuremath{\phi}], \ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 4. Define the Bondi metric components as matrix lg
+      This is the canonical form with all off-diagonal terms */
+
+lg: matrix(
+    /* u-index (0): u coordinate */
+    [ - (V/r) * exp(2*b),               /* g\_uu      */
+      - exp(2*b),                       /* g\_ur      */
+      r\ensuremath{^2} * h\_\ensuremath{\theta}\ensuremath{\theta} * (-U\_\ensuremath{\theta}), /* g\_u\ensuremath{\theta}  (off-diag) */
+      r\ensuremath{^2} * h\_\ensuremath{\phi}\ensuremath{\phi}   * (-U\_\ensuremath{\phi}) ],   /* g\_u\ensuremath{\phi}  (off-diag) */
+
+    /* r-index (1): r coordinate */
+    [ - exp(2*b),         /* g\_ru = g\_ur */
+      0,                  /* g\_rr = 0 (Bondi gauge) */
+      0,                  /* g\_r\ensuremath{\theta} = 0 (Bondi gauge) */
+      0 ],                /* g\_r\ensuremath{\phi} = 0 (Bondi gauge) */
+
+    /* \ensuremath{\theta}-index (2): \ensuremath{\theta} coordinate */
+    [ r\ensuremath{^2} * h\_\ensuremath{\theta}\ensuremath{\theta} * (-U\_\ensuremath{\theta}), /* g\_\ensuremath{\theta}u      */
+      0,                  /* g\_\ensuremath{\theta}r = 0  */
+      r\ensuremath{^2} * h\_\ensuremath{\theta}\ensuremath{\theta},          /* g\_\ensuremath{\theta}\ensuremath{\theta}      */
+      r\ensuremath{^2} * h\_\ensuremath{\theta}\ensuremath{\phi} ],        /* g\_\ensuremath{\theta}\ensuremath{\phi}      */
+
+    /* \ensuremath{\phi}-index (3): \ensuremath{\phi} coordinate */
+    [ r\ensuremath{^2} * h\_\ensuremath{\phi}\ensuremath{\phi} * (-U\_\ensuremath{\phi}), /* g\_\ensuremath{\phi}u      */
+      0,                  /* g\_\ensuremath{\phi}r = 0  */
+      r\ensuremath{^2} * h\_\ensuremath{\theta}\ensuremath{\phi},          /* g\_\ensuremath{\phi}\ensuremath{\theta} = g\_\ensuremath{\theta}\ensuremath{\phi} */
+      r\ensuremath{^2} * h\_\ensuremath{\phi}\ensuremath{\phi} ]         /* g\_\ensuremath{\phi}\ensuremath{\phi}      */
+)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+--\ensuremath{\ensuremath{>}}  
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 5. (Optional) For axisymmetry, simplify dependencies */
+/*    Uncomment if you want to assume no \ensuremath{\phi}-dependence: 
+depends([V, b, U\_\ensuremath{\theta}, h\_\ensuremath{\theta}\ensuremath{\theta}, h\_\ensuremath{\theta}\ensuremath{\phi}, h\_\ensuremath{\phi}\ensuremath{\phi}], [u, r, \ensuremath{\theta}])\$
+*/;
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 6. Set the metric and compute inverse, determinant */\\
+cmetric()\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 7. Optional: Display the metric to verify */\\
+print("Bondi metric components entered:")\$\\
+print(lg)\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Bondi\,metric\,components\,entered:
+ 
+\[\displaystyle
+\begin{pmatrix}-\frac{V\,{{\%{}e}^{2b}}}{r} & -{{\%{}e}^{2b}} & -{{U}_{\mathit{\ensuremath{\theta}}}}{{h}_{\mathit{\ensuremath{\theta}\ensuremath{\theta}}}}{{r}^{2}} & -{{U}_{\mathit{\ensuremath{\phi}}}}{{h}_{\mathit{\ensuremath{\phi}\ensuremath{\phi}}}}{{r}^{2}}\\
+-{{\%{}e}^{2b}} & 0 & 0 & 0\\
+-{{U}_{\mathit{\ensuremath{\theta}}}}{{h}_{\mathit{\ensuremath{\theta}\ensuremath{\theta}}}}{{r}^{2}} & 0 & {{h}_{\mathit{\ensuremath{\theta}\ensuremath{\theta}}}}{{r}^{2}} & {{h}_{\mathit{\ensuremath{\theta}\ensuremath{\phi}}}}{{r}^{2}}\\
+-{{U}_{\mathit{\ensuremath{\phi}}}}{{h}_{\mathit{\ensuremath{\phi}\ensuremath{\phi}}}}{{r}^{2}} & 0 & {{h}_{\mathit{\ensuremath{\theta}\ensuremath{\phi}}}}{{r}^{2}} & {{h}_{\mathit{\ensuremath{\phi}\ensuremath{\phi}}}}{{r}^{2}}\end{pmatrix}\mbox{}
+\] 
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 8. Compute Christoffel symbols (first kind if desired) */\\
+/*    For null geodesics or field equations */\\
+christof(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+riemann(false)\$\\
+lriemann(false)\$\\
+uriemann(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 9. Compute Ricci tensor, Ricci scalar, Einstein tensor */
+/*    WARNING: This is extremely algebraically intensive! */;\\
+ric:zeromatrix(dim,dim)\$\\
+ricci(false)\$\\
+uric:zeromatrix(dim,dim)\$\\
+uricci(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ein:zeromatrix(dim,dim)\$\\
+einstein(false)\$\\
+lein:zeromatrix(dim,dim)\$\\
+leinstein(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+\pagebreak
+\textbf{Reduce Order}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cv\_coords:[T,R,\ensuremath{\Theta},\ensuremath{\Phi}]\$\\
+depends(cv\_coords,s)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(u,s,T)\$\\
+gradef(r,s,R)\$\\
+gradef(\ensuremath{\theta},s,\ensuremath{\Theta})\$\\
+gradef(\ensuremath{\phi},s,\ensuremath{\Phi})\$
+\end{minipage}
+
+\textbf{Geodesic}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+cgeodesic(false)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+for i thru dim do geod[i]:fullratsimp(geod[i])\$
+\end{minipage}
+
+\textbf{Solve for second derivative of coordinates}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+geodsol:linsolve(listarray(geod),diff(\ensuremath{\xi},s,2))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+--\ensuremath{\ensuremath{>}}  
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+/* 10. (Alternative) Work with Taylor series expansion in 1/r 
+       for asymptotic analysis. Uncomment to use:
+       ctayswitch: true\$\\
+       ctayvar: r\$\\
+       ctaypov: 2\$    // expand to order 1/r\^{}2\\
+       ctaypt: inf\$   // expansion about r = infinity\\
+       csetup();      // re-enter metric in series mode
+*/;
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+print("Bondi metric configuration complete.")\$\\
+print("NOTE: Full symbolic Ricci computation may be too large.")\$\\
+print("Consider using series expansion (1/r) for asymptotics.")\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\Bondi\,metric\,configuration\,complete.
+ 
+\mbox{}\\NOTE:\,Full\,symbolic\,Ricci\,computation\,may\,be\,too\,large.
+ 
+\mbox{}\\Consider\,using\,series\,expansion\,(1/r)\,for\,asymptotics.
+ 
+
+
+\pagebreak
+\textbf{Numerical solution}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('rkf45,'version)=false then load(rkf45)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+params:[b=0.001,V=1.0,U\_\ensuremath{\theta}=1.0,U\_\ensuremath{\phi}=1.0,h\_\ensuremath{\theta}\ensuremath{\theta}=1.0,h\_\ensuremath{\phi}\ensuremath{\phi}=1.0,h\_\ensuremath{\theta}\ensuremath{\phi}=0.1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i59) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+funcs:append(ct\_coords,cv\_coords)\$ldisplay(funcs)\$\\
+initial:[0,12,\ensuremath{\pi}/2,\ensuremath{\pi}/4,1.0,-400.0,-0.01,-0.01]\$ldisplay(initial)\$\\
+odes:append(cv\_coords,map(rhs,geodsol))\$\\
+interval:[s,0,0.05]\$ldisplay(interval)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t54}\label{t54} 
+\mathit{funcs}=[u,r,\mathit{\ensuremath{\theta}},\mathit{\ensuremath{\phi}},T,R,\mathit{\ensuremath{\Theta}},\mathit{\ensuremath{\Phi}}]\mbox{}\]
+\[\tag{\%{}t56}\label{t56} 
+\mathit{initial}=\left[0,12,\frac{\ensuremath{\pi} }{2},\frac{\ensuremath{\pi} }{4},1.0,-400.0,-0.01,-0.01\right]\mbox{}\]
+\[\tag{\%{}t59}\label{t59} 
+\mathit{interval}=[s,0,0.05]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i60) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute\_tolerance=1E-12,report=true),params\$
+\end{minipage}
+%%% OUTPUT:
+\mbox{}\\------------------------------------------------------
+\mbox{}\\Info:\,rkf45:
+\mbox{}\\\,\,\,Integration\,points\,selected:$5220$
+\mbox{}\\\,\,\,\,Total\,number\,of\,iterations:$6347$
+\mbox{}\\\,\,\,\,\,\,\,\,\,\,\,Bad\,steps\,corrected:$1128$
+\mbox{}\\\,\,\,\,\,\,\,Minimum\,estimated\,error:$1.0175{{10}^{-15}}$
+\mbox{}\\\,\,\,\,\,\,\,Maximum\,estimated\,error:$9.9999{{10}^{-13}}$
+\mbox{}\\Minimum\,integration\,step\,taken:$3.5811{{10}^{-6}}$
+\mbox{}\\Maximum\,integration\,step\,taken:$2.2717{{10}^{-5}}$
+\mbox{}\\------------------------------------------------------
+ 
+
+map(ldisp,odes:ev(odes,params))\$ 
+
+table\_form(rksol,column\_names=append([s],funcs))\$ 
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i61) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"t","r","\ensuremath{\theta}","\ensuremath{\phi}"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t61}\label{t61} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i62) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[1,6])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,7])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,8])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,9])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"dt/ds","dr/ds","d\ensuremath{\theta}/ds","d\ensuremath{\phi}/ds"],
+         [gnuplot\_preamble,"set key top left"])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t62}\label{t62} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_2}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i63) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[2,6])),rksol)],
+          [discrete,[part(initial,[1,5])]]],[axes,solid],
+         [title,"Phase Space for t"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"t"],[ylabel,"dt/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t63}\label{t63} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_3}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i64) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[3,7])),rksol)],
+          [discrete,[part(initial,[2,6])]]],[axes,solid],
+         [title,"Phase Space for r"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"r"],[ylabel,"dr/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t64}\label{t64} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_4}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i65) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[4,8])),rksol)],
+          [discrete,[part(initial,[3,7])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\theta}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\theta}"],[ylabel,"d\ensuremath{\theta}/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t65}\label{t65} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_5}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i66) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+wxplot2d([[discrete,map(lambda([u],part(u,[5,9])),rksol)],
+          [discrete,[part(initial,[4,8])]]],[axes,solid],
+         [title,"Phase Space for \ensuremath{\phi}"],[point\_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"\ensuremath{\phi}"],[ylabel,"d\ensuremath{\phi}/ds"],[legend,false])\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t66}\label{t66} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_6}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\pagebreak
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i67) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+draw3d(title = "Bondi metric Geodesic",
+       proportional\_axes = xyz, axis\_3d = false,
+       xlabel = "", ylabel = "", zlabel = "",
+       dimensions = wxplot\_size,
+       view = [80,185],
+       file\_name = "Bondi\_metric\_Geodesic",
+       terminal = 'pngcairo,
+       
+       transform = [r*sin(\ensuremath{\theta})*cos(\ensuremath{\phi}),r*sin(\ensuremath{\theta})*sin(\ensuremath{\phi}),r*cos(\ensuremath{\theta}),r,\ensuremath{\theta},\ensuremath{\phi}],
+    
+       color = blue,
+       point\_size = 1,
+       point\_type = -1,
+       points\_joined = true,
+       points(map(lambda([u],part(u,[3,4,5])),rksol)),
+       
+       color = red,
+       point\_size = 1,
+       point\_type = circle,
+       points\_joined = false,
+       points([part(initial,[2,3,4])]),
+       
+       color = black,
+       point\_size = 2,
+       point\_type = filled\_circle,
+       points([[0,0,0]])),params\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i68) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+show\_image("Bondi\_metric\_Geodesic.png")\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t68}\label{t68} 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{Bondi metricw_img/Bondi metricw_7}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Minimal Radius}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i69) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(r\_m:lmin(map(lambda([u],part(u,3)),rksol)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t69}\label{t69} 
+{{r}_{m}}=5.8843\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{at proper time}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i70) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(s\_m:assoc(r\_m,map(lambda([u],part(u,[3,1])),rksol)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t70}\label{t70} 
+{{s}_{m}}=0.03499\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{at coordinate time}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i71) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(t\_m:assoc(r\_m,map(lambda([u],part(u,[3,2])),rksol)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t71}\label{t71} 
+{{t}_{m}}=-0.0024632\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Clean up}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i75) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+forget(0\ensuremath{\leq}r)\$\\
+forget(0\ensuremath{\leq}\ensuremath{\theta},\ensuremath{\theta}\ensuremath{\leq}\ensuremath{\pi})\$\\
+forget(0\ensuremath{\leq}sin(\ensuremath{\theta}))\$\\
+forget(0\ensuremath{\leq}\ensuremath{\phi},\ensuremath{\phi}\ensuremath{\leq}2*\ensuremath{\pi})\$
+\end{minipage}
+\end{document}

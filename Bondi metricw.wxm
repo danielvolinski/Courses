@@ -1,0 +1,425 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+Bondi Metric (DeepSeek)
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\begin{verbatim}
+/* =====================================================================
+   Bondi–Sachs Metric Configuration for Maxima/ctensor
+   Coordinates:
+\end{verbatim}
+$$(u, r, x^A) = [u, r, \theta, \phi]$$
+\begin{verbatim}
+   Metric Form:
+\end{verbatim}
+   $$ds^2 = - (V/r)\exp(2b) du^2 - 2\exp(2b) du dr 
+          + r^2 h_AB (dx^A - U^A du)(dx^B - U^B du)$$
+\begin{verbatim}
+   ===================================================================== */
+\end{verbatim}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ratprint:false$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fpprintprec:5$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+load(linearalgebra)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('draw,'version)=false then load(draw)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot_size:[1024,768]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('itensor,'version)=false then load(itensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+imetric(g)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(trigsimp,evfun)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(s,mainvar)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 3. Declare coordinates explicitly 
+      (avoid interactive csetup() for batch scripts) */
+ξ:ct_coords:[u,r,θ,φ]$
+dim:length(ct_coords)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 2. Declare functional dependencies for metric variables
+      All functions depend on (u, r, θ, φ) in general */
+depends([V, b], ξ)$
+depends([U_θ, U_φ], ξ)$
+depends([h_θθ, h_θφ, h_φφ], ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 4. Define the Bondi metric components as matrix lg
+      This is the canonical form with all off-diagonal terms */
+
+lg: matrix(
+    /* u-index (0): u coordinate */
+    [ - (V/r) * exp(2*b),               /* g_uu      */
+      - exp(2*b),                       /* g_ur      */
+      r² * h_θθ * (-U_θ), /* g_uθ  (off-diag) */
+      r² * h_φφ   * (-U_φ) ],   /* g_uφ  (off-diag) */
+
+    /* r-index (1): r coordinate */
+    [ - exp(2*b),         /* g_ru = g_ur */
+      0,                  /* g_rr = 0 (Bondi gauge) */
+      0,                  /* g_rθ = 0 (Bondi gauge) */
+      0 ],                /* g_rφ = 0 (Bondi gauge) */
+
+    /* θ-index (2): θ coordinate */
+    [ r² * h_θθ * (-U_θ), /* g_θu      */
+      0,                  /* g_θr = 0  */
+      r² * h_θθ,          /* g_θθ      */
+      r² * h_θφ ],        /* g_θφ      */
+
+    /* φ-index (3): φ coordinate */
+    [ r² * h_φφ * (-U_φ), /* g_φu      */
+      0,                  /* g_φr = 0  */
+      r² * h_θφ,          /* g_φθ = g_θφ */
+      r² * h_φφ ]         /* g_φφ      */
+)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 5. (Optional) For axisymmetry, simplify dependencies */
+/*    Uncomment if you want to assume no φ-dependence: 
+depends([V, b, U_θ, h_θθ, h_θφ, h_φφ], [u, r, θ])$
+*/;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 6. Set the metric and compute inverse, determinant */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 7. Optional: Display the metric to verify */
+print("Bondi metric components entered:")$
+print(lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 8. Compute Christoffel symbols (first kind if desired) */
+/*    For null geodesics or field equations */
+christof(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+riemann(false)$
+lriemann(false)$
+uriemann(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 9. Compute Ricci tensor, Ricci scalar, Einstein tensor */
+/*    WARNING: This is extremely algebraically intensive! */;
+ric:zeromatrix(dim,dim)$
+ricci(false)$
+uric:zeromatrix(dim,dim)$
+uricci(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ein:zeromatrix(dim,dim)$
+einstein(false)$
+lein:zeromatrix(dim,dim)$
+leinstein(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Reduce Order}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cv_coords:[T,R,Θ,Φ]$
+depends(cv_coords,s)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+gradef(u,s,T)$
+gradef(r,s,R)$
+gradef(θ,s,Θ)$
+gradef(φ,s,Φ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Geodesic}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cgeodesic(false)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do geod[i]:fullratsimp(geod[i])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Solve for second derivative of coordinates}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+geodsol:linsolve(listarray(geod),diff(ξ,s,2))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+/* 10. (Alternative) Work with Taylor series expansion in 1/r 
+       for asymptotic analysis. Uncomment to use:
+       ctayswitch: true$
+       ctayvar: r$
+       ctaypov: 2$    // expand to order 1/r^2
+       ctaypt: inf$   // expansion about r = infinity
+       csetup();      // re-enter metric in series mode
+*/;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+print("Bondi metric configuration complete.")$
+print("NOTE: Full symbolic Ricci computation may be too large.")$
+print("Consider using series expansion (1/r) for asymptotics.")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: section start ]
+
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Numerical solution}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('rkf45,'version)=false then load(rkf45)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+params:[b=0.001,V=1.0,U_θ=1.0,U_φ=1.0,h_θθ=1.0,h_φφ=1.0,h_θφ=0.1]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+funcs:append(ct_coords,cv_coords)$ldisplay(funcs)$
+initial:[0,12,π/2,π/4,1.0,-400.0,-0.01,-0.01]$ldisplay(initial)$
+odes:append(cv_coords,map(rhs,geodsol))$
+interval:[s,0,0.05]$ldisplay(interval)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+rksol:rkf45(odes,funcs,initial,interval,
+            absolute_tolerance=1E-12,report=true),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+map(ldisp,odes:ev(odes,params))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+table_form(rksol,column_names=append([s],funcs))$
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,2])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,3])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,4])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,5])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"t","r","θ","φ"],
+         [gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[1,6])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,7])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,8])),rksol)],
+          [discrete,map(lambda([u],part(u,[1,9])),rksol)]],
+         [style,[lines,1]],[xlabel,"s"],[ylabel,"value"],
+         [legend,"dt/ds","dr/ds","dθ/ds","dφ/ds"],
+         [gnuplot_preamble,"set key top left"])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[2,6])),rksol)],
+          [discrete,[part(initial,[1,5])]]],[axes,solid],
+         [title,"Phase Space for t"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"t"],[ylabel,"dt/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[3,7])),rksol)],
+          [discrete,[part(initial,[2,6])]]],[axes,solid],
+         [title,"Phase Space for r"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"r"],[ylabel,"dr/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[4,8])),rksol)],
+          [discrete,[part(initial,[3,7])]]],[axes,solid],
+         [title,"Phase Space for θ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"θ"],[ylabel,"dθ/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+wxplot2d([[discrete,map(lambda([u],part(u,[5,9])),rksol)],
+          [discrete,[part(initial,[4,8])]]],[axes,solid],
+         [title,"Phase Space for φ"],[point_type,circle],
+         [style,[lines,2],[points,3]],[color,magenta,red],
+         [xlabel,"φ"],[ylabel,"dφ/ds"],[legend,false])$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+draw3d(title = "Bondi metric Geodesic",
+       proportional_axes = xyz, axis_3d = false,
+       xlabel = "", ylabel = "", zlabel = "",
+       dimensions = wxplot_size,
+       view = [80,185],
+       file_name = "Bondi_metric_Geodesic",
+       terminal = 'pngcairo,
+       
+       transform = [r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ),r,θ,φ],
+    
+       color = blue,
+       point_size = 1,
+       point_type = -1,
+       points_joined = true,
+       points(map(lambda([u],part(u,[3,4,5])),rksol)),
+       
+       color = red,
+       point_size = 1,
+       point_type = circle,
+       points_joined = false,
+       points([part(initial,[2,3,4])]),
+       
+       color = black,
+       point_size = 2,
+       point_type = filled_circle,
+       points([[0,0,0]])),params$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+show_image("Bondi_metric_Geodesic.png")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Minimal Radius}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(r_m:lmin(map(lambda([u],part(u,3)),rksol)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{at proper time}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(s_m:assoc(r_m,map(lambda([u],part(u,[3,1])),rksol)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{at coordinate time}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(t_m:assoc(r_m,map(lambda([u],part(u,[3,2])),rksol)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
