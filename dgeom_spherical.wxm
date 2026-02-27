@@ -1,0 +1,823 @@
+/* [wxMaxima batch file version 1] [ DO NOT EDIT BY HAND! ]*/
+/* [ Created with wxMaxima version 16.04.2 ] */
+
+/* [wxMaxima: title   start ]
+dgeom spherical
+   [wxMaxima: title   end   ] */
+
+/* [wxMaxima: input   start ] */
+info:build_info()$info@version;
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+file_search_maxima:cons(sconcat("D:/USERS/wxMaxima/Eric Majzoub/dgeom/###.{lisp,mac,mc}"),file_search_maxima)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+reset()$kill(all)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+derivabbrev:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('vect,'version)=false then load(vect)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('ctensor,'version)=false then load(ctensor)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ctrgsimp:true$
+ratchristof:true$
+ratriemann:true$
+rateinstein:true$
+ratweyl:true$
+ratfac:true$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using dgeom package
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+dgeom is a package for the Maxima CAS. It currently
+performs many computations in differential geometry.
+The package is also designed to be compatible with
+the ctensor package in Maxima.
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+load("dgeom.mac")$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+assume(0≤r)$
+assume(0≤θ,θ≤π)$
+assume(0≤sin(θ))$
+assume(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+cords_in:[x,y,z]$
+ξ:cords_ot:[r,θ,φ]$
+dim:length(cords_ot)$
+Tr:cords_tr:[r*sin(θ)*cos(φ),r*sin(θ)*sin(φ),r*cos(θ)]$
+lg_in:ident(dim)$
+set_ctensor_vars(cnvrt)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+show_cords()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Line element}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ds²=line_element:trigsimp(factorfacsum(expand(ds2),diff(ξ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Covariant metric tensor}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+lg:zeromatrix(dim,dim)$
+for i thru dim do
+  lg[i,i]:expand(coeff(expand(line_element),del(ξ[i])²))$
+for j thru dim do for k thru dim do
+  if j≠k then lg[j,k]:expand(ratsimp(½*coeff(coeff(expand(line_element),del(ξ[j])),del(ξ[k]))))$
+ldisplay(lg)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Sets up the package for further calculations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+cmetric()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Christoffel Symbol of the second kind}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+christof(mcs)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Compute the frame field connections}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_ffc()$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Attitude matrix}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(A)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(genmatrix(lambda([i,j],A[i].A[j]),dim,dim));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+trigsimp(A.transpose(A));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The connection coefficients}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Omega)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{dual 1-forms} (Coframe)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(thi)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan Structure equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Nilpotency:makelist(del(k)²=0,k,ξ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+TT:subst(Nilpotency,genmatrix(lambda([i,j],thi[i].thi[j]),dim,dim));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+DD:genmatrix(lambda([i,j],diff(Omega[i,j])),dim,dim);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify First structure equation (torsion-free)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(subst(Nilpotency,Omega.thi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+list_matrix_entries(diff(thi));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Second structure equation (curvature)}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+subst(Nilpotency,diff(Omega)+Omega.Omega);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{The Killing equations}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_kill(show)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using cartan package
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('cartan,'version)=false then load(cartan)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('format,'version)=false then load(format)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize cartan package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+init_cartan(ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(cartan_basis,cartan_coords,cartan_dim,extdim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Coframe} $\sigma$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(σ:list_matrix_entries(√(lg).cartan_basis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Exterior derivative of the coframe} $\mathrm{d}\sigma$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dσ:ext_diff(σ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Generic Connection 1-form} $\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+A:[a_1,a_2,a_3]$
+B:[b_1,b_2,b_3]$
+C:[c_1,c_2,c_3]$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ω:zeromatrix(dim,dim)$
+ω[1,2]:-ω[2,1]:A.cartan_basis$
+ω[1,3]:-ω[3,1]:B.cartan_basis$
+ω[2,3]:-ω[3,2]:C.cartan_basis$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+$\Theta^a=\omega_b^a\wedge\sigma^b$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+block([matrix_element_mult:"~"],
+  Θ:list_matrix_entries(expand(ω.σ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's First structure equation (torsion-free)}:
+$\mathrm{d}e^{\hat\alpha}+\omega_{\hat\beta}^{\hat\alpha}\wedge
+e^{\hat\beta}=0$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+Eq:zeromatrix(dim,dim)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+for i thru dim do for j thru dim do
+Eq[i,j]:format(coeff(coeff(dσ,cartan_basis[i]),cartan_basis[j])=
+coeff(coeff(-Θ,cartan_basis[i]),cartan_basis[j]),%list)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+Eqs:apply('append,list_matrix_entries(Eq))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+linsol:linsolve(Eqs,append(A,B,C));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(Θ:at(Θ,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+is(dσ=-Θ);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update Connection 1-form} $\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(ω:at(ω,linsol))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Verify First structure equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(σ,dσ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+block([matrix_element_mult:"~"],
+  ldisplay(Θ:list_matrix_entries(expand(ω.σ))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Update Connection 2-form} $\mathrm{d}\omega$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dω:trigsimp(matrixmap(edit,ext_diff(ω))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Cartan's Second structure equation (curvature)}:
+$R_{\hat\beta}^{\hat\alpha}=\mathrm{d}\omega_{\hat\beta}^{\hat\alpha}
++\omega_{\hat\gamma}^{\hat\alpha}\wedge
+\omega_{\hat\beta}^{\hat\gamma}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curvature 2-form} $\Omega$
+\begin{equation}
+R^a_{\hphantom{a}b}=\mathrm{d}\omega^a_{\hphantom{a}b}+
+\omega^a_{\hphantom{a}c}\wedge\omega^c_{\hphantom{c}b}
+\notag
+\end{equation}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+block([matrix_element_mult:"~"],
+  ldisplay(Ω:matrixmap(edit,dω+ω.ω)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using vect package
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+kill(labels)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Initialize vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+scalefactors(append([Tr],ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(sf,sfprod,dimension)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Vector Calculus}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(ψ,scalar)$
+depends(ψ,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+declare(A,nonscalar)$
+A:makelist(concat('A,"_",k),k,ξ)$
+depends(A,ξ)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Gradient} $\nabla\psi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_grad(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradψ:ev(dg_gra(ψ),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_grad(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradψ:ev(dg_gra(ψ),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+gradient in physical basis
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradψ:ev(express(grad(ψ)),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jackson Classical Electrodynamics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradψ:ev([diff(ψ,r),(1/r)*diff(ψ,θ),(1/r/sin(θ))*diff(ψ,φ)],diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Curl} $\nabla\times\vec{A}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_curl(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlA:ev(dg_cur(A[1],A[2],A[3]),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_curl(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlA:ev(dg_cur(A[1],A[2],A[3]),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+curl in physical basis
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlA:ev(express(curl(A)),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jackson Classical Electrodynamics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlA:ev([
+  1/r/sin(θ)*(diff(sin(θ)*A[3],θ)-diff(A[2],φ)),
+  1/r/sin(θ)*diff(A[1],φ)-1/r*diff(r*A[3],r),
+  1/r*(diff(r*A[2],r)-diff(A[1],θ))
+],diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Divergence} $\nabla\cdot\vec{A}$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_diverg(1);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divA:ev(dg_div(A[1],A[2],A[3]),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_diverg(2);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divA:ev(dg_div(A[1],A[2],A[3]),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: comment start ]
+divergence in physical basis
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divA:ev(express(div(A)),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jackson Classical Electrodynamics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divA:ev(
+  1/r²*diff(r²*A[1],r)+
+  1/r/sin(θ)*diff(sin(θ)*A[2],θ)+
+  1/r/sin(θ)*diff(A[3],φ),
+diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Laplacian} $\nabla^2\psi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+dg_laplac();
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapψ:ev(dg_lap(ψ),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Using vect package}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapψ:ev(express(laplacian(ψ)),diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Jackson Classical Electrodynamics}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapψ:ev(
+  1/r²*diff(r²*diff(ψ,r),r)+
+  1/r²/sin(θ)*diff(sin(θ)*diff(ψ,θ),θ)+
+  1/r²/sin(θ)²*diff(ψ,φ,2),
+diff,expand))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: page break    ] */
+
+/* [wxMaxima: section start ]
+Using diff\_form package
+   [wxMaxima: section end   ] */
+
+/* [wxMaxima: input   start ] */
+if get('diff_form,'version)=false then load(diff_form)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+inv_i1(_pform):=block([a_],a_:makelist(coeff(_pform,basis[i]),i,1,dim),
+       list_matrix_entries(a_ . sqrt(diag(norm_table))))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+fstar_with_clf(ξ,Tr,scale_factor);
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(basis:map(lambda([u],concat(D,u)),ξ))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: input   start ] */
+pbasis:apply(%poly,basis)$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Work form} $\alpha\in\mathcal{A}^1(\mathbb{R}^3)$, $\alpha=A^\flat$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(α:format(fstar_with_clf(ξ,Tr,vtof1(A)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathrm{d}\alpha\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dα:format(fstar_with_clf(ξ,Tr,d(α)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Flux form} $\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(β:format(fstar_with_clf(ξ,Tr,vtof2(A)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathrm{d}\beta\in\mathcal{A}^2(\mathbb{R}^3)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dβ:format(fstar_with_clf(ξ,Tr,d(β)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathrm{d}\beta(\partial_\rho\xi,\partial_\phi\xi,\partial_z\xi)$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+diff(ξ,φ)|(diff(ξ,θ)|(diff(ξ,r)|dβ));
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $\mathrm{d}\psi$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(dψ:format(fstar_with_clf(ξ,Tr,d(ψ)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $(\mathrm{d}\psi)^\sharp$ (gradient)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(gradψ:fstar_with_clf(ξ,Tr,inv_i1(dψ)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} ${\ast}\mathrm{d}\alpha$
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(\*dα:format(fstar_with_clf(ξ,Tr,nest2([h_st,d],α)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} $({\ast}\mathrm{d}\alpha)^\sharp$ (curl)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(curlA:fstar_with_clf(ξ,Tr,inv_i1(\*dα)))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} ${\ast}\mathrm{d}{\ast}\alpha$ (div)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(divA:format(fstar_with_clf(ξ,Tr,nest2([h_st,d,h_st],α)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Calculate} ${\ast}\mathrm{d}{\ast}\mathrm{d}\psi$ (laplacian)
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+ldisplay(lapψ:format(fstar_with_clf(ξ,Tr,nest2([h_st,d,h_st,d],ψ)),pbasis))$
+/* [wxMaxima: input   end   ] */
+
+/* [wxMaxima: comment start ]
+TeX:
+
+\textbf{Clean up}
+
+   [wxMaxima: comment end   ] */
+
+/* [wxMaxima: input   start ] */
+forget(0≤r)$
+forget(0≤θ,θ≤π)$
+forget(0≤sin(θ))$
+forget(0≤φ,φ≤2*π)$
+/* [wxMaxima: input   end   ] */
+
+/* Maxima can't load/batch files which end with a comment! */
+"Created with wxMaxima"$
