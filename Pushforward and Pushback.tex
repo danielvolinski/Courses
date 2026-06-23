@@ -1,0 +1,1540 @@
+\documentclass{article}
+
+%% Created with wxMaxima 16.04.2
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage[utf8]{inputenc}
+\DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+\usepackage{animate} % This package is required because the wxMaxima configuration option
+                      % "Export animations to TeX" was enabled when this file was generated.
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+
+\usepackage{fullpage}
+\usepackage{amssymb}
+\usepackage{enumerate}
+\usepackage[bookmarks=false,pdfstartview={FitH},colorlinks=true,urlcolor=blue]{hyperref}
+\usepackage{bookmark}
+\usepackage{mathtools}
+
+\begin{document}
+
+\pagebreak{}
+{\Huge {\sc Pushforward and Pushback}}
+\setcounter{section}{0}
+\setcounter{subsection}{0}
+\setcounter{figure}{0}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+info:build\_info()\$info\ensuremath{@}version;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o2}\label{o2} 
+\mbox{}
+\]5.38.1
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+reset()\$kill(all)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+derivabbrev:true\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ratprint:false\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+fpprintprec:5\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+load(linearalgebra)\$
+\end{minipage}
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://youtu.be/_W8enAkNBJ4?list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&t=1622}
+{The push forward of vectors on manifolds}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x\ensuremath{^2}-y\ensuremath{^2},2*x*y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:[1,1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_P:at(f,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t9}\label{t9} 
+{{f}_{P}}=[0,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}2x & -2y\\
+2y & 2x\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:[1,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J\_P:at(J,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t12}\label{t12} 
+{{J}_{P}}=\begin{pmatrix}2 & -2\\
+2 & 2\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_\ensuremath{\backslash}*P:list\_matrix\_entries(J\_P.v))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t13}\label{t13} 
+{{f}_{\mathit{*P}}}=[2,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://www.youtube.com/watch?v=fwXSRcKycAU&list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&index=15}
+{The Push Forward of Vectors on Manifolds - part 2}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y,z]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x\ensuremath{^2}+y*z,y\ensuremath{^2}+x*z,z\ensuremath{^2}+x*y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:[1,1,1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_P:at(f,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+{{f}_{P}}=[2,2,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i19) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}2x & z & y\\
+z & 2y & x\\
+y & x & 2z\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i20) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:[1,1,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i21) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J\_P:at(J,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t21}\label{t21} 
+{{J}_{P}}=\begin{pmatrix}2 & 1 & 1\\
+1 & 2 & 1\\
+1 & 1 & 2\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_\ensuremath{\backslash}*P:list\_matrix\_entries(J\_P.v))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t22}\label{t22} 
+{{f}_{\mathit{*P}}}=[3,3,2]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[exp(x)*cos(y),exp(x)*sin(y),x+y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:[0,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_P:at(f,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t27}\label{t27} 
+{{f}_{P}}=[1,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}{{e}^{x}}\,\cos{(y)} & -{{e}^{x}}\,\sin{(y)}\\
+{{e}^{x}}\,\sin{(y)} & {{e}^{x}}\,\cos{(y)}\\
+1 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:[1,-1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(J\_P:at(J,map("=",\ensuremath{\zeta},P)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t30}\label{t30} 
+{{J}_{P}}=\begin{pmatrix}1 & 0\\
+0 & 1\\
+1 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\_\ensuremath{\backslash}*P:list\_matrix\_entries(J\_P.v))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t31}\label{t31} 
+{{f}_{\mathit{*P}}}=[1,-1,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://www.youtube.com/watch?v=2re5cbP_rLE&list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&index=16}
+{The Pushforward of Vectors on Manifolds - 3}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[ct,r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\xi})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+depends(r\ensuremath{\backslash}*,r)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[ct+r\ensuremath{\backslash}*,r,\ensuremath{\theta},\ensuremath{\phi}]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\xi});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}1 & {{\mathit{r*}}_{r}} & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+gradef(r\ensuremath{\backslash}*,r,1/(1-2*G*M/c\ensuremath{^2}/r))\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\xi});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}1 & \frac{1}{1-\frac{2GM}{{{c}^{2}}r}} & 0 & 0\\
+0 & 1 & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v\_t:[1,0,0,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*v\_t:list\_matrix\_entries(J.v\_t))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+{{\mathit{f*v}}_{t}}=[1,0,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v\_r:[0,1,0,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*v\_r:list\_matrix\_entries(J.v\_r))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+{{\mathit{f*v}}_{r}}=[\frac{1}{1-\frac{2GM}{{{c}^{2}}r}},1,0,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v\_\ensuremath{\theta}:[0,0,1,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*v\_\ensuremath{\theta}:list\_matrix\_entries(J.v\_\ensuremath{\theta}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t44}\label{t44} 
+{{\mathit{f*v}}_{\mathit{\ensuremath{\theta}}}}=[0,0,1,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v\_\ensuremath{\phi}:[0,0,0,1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*v\_\ensuremath{\phi}:list\_matrix\_entries(J.v\_\ensuremath{\phi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t46}\label{t46} 
+{{\mathit{f*v}}_{\mathit{\ensuremath{\phi}}}}=[0,0,0,1]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://youtu.be/akiZSsvOnUk?list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&t=628}
+{The Push Forward of Vectors on Manifolds - part 4}
+
+\begin{equation}
+(\mathrm{g}\circ\mathrm{f})(p)=
+\mathrm{g}\left({\mathrm{f}(p)}\right)\in\mathbb{R}
+\notag
+\end{equation}
+
+\begin{equation}
+\mathrm{f}_{\ast\,p}(v)(\mathrm{g})=
+v\left({\mathrm{g}\circ\mathrm{f}}\right)
+\notag
+\end{equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(labels)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i1) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i2) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i3) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[u,w]:[x\ensuremath{^2}-y\ensuremath{^2},2*x*y]\$
+\end{minipage}
+
+\textbf{Calculate} $\mathrm{g}\circ\mathrm{f}$
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i4) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+g:u+w;
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{g}\label{g}
+-{{y}^{2}}+2xy+{{x}^{2}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i5) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+P:[1,1]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i6) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+v:[1,0]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i7) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dg:makelist(diff(g,k),k,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{dg}\label{dg}
+[2y+2x,2x-2y]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i8) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+at(dg,map("=",\ensuremath{\zeta},P));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o8}\label{o8} 
+[4,0]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://www.youtube.com/watch?v=P_bzpoADnh4&list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&index=18}
+{The Pullback of 1-forms}
+
+\begin{equation}
+(\mathrm{f}^\ast\omega)_p(v_p)=
+\omega_{\mathrm{f}(p)}(\mathrm{f}_\ast v_p)
+\in\mathbb{R}
+\notag
+\end{equation}
+
+\begin{equation}
+\mathrm{f}^\ast\omega=
+\omega_{\color{blue}j}\left({\mathrm{f}(p)}\right)
+\dfrac{\partial\mathrm{f}^{\color{blue}j}}
+{\partial x^{\color{blue}i}}\mathrm{d}x^{\color{blue}i}
+\notag
+\end{equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i9) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+if get('cartan,'version)=false then load(cartan)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i10) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i11) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i12) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x\ensuremath{^2}-y\ensuremath{^2},2*x*y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i13) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}2x & -2y\\
+2y & 2x\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i14) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\xi}:[z\_1,z\_2]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i15) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+map("=",\ensuremath{\xi},f);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o15}\label{o15} 
+[{{z}_{1}}={{x}^{2}}-{{y}^{2}},{{z}_{2}}=2xy]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i16) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(d\ensuremath{\xi}:makelist(concat(d,k),k,\ensuremath{\xi}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t16}\label{t16} 
+\mathit{d\ensuremath{\xi}}=[{{\mathit{dz}}_{1}},{{\mathit{dz}}_{2}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i17) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i18) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(cartan\_basis,cartan\_coords,cartan\_dim,extdim)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t18}\label{t18} 
+\mathit{cartan\_ basis}=[\mathit{dx},\mathit{dy}]\mbox{}\]
+\[\tag{\%{}t19}\label{t19} 
+\mathit{cartan\_ coords}=[x,y]\mbox{}\]
+\[\tag{\%{}t20}\label{t20} 
+\mathit{cartan\_ dim}=2\mbox{}\]
+\[\tag{\%{}t21}\label{t21} 
+\mathit{extdim}=2\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i22) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+list\_matrix\_entries(J.cartan\_basis);
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o22}\label{o22} 
+[2x\,\mathit{dx}-2y\,\mathit{dy},2x\,\mathit{dy}+2y\,\mathit{dx}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i23) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\alpha}:ev(z\_2,map("=",\ensuremath{\xi},f)))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t23}\label{t23} 
+\mathit{\ensuremath{\alpha}}=2xy\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i24) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+makelist(diff(\ensuremath{\alpha},k),k,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o24}\label{o24} 
+[2y,2x]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i25) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*\ensuremath{\omega}=\%.cartan\_basis)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t25}\label{t25} 
+\mathit{f\cdot \ensuremath{\omega}}=2x\,\mathit{dy}+2y\,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://www.youtube.com/watch?v=YU6KAo0Ssbs&list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l&index=19}
+{The Pullback of 1-forms - part 2}
+
+
+\textbf{Example 1}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i26) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(x,y,f,J)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i27) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i28) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i29) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x\ensuremath{^2}-y\ensuremath{^2},2*x*y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i30) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}2x & -2y\\
+2y & 2x\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i31) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i32) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}:c*dz\_1+b*dz\_2)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t32}\label{t32} 
+\mathit{\ensuremath{\omega}}=b\,{{\mathit{dz}}_{2}}+c\,{{\mathit{dz}}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i33) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+makelist(coeff(\ensuremath{\omega},k),k,d\ensuremath{\xi});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o33}\label{o33} 
+[c,b]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i34) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*=edit(transpose(\%).J.cartan\_basis))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t34}\label{t34} 
+\mathit{f\cdot }=\left( 2bx-2cy\right) \,\mathit{dy}+\left( 2by+2cx\right) \,\mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\textbf{Example 2}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i35) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(x,y,f,J)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i36) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i37) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i38) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x+y,x-y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i39) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}1 & 1\\
+1 & -1\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i40) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(\ensuremath{\omega}:z\_2*dz\_1+z\_1*dz\_2)\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t40}\label{t40} 
+\mathit{\ensuremath{\omega}}={{\mathit{dz}}_{1}}{{z}_{2}}+{{\mathit{dz}}_{2}}{{z}_{1}}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i41) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+makelist(coeff(\ensuremath{\omega},k),k,d\ensuremath{\xi});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o41}\label{o41} 
+[{{z}_{2}},{{z}_{1}}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i42) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*\ensuremath{\omega}:edit(transpose(\%).J.cartan\_basis))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t42}\label{t42} 
+\mathit{f\cdot \ensuremath{\omega}}=\left( {{z}_{2}}-{{z}_{1}}\right) \mathit{dy}+\left( {{z}_{2}}+{{z}_{1}}\right) \mathit{dx}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i43) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*\ensuremath{\omega}:subst(map("=",\ensuremath{\xi},f),f\ensuremath{\backslash}*\ensuremath{\omega}))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t43}\label{t43} 
+\mathit{f\cdot \ensuremath{\omega}}=2x\,\mathit{dx}-2y\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+\section{}
+
+
+Based on Robert Davie Video:
+\href{https://youtu.be/7VOQysJHxbE?list=PLeFwDGOexoe-0Ay0dqMoJStmy1kn_5V9l}
+{The Pullback of 2-forms}
+
+\textbf{For any point} $p\in M$ \textbf{and vectors}
+$v,w\in T_p M$:
+\begin{equation}
+\left({\mathrm{f}^\ast\omega}\right)_p(v,w)=
+\omega\left({\mathrm{f}(p)}\right)
+\left({D_p\mathrm{f}(v),D_p\mathrm{f}(w)}\right)
+\notag
+\end{equation}
+
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i44) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+kill(x,y,f,J)\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i45) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+\ensuremath{\zeta}:[x,y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i46) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+dim:length(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i47) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+f:[x\ensuremath{^2}-y\ensuremath{^2},2*x*y]\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i48) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+J:jacobian(f,\ensuremath{\zeta});
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{J}\label{J}
+\begin{pmatrix}2x & -2y\\
+2y & 2x\end{pmatrix}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i49) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+factor(determinant(J));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}o49}\label{o49} 
+4\left( {{y}^{2}}+{{x}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i50) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+Jdet:\ensuremath{\sqrt{}}(factor(determinant(transpose(J).J)));
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{Jdet}\label{Jdet}
+4\left( {{y}^{2}}+{{x}^{2}}\right) \mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i51) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+init\_cartan(\ensuremath{\zeta})\$
+\end{minipage}
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i52) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(df:ext\_diff(f))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t52}\label{t52} 
+\mathit{df}=[2x\,\mathit{dx}-2y\,\mathit{dy},2x\,\mathit{dy}+2y\,\mathit{dx}]\mbox{}
+\]
+%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%%%%%%%%
+%%% INPUT:
+\begin{minipage}[t]{8ex}\color{red}\bf
+(\%{}i53) 
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}\tt
+ldisplay(f\ensuremath{\backslash}*\ensuremath{\omega}:factor(edit(df[1] \ensuremath{\sim } df[2])))\$
+\end{minipage}
+%%% OUTPUT:
+\[\displaystyle
+\tag{\%{}t53}\label{t53} 
+\mathit{f\cdot \ensuremath{\omega}}=4\left( {{y}^{2}}+{{x}^{2}}\right) \,\mathit{dx}\,\mathit{dy}\mbox{}
+\]
+%%%%%%%%%%%%%%%
+\end{document}
